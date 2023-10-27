@@ -20,15 +20,21 @@ export type TUserMethods = {
     savedPassword: string
   ): Promise<boolean>;
 };
-
+// account activate via otp
 export type TActivationRequest = {
   activationToken: string;
   activationCode: string;
 };
-
+// login body
 export type TUserLogin = {
   email: string;
   password: string;
+};
+
+export type TSocialAuth = {
+  name: string;
+  email: string;
+  avatar: string;
 };
 
 export type Usermodel = Model<TUser, Record<string, unknown>, TUserMethods>;

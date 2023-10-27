@@ -7,8 +7,8 @@ import { redis } from "../server";
 
 const createOption = (tokenExpire: number) => {
   return {
-    expires: new Date(Date.now() + tokenExpire * 1000),
-    maxAge: tokenExpire * 1000,
+    expires: new Date(Date.now() + tokenExpire * 1000 * 60 * 60 * 24),
+    maxAge: tokenExpire * 1000 * 60 * 60 * 24,
     httpOnly: true,
     sameSite: "lax",
   };
@@ -16,9 +16,10 @@ const createOption = (tokenExpire: number) => {
 
 const createToken = (
   payload: Record<string, unknown>,
-  secret: Secret
+  secret: Secret,
+  expireTime: string
 ): string => {
-  return jwt.sign(payload, secret);
+  return jwt.sign(payload, secret, { expiresIn: expireTime });
 };
 
 const sendToken = async (user: TUser) => {
@@ -26,18 +27,20 @@ const sendToken = async (user: TUser) => {
 
   const accessToken = createToken(
     { id: user._id },
-    config.jwt.secret as Secret
+    config.jwt.secret as Secret,
+    config.jwt.expires_in as string
   );
   const refreshToken = createToken(
     { id: user._id },
-    config.jwt.refresh_secret as Secret
+    config.jwt.refresh_secret as Secret,
+    config.jwt.refresh_expires_in as string
   );
 
-  const accessTokenExpire = Number(config.jwt.expires_in);
-  const refreshTokenExpire = Number(config.jwt.refresh_expires_in);
+  const cookieExpire = Number(config.cookie.access_expire);
+  const cookieRefreshExpire = Number(config.cookie.refresh_expire);
 
-  const accessTokenOptions: TTokenOptons = createOption(accessTokenExpire);
-  const refreshTokenOptions: TTokenOptons = createOption(refreshTokenExpire);
+  const accessTokenOptions: TTokenOptons = createOption(cookieExpire);
+  const refreshTokenOptions: TTokenOptons = createOption(cookieRefreshExpire);
 
   if (config.env === "production") accessTokenOptions.secure = true;
 
@@ -56,4 +59,5 @@ const verifyToken = (token: string, secret: Secret) => {
 export const jwtHelpers = {
   sendToken,
   verifyToken,
+  createToken,
 };

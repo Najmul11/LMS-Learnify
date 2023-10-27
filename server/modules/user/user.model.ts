@@ -23,7 +23,6 @@ const UserSchema = new Schema<TUser, Record<string, unknown>, TUserMethods>(
     },
     password: {
       type: String,
-      required: true,
       select: false,
     },
     avatar: {
@@ -56,10 +55,12 @@ const UserSchema = new Schema<TUser, Record<string, unknown>, TUserMethods>(
 
 UserSchema.pre("save", async function (next) {
   const user = this;
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_round)
-  );
+  if (user.isModified("password")) {
+    user.password = await bcrypt.hash(
+      user.password,
+      Number(config.bcrypt_salt_round)
+    );
+  }
   next();
 });
 

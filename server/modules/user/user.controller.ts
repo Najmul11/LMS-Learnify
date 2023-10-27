@@ -3,6 +3,7 @@ import catchAsyncError from "../../utils/catchAsyncError";
 import { UserService } from "./user.service";
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
+import { redis } from "../../server";
 
 const userRegistration = catchAsyncError(
   async (req: Request, res: Response) => {
@@ -17,6 +18,33 @@ const userRegistration = catchAsyncError(
     });
   }
 );
+const socialAuth = catchAsyncError(async (req: Request, res: Response) => {
+  const userInfo = req.body;
+
+  const result = await UserService.socialAuth(userInfo);
+
+  const {
+    accessToken,
+    refreshToken,
+    accessTokenOptions,
+    refreshTokenOptions,
+    user,
+  } = result;
+
+  res.cookie("access_token", accessToken, accessTokenOptions as CookieOptions);
+  res.cookie(
+    "refresh_token",
+    refreshToken,
+    refreshTokenOptions as CookieOptions
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    data: "",
+    message: "Social authentication successful",
+  });
+});
 const activateUser = catchAsyncError(async (req: Request, res: Response) => {
   const payload = req.body;
   const result = await UserService.activateUser(payload);
@@ -55,8 +83,85 @@ const loginUser = catchAsyncError(async (req: Request, res: Response) => {
   });
 });
 
+const logoutUser = catchAsyncError(async (req: Request, res: Response) => {
+  res.cookie("access_token", "", { maxAge: 1 });
+  res.cookie("refresh_token", "", { maxAge: 1 });
+
+  redis.del(req.user?._id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Logged out  successfully",
+  });
+});
+
+const updateAccessToken = catchAsyncError(
+  async (req: Request, res: Response) => {
+    const token = req.cookies.refresh_token;
+    const result = await UserService.updateAccessToken(token);
+    const {
+      accessToken,
+      refreshToken,
+      accessTokenOptions,
+      refreshTokenOptions,
+      user,
+    } = result;
+
+    req.user = user;
+
+    res.cookie(
+      "access_token",
+      accessToken,
+      accessTokenOptions as CookieOptions
+    );
+    res.cookie(
+      "refresh_token",
+      refreshToken,
+      refreshTokenOptions as CookieOptions
+    );
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Regenarated access token successfully",
+    });
+  }
+);
+
+const getUserInfo = catchAsyncError(async (req: Request, res: Response) => {
+  const user = req.user;
+  console.log(user);
+
+  const result = await UserService.getUserInfo(user?._id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Profile info retrived successfully",
+    data: result,
+  });
+});
+const updateUserInfo = catchAsyncError(async (req: Request, res: Response) => {
+  const user = req.user;
+  const payload = req.body;
+  const result = await UserService.updateUserInfo(payload, user?._id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Profile info updated successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
   userRegistration,
+  socialAuth,
   activateUser,
   loginUser,
+  logoutUser,
+  updateAccessToken,
+  getUserInfo,
+  updateUserInfo,
 };
