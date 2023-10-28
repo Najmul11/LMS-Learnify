@@ -24,11 +24,9 @@ const CourseSchema = new Schema<TCourse, Record<string, unknown>>({
   thumbnail: {
     publicId: {
       type: String,
-      // required: true,
     },
     url: {
       type: String,
-      // required: true,
     },
   },
 
@@ -63,15 +61,83 @@ const CourseSchema = new Schema<TCourse, Record<string, unknown>>({
 
   reviews: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "Review",
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+      },
+      rating: {
+        type: Number,
+      },
+      comment: {
+        type: String,
+      },
+      commentReplies: [
+        {
+          type: String,
+        },
+      ],
     },
   ],
 
   courseData: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "CourseData",
+      title: {
+        type: String,
+      },
+      description: {
+        type: String,
+      },
+      videoUrl: {
+        type: String,
+      },
+      videoThumbnail: {
+        type: Object,
+      },
+      videoSection: {
+        type: String,
+      },
+      videoLength: {
+        type: Number,
+      },
+      videoPlayer: {
+        type: String,
+      },
+
+      suggestion: {
+        type: String,
+      },
+      links: [
+        {
+          title: {
+            type: String,
+          },
+          url: {
+            type: String,
+          },
+        },
+      ],
+      questions: [
+        {
+          user: {
+            type: Schema.Types.ObjectId,
+            ref: "user",
+          },
+          question: {
+            type: String,
+          },
+          questionsReplies: [
+            {
+              user: {
+                type: Schema.Types.ObjectId,
+                ref: "user",
+              },
+              answer: {
+                type: String,
+              },
+            },
+          ],
+        },
+      ],
     },
   ],
 

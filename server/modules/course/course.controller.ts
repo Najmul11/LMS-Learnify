@@ -46,8 +46,60 @@ const getSingleCourse = catchAsyncError(async (req: Request, res: Response) => {
   });
 });
 
+const getAllCourse = catchAsyncError(async (req: Request, res: Response) => {
+  const result = await CourseService.getAllCourse();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Courses reteived successfully",
+    data: result,
+  });
+});
+const getCourseByUser = catchAsyncError(async (req: Request, res: Response) => {
+  const user = req.user;
+  const { courseId } = req.params;
+  const result = await CourseService.getCourseByUser(user!, courseId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Course content reteived successfully",
+    data: result,
+  });
+});
+const addQuestion = catchAsyncError(async (req: Request, res: Response) => {
+  const user = req.user;
+  const payload = req.body;
+  const result = await CourseService.addQuestion(payload, user?._id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Question has been asked successfully",
+    data: result,
+  });
+});
+
+const addAnswer = catchAsyncError(async (req: Request, res: Response) => {
+  const user = req.user;
+  const payload = req.body;
+  const result = await CourseService.addAnswer(payload, user?._id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Answer added successfully",
+    data: result,
+  });
+});
+
 export const CourseController = {
   createCourse,
   editCourse,
   getSingleCourse,
+  getAllCourse,
+  getCourseByUser,
+  addQuestion,
+  addAnswer,
 };

@@ -1,8 +1,13 @@
 import { Model, Types } from "mongoose";
 
 type TComment = {
-  user: object;
-  comment: string;
+  _id?: Types.ObjectId;
+  user: Types.ObjectId;
+  question: string;
+  questionsReplies: {
+    user: Types.ObjectId;
+    answer: string;
+  }[];
 };
 
 type TReview = {
@@ -18,6 +23,7 @@ type TLink = {
 };
 
 type TCourseData = {
+  _id: Types.ObjectId;
   title: string;
   description: string;
   videoUrl: string;
@@ -44,10 +50,22 @@ export type TCourse = {
   demoUrl: string;
   benefits: { title: string }[];
   prerequisites: { title: string }[];
-  reviews: Types.ObjectId[];
-  courseData: Types.ObjectId[];
+  reviews: TReview[];
+  courseData: TCourseData[];
   ratings?: number;
   purchased?: number;
+};
+
+export type TQuestion = {
+  courseId: string;
+  contentId: string;
+  question: string;
+};
+export type TAnswer = {
+  courseId: string;
+  contentId: string;
+  questionId: string;
+  answer: string;
 };
 
 export type CourseModel = Model<TCourse, Record<string, unknown>>;

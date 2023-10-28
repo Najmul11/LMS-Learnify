@@ -20,10 +20,16 @@ router.patch(
   singleUpload,
   CourseController.editCourse
 );
+router.get("/get-course/:courseId", CourseController.getSingleCourse);
+
+router.get("/get-courses", CourseController.getAllCourse);
+
 router.get(
-  "/get-course/:courseId",
-  singleUpload,
-  CourseController.getSingleCourse
+  "/get-course-content/:courseId",
+  auth,
+  CourseController.getCourseByUser
 );
+router.patch("/add-question", auth, CourseController.addQuestion);
+router.patch("/add-answer", auth, CourseController.addAnswer);
 
 export const CourseRoutes = router;
