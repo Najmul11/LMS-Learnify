@@ -1,4 +1,4 @@
-import { CookieOptions, NextFunction, Request, Response } from "express";
+import { CookieOptions, Request, Response } from "express";
 import catchAsyncError from "../../utils/catchAsyncError";
 import { UserService } from "./user.service";
 import sendResponse from "../../utils/sendResponse";
