@@ -3,6 +3,7 @@ import ErrorHandler from "../../utils/ErrorHandler";
 import {
   TActivationRequest,
   TSocialAuth,
+  TUpdatePassword,
   TUser,
   TUserLogin,
 } from "./user.interface";
@@ -15,9 +16,14 @@ import { jwtHelpers } from "../../jwt/jwtHelper";
 import config from "../../config";
 import { Secret } from "jsonwebtoken";
 import { redis } from "../../server";
+import bcrypt from "bcrypt";
+import { cloudinaryHelper } from "../../cloudinary/cloudinaryHelper";
 
 const userRegistration = async (userInfo: TUser) => {
   const { name, email, password } = userInfo;
+  if (!name || !email || !password)
+    throw new ErrorHandler(httpStatus.BAD_REQUEST, "All fields are required");
+
   const isEmailExist = await User.findOne({ email });
 
   if (isEmailExist)
@@ -53,7 +59,6 @@ const socialAuth = async (userInfo: TSocialAuth) => {
       name,
       email,
       avatar,
-      password: config.social_default_pass,
     });
     user = await User.findOne({ email });
   }
@@ -177,6 +182,69 @@ const updateUserInfo = async (payload: Partial<TUser>, userId: string) => {
 
   return user;
 };
+const updatePassword = async (payload: TUpdatePassword, userId: string) => {
+  const { oldPassword, newPassword } = payload;
+
+  if (!oldPassword || !newPassword)
+    throw new ErrorHandler(
+      httpStatus.BAD_REQUEST,
+      "Enter old password and new password"
+    );
+
+  const user = new User();
+
+  const existUser = await User.findById(userId).select("+password");
+
+  if (!existUser?.password)
+    throw new ErrorHandler(httpStatus.BAD_REQUEST, "Invalid user");
+
+  const isPasswordMatched = await user?.comparePassword(
+    oldPassword,
+    existUser.password
+  );
+  if (!isPasswordMatched)
+    throw new ErrorHandler(httpStatus.BAD_REQUEST, "Old password is incorrect");
+
+  const hashPassword = await bcrypt.hash(
+    newPassword,
+    Number(config.bcrypt_salt_round)
+  );
+
+  const result = await User.findByIdAndUpdate(
+    userId,
+    { password: hashPassword },
+    { new: true }
+  ).select("-password");
+
+  await redis.set(userId, JSON.stringify(result));
+
+  return result;
+};
+
+const updateProfilePicture = async (
+  avatar: Express.Multer.File | undefined,
+  userId: string
+) => {
+  const user = await User.findById(userId);
+
+  if (user?.avatar?.publicId)
+    await cloudinaryHelper.deleteFromCloudinary(user.avatar.publicId);
+
+  const uploadedAvatar = await cloudinaryHelper.uploadToCloudinary(
+    avatar,
+    "avatars"
+  );
+  const dataToUpload = {
+    avater: {
+      publicId: uploadedAvatar?.publicId,
+      url: uploadedAvatar?.url,
+    },
+  };
+
+  const result = await User.findById(userId, dataToUpload, { new: true });
+  redis.set(userId, JSON.stringify(result));
+  return result;
+};
 
 export const UserService = {
   userRegistration,
@@ -186,4 +254,6 @@ export const UserService = {
   getUserInfo,
   socialAuth,
   updateUserInfo,
+  updatePassword,
+  updateProfilePicture,
 };

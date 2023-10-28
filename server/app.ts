@@ -5,6 +5,7 @@ import config from "./config";
 import cookieParser from "cookie-parser";
 import { routes } from "./routes";
 import { globalErrorhandler } from "./middleware/globalErrorHandler";
+import Cloudinary from "./cloudinary/cloudinary.config";
 
 const app: Application = express();
 
@@ -13,6 +14,8 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
+
+Cloudinary();
 
 app.use("/api/v1", routes);
 

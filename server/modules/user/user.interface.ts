@@ -37,4 +37,9 @@ export type TSocialAuth = {
   avatar: string;
 };
 
+export type TUpdatePassword = {
+  oldPassword: string;
+  newPassword: string;
+};
+
 export type Usermodel = Model<TUser, Record<string, unknown>, TUserMethods>;

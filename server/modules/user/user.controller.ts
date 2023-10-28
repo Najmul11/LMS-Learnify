@@ -155,6 +155,34 @@ const updateUserInfo = catchAsyncError(async (req: Request, res: Response) => {
   });
 });
 
+const updatePassword = catchAsyncError(async (req: Request, res: Response) => {
+  const user = req.user;
+  const payload = req.body;
+  const result = await UserService.updatePassword(payload, user?._id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Password updated successfully",
+    data: result,
+  });
+});
+
+const updateProfilePicture = catchAsyncError(
+  async (req: Request, res: Response) => {
+    const user = req.user;
+    const image = req.file;
+    const result = await UserService.updateProfilePicture(image, user?._id);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Password picture updated successfully",
+      data: result,
+    });
+  }
+);
+
 export const UserController = {
   userRegistration,
   socialAuth,
@@ -164,4 +192,6 @@ export const UserController = {
   updateAccessToken,
   getUserInfo,
   updateUserInfo,
+  updatePassword,
+  updateProfilePicture,
 };
