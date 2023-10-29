@@ -17,6 +17,21 @@ const getNotifications = catchAsyncError(
   }
 );
 
+const updateNotification = catchAsyncError(
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const result = await NotificationService.updateNotification(id);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Notification  marked as read successfully",
+      data: result,
+    });
+  }
+);
+
 export const NotificationController = {
   getNotifications,
+  updateNotification,
 };

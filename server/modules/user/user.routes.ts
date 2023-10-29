@@ -27,4 +27,24 @@ router.patch(
   UserController.updateProfilePicture
 );
 
+router.get(
+  "/get-all-users",
+  auth,
+  authorizeRoles(ENUM_USER_ROLE.ADMIN),
+  UserController.getAllUsers
+);
+
+router.patch(
+  "/update-user-role/:userId",
+  auth,
+  authorizeRoles(ENUM_USER_ROLE.ADMIN),
+  UserController.updateRole
+);
+router.patch(
+  "/delete-user/:userId",
+  auth,
+  authorizeRoles(ENUM_USER_ROLE.ADMIN),
+  UserController.deleteUser
+);
+
 export const UserRoutes = router;

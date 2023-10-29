@@ -35,6 +35,7 @@ const UserSchema = new Schema<TUser, Record<string, unknown>, TUserMethods>(
     },
     role: {
       type: String,
+      enum: ["admin", "user"],
       default: "user",
     },
     isVerified: {

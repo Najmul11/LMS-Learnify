@@ -101,6 +101,12 @@ const createOrder = async (payload: Partial<TOrder>, userId: string) => {
   }
 };
 
+const getAllOrders = async () => {
+  const result = await Order.find().sort({ createdAt: -1 });
+  return result;
+};
+
 export const OrderService = {
   createOrder,
+  getAllOrders,
 };

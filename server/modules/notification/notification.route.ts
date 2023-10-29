@@ -10,5 +10,11 @@ router.get(
   authorizeRoles(ENUM_USER_ROLE.ADMIN),
   NotificationController.getNotifications
 );
+router.patch(
+  "/update-status/:id",
+  auth,
+  authorizeRoles(ENUM_USER_ROLE.ADMIN),
+  NotificationController.updateNotification
+);
 
 export const NotificationRoutes = router;

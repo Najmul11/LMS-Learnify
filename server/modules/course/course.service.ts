@@ -18,6 +18,7 @@ import { nodemailerHelper } from "../../utils/sendMail";
 import ejs from "ejs";
 import path from "path";
 import { User } from "../user/user.model";
+import { Notification } from "../notification/notification.model";
 
 const createCourse = async (
   courseInfo: TCourse,
@@ -147,6 +148,14 @@ const addQuestion = async (payload: TQuestion, userId: string) => {
 
   courseContent.questions.push(newQuestion);
   await course.save();
+
+  await Notification.create({
+    userId: userId,
+    title: "New question",
+    message: `You have a new question in ${courseContent?.title}`,
+  });
+
+  return course;
 };
 
 const addAnswer = async (payload: TAnswer, userId: string) => {
@@ -179,6 +188,11 @@ const addAnswer = async (payload: TAnswer, userId: string) => {
   await course?.save();
 
   if (userId === question.user?.toString()) {
+    await Notification.create({
+      userId: userId,
+      title: "New Question Reply Recieved",
+      message: `You have a new question reply in ${courseContent?.title}`,
+    });
   } else {
     const user = await User.findById(question.user);
     if (user) {
@@ -276,6 +290,11 @@ const addReplyToReview = async (payload: TReplyReview, user: JwtPayload) => {
   await course.save();
 };
 
+const getAllCourses = async () => {
+  const result = await Course.find().sort({ createdAt: -1 });
+  return result;
+};
+
 export const CourseService = {
   createCourse,
   editCourse,
@@ -286,4 +305,5 @@ export const CourseService = {
   addAnswer,
   addReview,
   addReplyToReview,
+  getAllCourses,
 };

@@ -183,6 +183,42 @@ const updateProfilePicture = catchAsyncError(
   }
 );
 
+const getAllUsers = catchAsyncError(async (req: Request, res: Response) => {
+  const result = await UserService.getAllUsers();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "All users retrieved successfully",
+    data: result,
+  });
+});
+
+const updateRole = catchAsyncError(async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  const result = await UserService.updateRole(userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User role changed successfully",
+    data: result,
+  });
+});
+const deleteUser = catchAsyncError(async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  const user = req.user;
+
+  const result = await UserService.deleteUser(userId, user?._id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User deleted successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
   userRegistration,
   socialAuth,
@@ -194,4 +230,7 @@ export const UserController = {
   updateUserInfo,
   updatePassword,
   updateProfilePicture,
+  getAllUsers,
+  updateRole,
+  deleteUser,
 };

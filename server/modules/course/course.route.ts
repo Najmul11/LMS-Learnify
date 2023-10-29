@@ -39,4 +39,11 @@ router.patch(
   CourseController.addReplyToReview
 );
 
+router.get(
+  "/get-all-courses",
+  auth,
+  authorizeRoles(ENUM_USER_ROLE.ADMIN),
+  CourseController.getAllCourses
+);
+
 export const CourseRoutes = router;

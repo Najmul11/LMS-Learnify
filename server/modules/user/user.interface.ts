@@ -13,7 +13,7 @@ export type TUser = {
     publicId: string;
     url: string;
   };
-  role: string;
+  role: "user" | "admin";
   isVerified: boolean;
   courses: Array<{ courseId: string }>;
 };

@@ -246,6 +246,36 @@ const updateProfilePicture = async (
   return result;
 };
 
+const getAllUsers = async () => {
+  const result = await User.find().sort({ createdAt: -1 });
+  return result;
+};
+
+const updateRole = async (userId: string) => {
+  const user = await User.findById(userId);
+  if (!user) throw new ErrorHandler(httpStatus.NOT_FOUND, "User not found");
+
+  user.role === "admin" ? (user.role = "user") : (user.role = "admin");
+
+  await user.save();
+
+  return user;
+};
+
+const deleteUser = async (userId: string, usingId: string) => {
+  const user = await User.findById(userId);
+  if (!user) throw new ErrorHandler(httpStatus.NOT_FOUND, "User not found");
+
+  if (userId === usingId)
+    throw new ErrorHandler(httpStatus.BAD_REQUEST, "you can't delete yourself");
+
+  const result = await User.findByIdAndDelete(userId);
+
+  await redis.del(userId);
+
+  return result;
+};
+
 export const UserService = {
   userRegistration,
   activateUser,
@@ -256,4 +286,7 @@ export const UserService = {
   updateUserInfo,
   updatePassword,
   updateProfilePicture,
+  getAllUsers,
+  updateRole,
+  deleteUser,
 };

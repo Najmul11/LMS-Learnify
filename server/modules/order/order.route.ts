@@ -1,9 +1,15 @@
 import express from "express";
-import auth from "../../middleware/auth";
+import auth, { ENUM_USER_ROLE, authorizeRoles } from "../../middleware/auth";
 import { OrderController } from "./order.controller";
 
 const router = express.Router();
 
 router.post("/create-order", auth, OrderController.createOrder);
+router.get(
+  "/get-all-orders",
+  auth,
+  authorizeRoles(ENUM_USER_ROLE.ADMIN),
+  OrderController.getAllOrders
+);
 
 export const OrderRoutes = router;

@@ -121,6 +121,17 @@ const addReplyToReview = catchAsyncError(
   }
 );
 
+const getAllCourses = catchAsyncError(async (req: Request, res: Response) => {
+  const result = await CourseService.getAllCourses();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "All courses retrieved successfully",
+    data: result,
+  });
+});
+
 export const CourseController = {
   createCourse,
   editCourse,
@@ -131,4 +142,5 @@ export const CourseController = {
   addAnswer,
   addReview,
   addReplyToReview,
+  getAllCourses,
 };
