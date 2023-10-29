@@ -60,7 +60,7 @@ export type TCourse = {
   reviews: TReview[];
   courseData: TCourseData[];
   ratings?: number;
-  purchased?: number;
+  purchased: number;
 };
 
 //  types of payloads
