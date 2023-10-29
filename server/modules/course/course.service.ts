@@ -1,12 +1,23 @@
 import httpStatus from "http-status";
 import ErrorHandler from "../../utils/ErrorHandler";
-import { TAnswer, TCourse, TQuestion } from "./course.interface";
+import {
+  TAnswer,
+  TCourse,
+  TCourseData,
+  TQuestion,
+  TReplyReview,
+  TReview,
+} from "./course.interface";
 import { cloudinaryHelper } from "../../cloudinary/cloudinaryHelper";
 import { Course } from "./courese.model";
 import { redis } from "../../server";
-import { TUser } from "../user/user.interface";
+import { TUserCourse } from "../user/user.interface";
 import { JwtPayload } from "jsonwebtoken";
-import mongoose, { ObjectId, Types } from "mongoose";
+import mongoose from "mongoose";
+import { nodemailerHelper } from "../../utils/sendMail";
+import ejs from "ejs";
+import path from "path";
+import { User } from "../user/user.model";
 
 const createCourse = async (
   courseInfo: TCourse,
@@ -165,6 +176,103 @@ const addAnswer = async (payload: TAnswer, userId: string) => {
   };
 
   question.questionsReplies.push(newAnswer);
+  await course?.save();
+
+  if (userId === question.user?.toString()) {
+  } else {
+    const user = await User.findById(question.user);
+    if (user) {
+      const data = { name: user.name, title: courseContent.title };
+
+      const html = await ejs.renderFile(
+        path.join(__dirname, "../../ejs/questionReply.ejs"),
+        data
+      );
+
+      await nodemailerHelper.sendEmail({
+        email: user.email,
+        subject: "Question Reply",
+        data,
+        template: "questionReply.ejs",
+      });
+    }
+  }
+
+  return course;
+};
+
+const addReview = async (
+  payload: TReview,
+  courseId: string,
+  user: JwtPayload
+) => {
+  const userCourseList = user.courses;
+
+  const courseExist = userCourseList.find(
+    (course: TUserCourse) => course?.courseId.toString() === courseId
+  );
+
+  if (!courseExist)
+    throw new ErrorHandler(
+      httpStatus.UNAUTHORIZED,
+      "You are not elligible to access this course"
+    );
+
+  const course = await Course.findById(courseId);
+
+  let review = course?.reviews.find(
+    (review) => review.user.toString() === user._id
+  );
+
+  const newReview = {
+    user: new mongoose.Types.ObjectId(user._id),
+    comment: payload?.comment,
+    rating: payload?.rating,
+  };
+
+  if (review) {
+    review.comment = newReview.comment;
+    review.rating = newReview.rating;
+  } else {
+    course?.reviews.push(newReview);
+  }
+
+  const sum = course?.reviews.reduce(
+    (prev, current) => prev + (current?.rating || 0),
+    0
+  );
+
+  const average = (sum as number) / (course?.reviews?.length || 1);
+
+  if (course) course.ratings = average;
+
+  await course?.save();
+
+  const notification = {
+    title: "New Review Received",
+    message: `${user.name} has given a review in ${course?.name}`,
+  };
+
+  return course;
+};
+
+const addReplyToReview = async (payload: TReplyReview, user: JwtPayload) => {
+  const { courseId, comment, reviewId } = payload;
+
+  const course = await Course.findById(courseId);
+  if (!course) throw new ErrorHandler(httpStatus.NOT_FOUND, "Course not found");
+
+  const review = course.reviews.find(
+    (review) => review._id!.toString() === reviewId
+  );
+  if (!review) throw new ErrorHandler(httpStatus.NOT_FOUND, "Review not found");
+
+  const newReply = {
+    user: user._id,
+    comment,
+  };
+
+  review.commentReplies?.push(newReply);
   await course.save();
 };
 
@@ -176,4 +284,6 @@ export const CourseService = {
   getCourseByUser,
   addQuestion,
   addAnswer,
+  addReview,
+  addReplyToReview,
 };

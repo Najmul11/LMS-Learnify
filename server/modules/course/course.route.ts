@@ -31,5 +31,12 @@ router.get(
 );
 router.patch("/add-question", auth, CourseController.addQuestion);
 router.patch("/add-answer", auth, CourseController.addAnswer);
+router.patch("/add-review/:courseId", auth, CourseController.addReview);
+router.patch(
+  "/add-reply",
+  auth,
+  authorizeRoles(ENUM_USER_ROLE.ADMIN),
+  CourseController.addReplyToReview
+);
 
 export const CourseRoutes = router;

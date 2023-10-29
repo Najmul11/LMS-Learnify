@@ -10,11 +10,17 @@ type TComment = {
   }[];
 };
 
-type TReview = {
-  user: object;
+export type TReviewReply = {
+  user: Types.ObjectId;
+  comment: string;
+};
+
+export type TReview = {
+  _id?: Types.ObjectId;
+  user: Types.ObjectId;
   rating: number;
   comment: string;
-  commentReplies: TComment[];
+  commentReplies?: TReviewReply[];
 };
 
 type TLink = {
@@ -22,7 +28,7 @@ type TLink = {
   url: string;
 };
 
-type TCourseData = {
+export type TCourseData = {
   _id: Types.ObjectId;
   title: string;
   description: string;
@@ -36,6 +42,7 @@ type TCourseData = {
   questions: TComment[];
 };
 
+// model interface
 export type TCourse = {
   name: string;
   description: string;
@@ -56,10 +63,17 @@ export type TCourse = {
   purchased?: number;
 };
 
+//  types of payloads
 export type TQuestion = {
   courseId: string;
   contentId: string;
   question: string;
+};
+
+export type TReplyReview = {
+  courseId: string;
+  comment: string;
+  reviewId: string;
 };
 export type TAnswer = {
   courseId: string;

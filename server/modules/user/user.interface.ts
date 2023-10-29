@@ -1,5 +1,9 @@
 import { Model, Types } from "mongoose";
 
+export type TUserCourse = {
+  courseId: string;
+};
+
 export type TUser = {
   _id?: string;
   name: string;
