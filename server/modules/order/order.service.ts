@@ -92,10 +92,7 @@ const createOrder = async (payload: Partial<TOrder>, userId: string) => {
     await session.commitTransaction();
     session.endSession();
 
-    return {
-      order: order[0],
-      course,
-    };
+    return { order: order[0] };
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
