@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { TUser, TUserMethods, Usermodel } from "./user.interface";
+import { TUser, TUserMethods, UserModel } from "./user.interface";
 import bcrypt from "bcrypt";
 import config from "../../config";
 
@@ -72,4 +72,4 @@ UserSchema.methods.comparePassword = async function (
   return await bcrypt.compare(givenPassword, savedPassword);
 };
 
-export const User = model<TUser, Usermodel>("User", UserSchema);
+export const User = model<TUser, UserModel>("User", UserSchema);

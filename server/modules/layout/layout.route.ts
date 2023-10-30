@@ -12,5 +12,20 @@ router.post(
   singleUpload,
   LayoutController.createLayout
 );
+router.patch(
+  "/update-banner",
+  auth,
+  authorizeRoles(ENUM_USER_ROLE.ADMIN),
+  singleUpload,
+  LayoutController.updateBanner
+);
+router.patch(
+  "/edit-layout",
+  auth,
+  authorizeRoles(ENUM_USER_ROLE.ADMIN),
+  LayoutController.editLayout
+);
+
+router.get("/get-layout/:type", LayoutController.getLayout);
 
 export const LayoutRoutes = router;

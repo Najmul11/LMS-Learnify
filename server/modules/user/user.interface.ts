@@ -1,4 +1,4 @@
-import { Model, Types } from "mongoose";
+import { Document, Model } from "mongoose";
 
 export type TUserCourse = {
   courseId: string;
@@ -46,4 +46,4 @@ export type TUpdatePassword = {
   newPassword: string;
 };
 
-export type Usermodel = Model<TUser, Record<string, unknown>, TUserMethods>;
+export type UserModel = Model<TUser, Record<string, unknown>, TUserMethods>;

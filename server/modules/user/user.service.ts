@@ -144,12 +144,14 @@ const updateAccessToken = async (token: string) => {
     throw new ErrorHandler(httpStatus.NOT_FOUND, "Could not get refresh token");
 
   const session = await redis.get(decoded.id);
-  if (!session) throw new ErrorHandler(httpStatus.NOT_FOUND, "Session expired");
+  if (!session) throw new ErrorHandler(httpStatus.NOT_FOUND, "Please login");
 
   const user = JSON.parse(session);
 
   const { refreshToken, accessToken, accessTokenOptions, refreshTokenOptions } =
     await jwtHelpers.sendToken(user);
+
+  await redis.setex(user._id, 604800, JSON.stringify(user));
 
   return {
     refreshToken,

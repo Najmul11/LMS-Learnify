@@ -4,6 +4,7 @@ import { CourseRoutes } from "../modules/course/course.route";
 import { OrderRoutes } from "../modules/order/order.route";
 import { NotificationRoutes } from "../modules/notification/notification.route";
 import { LayoutRoutes } from "../modules/layout/layout.route";
+import { AnalyticsRoutes } from "../modules/analytics/analytics.route";
 
 const router = express.Router();
 
@@ -27,6 +28,10 @@ const moduleRoutes = [
   {
     path: "/layout",
     route: LayoutRoutes,
+  },
+  {
+    path: "/analytics",
+    route: AnalyticsRoutes,
   },
 ];
 

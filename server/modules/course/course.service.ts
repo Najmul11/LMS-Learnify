@@ -88,7 +88,7 @@ const getSingleCourse = async (courseId: string) => {
 
   if (!course) throw new ErrorHandler(httpStatus.NOT_FOUND, "Course not found");
 
-  await redis.set(courseId, JSON.stringify(course));
+  await redis.setex(courseId, 604800, JSON.stringify(course));
 
   return course;
 };

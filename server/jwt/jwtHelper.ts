@@ -23,7 +23,7 @@ const createToken = (
 };
 
 const sendToken = async (user: TUser) => {
-  redis.set(user._id as string, JSON.stringify(user));
+  await redis.set(user._id as string, JSON.stringify(user));
 
   const accessToken = createToken(
     { id: user._id },

@@ -26,7 +26,7 @@ export const auth = catchAsyncError(
 
     const user = await redis.get(decoded.id);
 
-    if (!user) throw new ErrorHandler(httpStatus.NOT_FOUND, "User not found");
+    if (!user) throw new ErrorHandler(httpStatus.NOT_FOUND, "Please login");
     req.user = JSON.parse(user);
 
     next();

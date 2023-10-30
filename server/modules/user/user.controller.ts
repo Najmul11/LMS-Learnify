@@ -99,6 +99,7 @@ const logoutUser = catchAsyncError(async (req: Request, res: Response) => {
 const updateAccessToken = catchAsyncError(
   async (req: Request, res: Response) => {
     const token = req.cookies.refresh_token;
+
     const result = await UserService.updateAccessToken(token);
     const {
       accessToken,

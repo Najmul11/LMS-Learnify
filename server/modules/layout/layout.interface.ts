@@ -24,6 +24,7 @@ export type TLayout = {
   type: "banner" | "faq" | "categories";
 };
 
+// payload
 export type TData = {
   type: string;
   bannerTitle: string;
