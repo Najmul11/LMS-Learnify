@@ -40,7 +40,8 @@ router.patch(
   authorizeRoles(ENUM_USER_ROLE.ADMIN),
   UserController.updateRole
 );
-router.patch(
+
+router.delete(
   "/delete-user/:userId",
   auth,
   authorizeRoles(ENUM_USER_ROLE.ADMIN),

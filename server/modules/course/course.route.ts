@@ -45,5 +45,11 @@ router.get(
   authorizeRoles(ENUM_USER_ROLE.ADMIN),
   CourseController.getAllCourses
 );
+router.delete(
+  "/delete-course/:courseId",
+  auth,
+  authorizeRoles(ENUM_USER_ROLE.ADMIN),
+  CourseController.deleteCourse
+);
 
 export const CourseRoutes = router;

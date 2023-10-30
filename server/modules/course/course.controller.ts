@@ -132,6 +132,19 @@ const getAllCourses = catchAsyncError(async (req: Request, res: Response) => {
   });
 });
 
+const deleteCourse = catchAsyncError(async (req: Request, res: Response) => {
+  const { courseId } = req.params;
+
+  const result = await CourseService.deleteCourse(courseId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Course deleted successfully",
+    data: result,
+  });
+});
+
 export const CourseController = {
   createCourse,
   editCourse,
@@ -143,4 +156,5 @@ export const CourseController = {
   addReview,
   addReplyToReview,
   getAllCourses,
+  deleteCourse,
 };

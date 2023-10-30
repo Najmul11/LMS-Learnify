@@ -295,6 +295,17 @@ const getAllCourses = async () => {
   return result;
 };
 
+const deleteCourse = async (courseId: string) => {
+  const course = await Course.findById(courseId);
+  if (!course) throw new ErrorHandler(httpStatus.NOT_FOUND, "Course not found");
+
+  const result = await Course.findByIdAndDelete(courseId);
+
+  await redis.del(courseId);
+
+  return result;
+};
+
 export const CourseService = {
   createCourse,
   editCourse,
@@ -306,4 +317,5 @@ export const CourseService = {
   addReview,
   addReplyToReview,
   getAllCourses,
+  deleteCourse,
 };
