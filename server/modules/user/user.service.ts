@@ -143,6 +143,8 @@ const updateAccessToken = async (token: string) => {
   if (!decoded)
     throw new ErrorHandler(httpStatus.NOT_FOUND, "Could not get refresh token");
 
+  console.log();
+
   const session = await redis.get(decoded.id);
   if (!session) throw new ErrorHandler(httpStatus.NOT_FOUND, "Please login");
 
