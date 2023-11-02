@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Meta from "./utils/Meta";
 import Header from "./components/Header";
+import Hero from "./components/Route/Hero";
 
 const Page = () => {
   const [open, setOpen] = useState(false);
@@ -21,6 +22,7 @@ const Page = () => {
         setRoute={setRoute}
         route={route}
       />
+      {/* <Hero /> */}
     </div>
   );
 };

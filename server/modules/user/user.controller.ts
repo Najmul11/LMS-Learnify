@@ -59,6 +59,7 @@ const activateUser = catchAsyncError(async (req: Request, res: Response) => {
 
 const loginUser = catchAsyncError(async (req: Request, res: Response) => {
   const payload = req.body;
+
   const result = await UserService.loginUser(payload);
   const {
     accessToken,

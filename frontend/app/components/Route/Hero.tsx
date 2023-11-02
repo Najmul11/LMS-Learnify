@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BiSearch } from "react-icons/bi";
+import hero from "../../../public/assets/hero.png";
 
 const Hero = () => {
   return (
@@ -8,7 +9,7 @@ const Hero = () => {
       <div className="absolute top-[100px] lg:top-[unset] xl:h-[700px] xl:w-[700px] lg:h-[600px] lg:w-[600px] h-[50vh] w-[50vh] hero_animation flex">
         <div className="lg:w-[40%] flex lg:min-h-screen items-center justify-end pt-[70px] lg:pt-[0] z-10">
           <Image
-            src={require("../../../public/assets/hero.png")}
+            src={hero}
             alt=""
             className="object-contain lg:max-w-[90%] w-[90%] xl:max-w-[85%] h-[auto] z-10"
           />
