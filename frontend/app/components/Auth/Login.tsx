@@ -31,9 +31,7 @@ const Login = ({ setRoute }: Props) => {
   const formik = useFormik({
     initialValues,
     validationSchema: schema,
-    onSubmit: async ({ email, password }) => {
-      console.log(email, password);
-    },
+    onSubmit: async ({ email, password }) => {},
   });
 
   const { errors, touched, values, handleChange, handleSubmit } = formik;

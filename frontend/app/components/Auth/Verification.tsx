@@ -1,6 +1,9 @@
+import { useAppSelector } from "@/app/redux/hook";
 import { styles } from "../../styles/style";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
+import { useActivationMutation } from "@/app/redux/api/auth/authApi";
+import toast from "react-hot-toast";
 
 type VerifyNumber = {
   0: string;
@@ -11,6 +14,23 @@ type VerifyNumber = {
 
 const Verification = ({ setRoute }: { setRoute: (route: string) => void }) => {
   const [invalidError, setInvalidError] = useState<boolean>(false);
+  const { token } = useAppSelector((state) => state.auth);
+  const [activation, { isSuccess, error }] = useActivationMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Account activated successfully");
+      setRoute("Login");
+    }
+
+    if (error) {
+      if ("data" in error) {
+        const errorData = error as any;
+        toast.error(errorData.data.message);
+      } else {
+      }
+    }
+  }, [isSuccess, error, setRoute]);
 
   const inputRefs = [
     useRef<HTMLInputElement>(null),
@@ -26,21 +46,30 @@ const Verification = ({ setRoute }: { setRoute: (route: string) => void }) => {
     3: "",
   });
 
-  const verificationHandler = async () => {
-    setInvalidError(true);
-  };
-
   const handleInputChange = (index: number, value: string) => {
     setInvalidError(false);
     const newVerifyNumber = { ...verifyNumber, [index]: value };
     setVerifyNumber(newVerifyNumber);
-    console.log(newVerifyNumber);
 
     if (value === "" && index > 0) {
       inputRefs[index - 1].current?.focus();
     } else if (value.length === 1 && index < 3) {
       inputRefs[index + 1].current?.focus();
     }
+  };
+
+  const verificationHandler = async () => {
+    const verificationNumber = Object.values(verifyNumber).join("");
+
+    if (verificationNumber.length !== 4) {
+      setInvalidError(true);
+      return;
+    }
+
+    await activation({
+      activationToken: token,
+      activationCode: verificationNumber,
+    });
   };
 
   return (

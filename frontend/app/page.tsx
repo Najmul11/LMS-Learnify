@@ -6,7 +6,7 @@ import Header from "./components/Header";
 const Page = () => {
   const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
-  const [route, setRoute] = useState("Verification");
+  const [route, setRoute] = useState("Login");
   return (
     <div>
       <Meta
