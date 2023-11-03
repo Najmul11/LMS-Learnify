@@ -15,6 +15,13 @@ const store = configureStore({
   devTools: false,
 });
 
+const initializeApp = async () => {
+  await store.dispatch(api.endpoints.refreshToken.initiate({}));
+  await store.dispatch(api.endpoints.loadUser.initiate({}));
+};
+
+initializeApp();
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 

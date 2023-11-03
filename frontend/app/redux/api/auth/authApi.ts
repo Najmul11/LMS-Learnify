@@ -1,5 +1,5 @@
 import { api } from "../apiSlice";
-import { userRegistration } from "./authSlice";
+import { userLoggedIn, userRegistration } from "./authSlice";
 
 const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,7 +8,7 @@ const authApi = api.injectEndpoints({
         url: "/users/registration",
         method: "POST",
         body: data,
-        credentials: "include" as const,
+        credentials: "include",
       }),
 
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
@@ -35,11 +35,31 @@ const authApi = api.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
+          console.log(result);
 
           dispatch(
-            userRegistration({
+            userLoggedIn({
               token: result.data.data.token,
               user: result.data.data.sanitizedUser,
+            })
+          );
+        } catch (error) {}
+      },
+    }),
+    socialAuth: builder.mutation({
+      query: (data) => ({
+        url: "/users/social-auth",
+        method: "POST",
+        body: data,
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+
+          dispatch(
+            userLoggedIn({
+              token: result.data.data.accessToken,
+              user: result.data.data.user,
             })
           );
         } catch (error) {}
@@ -48,5 +68,9 @@ const authApi = api.injectEndpoints({
   }),
 });
 
-export const { useRegisterMutation, useActivationMutation, useLoginMutation } =
-  authApi;
+export const {
+  useRegisterMutation,
+  useActivationMutation,
+  useLoginMutation,
+  useSocialAuthMutation,
+} = authApi;

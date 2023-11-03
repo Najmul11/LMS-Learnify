@@ -41,7 +41,7 @@ const socialAuth = catchAsyncError(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    data: "",
+    data: { user, accessToken },
     message: "Social authentication successful",
   });
 });
@@ -133,7 +133,6 @@ const updateAccessToken = catchAsyncError(
 
 const getUserInfo = catchAsyncError(async (req: Request, res: Response) => {
   const user = req.user;
-  console.log(user);
 
   const result = await UserService.getUserInfo(user?._id);
 

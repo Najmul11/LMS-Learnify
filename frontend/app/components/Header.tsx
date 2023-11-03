@@ -7,6 +7,13 @@ import CustomModal from "../utils/CustomModal";
 import Login from "./Auth/Login";
 import SignUp from "./Auth/SignUp";
 import Verification from "./Auth/Verification";
+import { useAppSelector } from "../redux/hook";
+import Image from "next/image";
+import avatar from "../../public/assets/avatar.png";
+import dynamic from "next/dynamic";
+import { useSession } from "next-auth/react";
+import { useSocialAuthMutation } from "../redux/api/auth/authApi";
+import toast from "react-hot-toast";
 
 type Props = {
   open: boolean;
@@ -18,6 +25,31 @@ type Props = {
 const Header = ({ activeItem, open, setOpen, route, setRoute }: Props) => {
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
+
+  const { user } = useAppSelector((state) => state.auth);
+  const [socialAuth, { error, isSuccess }] = useSocialAuthMutation();
+  const { data } = useSession();
+
+  const [social, setSocialAuth] = useState(
+    localStorage.getItem("hasSocial") || false
+  );
+
+  useEffect(() => {
+    if ((social === false || social === "false") && !user && data) {
+      socialAuth({
+        email: data?.user?.email,
+        name: data?.user?.name,
+        avatar: data.user?.image,
+      });
+      localStorage.setItem("hasSocial", "true");
+    }
+  }, [data, user, socialAuth, social]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Login Successfully");
+    }
+  }, [isSuccess]);
 
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
@@ -57,12 +89,23 @@ const Header = ({ activeItem, open, setOpen, route, setRoute }: Props) => {
               <NavItems activeItem={activeItem} isMobile={false} />
               <ThemeSwitcher />
 
-              <HiOutlineUserCircle
-                size={25}
-                className="hidden 800px:block cursor-pointer dark:text-white text-black "
-                onClick={() => setOpen(true)}
-              />
-
+              {user ? (
+                <div className="hidden 800px:block">
+                  <Link href={"profile"}>
+                    <Image
+                      src={avatar}
+                      alt=""
+                      className="w-[32px] h-[32px] rounded-full"
+                    />
+                  </Link>
+                </div>
+              ) : (
+                <HiOutlineUserCircle
+                  size={25}
+                  className="hidden 800px:block cursor-pointer dark:text-white text-black "
+                  onClick={() => setOpen(true)}
+                />
+              )}
               {/* for mobile */}
               <div className="800px:hidden">
                 <HiOutlineMenuAlt3
@@ -83,15 +126,28 @@ const Header = ({ activeItem, open, setOpen, route, setRoute }: Props) => {
           >
             <div className="w-[70%] fixed z-[999] h-screen bg-white dark:bg-slate-900 dark:bg-opacity-90 top-0 right-0">
               <NavItems activeItem={activeItem} isMobile={true} />
-              <button
-                className="w-full py-5 pl-5 "
-                onClick={() => setOpen(true)}
-              >
-                <HiOutlineUserCircle
-                  size={25}
-                  className="cursor-pointer  text-black dark:text-white"
-                />
-              </button>
+              {user ? (
+                <button className="w-full py-5 pl-5 ">
+                  <Link href={"profile"}>
+                    <Image
+                      src={avatar}
+                      alt=""
+                      className="w-[32px] h-[32px] rounded-full"
+                    />
+                  </Link>
+                </button>
+              ) : (
+                <button
+                  className="w-full py-5 pl-5 "
+                  onClick={() => setOpen(true)}
+                >
+                  <HiOutlineUserCircle
+                    size={25}
+                    className="cursor-pointer  text-black dark:text-white"
+                  />
+                </button>
+              )}
+
               <br />
               <br />
 
@@ -145,4 +201,4 @@ const Header = ({ activeItem, open, setOpen, route, setRoute }: Props) => {
   );
 };
 
-export default Header;
+export default dynamic(() => Promise.resolve(Header), { ssr: false });
