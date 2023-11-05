@@ -173,6 +173,7 @@ const updateProfilePicture = catchAsyncError(
   async (req: Request, res: Response) => {
     const user = req.user;
     const image = req.file;
+
     const result = await UserService.updateProfilePicture(image, user?._id);
 
     sendResponse(res, {

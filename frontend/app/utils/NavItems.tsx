@@ -4,6 +4,7 @@ import React from "react";
 type Props = {
   activeItem: number;
   isMobile: boolean;
+  setActiveItem: (index: number) => void;
 };
 
 export const navItemsData = [
@@ -28,13 +29,14 @@ export const navItemsData = [
     url: "/faq",
   },
 ];
-const NavItems = ({ activeItem, isMobile }: Props) => {
+const NavItems = ({ activeItem, isMobile, setActiveItem }: Props) => {
   return (
     <>
       <div className="hidden 800px:flex">
         {navItemsData.map((nav, index) => (
           <Link href={`${nav.url}`} key={index}>
             <span
+              onClick={() => setActiveItem(index)}
               className={`${
                 activeItem === index
                   ? "dark:text-[#37a39a] text-[crimson] "
@@ -61,6 +63,7 @@ const NavItems = ({ activeItem, isMobile }: Props) => {
           {navItemsData.map((nav, index) => (
             <Link href={`${nav.url}`} key={index}>
               <span
+                onClick={() => setActiveItem(index)}
                 className={`${
                   activeItem === index
                     ? "dark:text-[#37a39a] text-[crimson] "

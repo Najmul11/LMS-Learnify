@@ -234,16 +234,21 @@ const updateProfilePicture = async (
 
   const uploadedAvatar = await cloudinaryHelper.uploadToCloudinary(
     avatar,
-    "avatars"
+    "learnify/avatars"
   );
+
   const dataToUpload = {
-    avater: {
-      publicId: uploadedAvatar?.publicId,
-      url: uploadedAvatar?.url,
+    $set: {
+      avatar: {
+        publicId: uploadedAvatar?.publicId,
+        url: uploadedAvatar?.url,
+      },
     },
   };
 
-  const result = await User.findById(userId, dataToUpload, { new: true });
+  const result = await User.findByIdAndUpdate(userId, dataToUpload, {
+    new: true,
+  });
   redis.set(userId, JSON.stringify(result));
   return result;
 };

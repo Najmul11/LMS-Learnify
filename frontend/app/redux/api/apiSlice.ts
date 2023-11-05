@@ -7,7 +7,7 @@ export const api = createApi({
     baseUrl: "http://localhost:5001/api/v1",
     credentials: "include",
   }),
-  tagTypes: [],
+  tagTypes: ["user"],
   endpoints: (builder) => ({
     refreshToken: builder.query({
       query: (data) => ({
@@ -22,6 +22,7 @@ export const api = createApi({
         method: "GET",
         credentials: "include",
       }),
+      providesTags: ["user"],
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;

@@ -12,7 +12,10 @@ import Image from "next/image";
 import avatar from "../../public/assets/avatar.png";
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
-import { useSocialAuthMutation } from "../redux/api/auth/authApi";
+import {
+  useLogoutQuery,
+  useSocialAuthMutation,
+} from "../redux/api/auth/authApi";
 import toast from "react-hot-toast";
 
 type Props = {
@@ -21,8 +24,12 @@ type Props = {
   activeItem: number;
   route: string;
   setRoute: (route: string) => void;
+  setActiveItem: (route: number) => void;
 };
-const Header = ({ activeItem, open, setOpen, route, setRoute }: Props) => {
+const Header = () => {
+  const [open, setOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState(0);
+  const [route, setRoute] = useState("Login");
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
 
@@ -46,9 +53,7 @@ const Header = ({ activeItem, open, setOpen, route, setRoute }: Props) => {
   }, [data, user, socialAuth, social]);
 
   useEffect(() => {
-    if (isSuccess) {
-      toast.success("Login Successfully");
-    }
+    if (isSuccess) toast.success("Login Successfully");
   }, [isSuccess]);
 
   if (typeof window !== "undefined") {
@@ -86,7 +91,11 @@ const Header = ({ activeItem, open, setOpen, route, setRoute }: Props) => {
               </Link>
             </div>
             <div className="flex items-center">
-              <NavItems activeItem={activeItem} isMobile={false} />
+              <NavItems
+                activeItem={activeItem}
+                isMobile={false}
+                setActiveItem={setActiveItem}
+              />
               <ThemeSwitcher />
 
               {user ? (
@@ -125,7 +134,11 @@ const Header = ({ activeItem, open, setOpen, route, setRoute }: Props) => {
             onClick={handleClose}
           >
             <div className="w-[70%] fixed z-[999] h-screen bg-white dark:bg-slate-900 dark:bg-opacity-90 top-0 right-0">
-              <NavItems activeItem={activeItem} isMobile={true} />
+              <NavItems
+                activeItem={activeItem}
+                isMobile={true}
+                setActiveItem={setActiveItem}
+              />
               {user ? (
                 <button className="w-full py-5 pl-5 ">
                   <Link href={"profile"}>
@@ -202,3 +215,12 @@ const Header = ({ activeItem, open, setOpen, route, setRoute }: Props) => {
 };
 
 export default dynamic(() => Promise.resolve(Header), { ssr: false });
+
+// {
+//   activeItem,
+//   open,
+//   setOpen,
+//   route,
+//   setRoute,
+//   setActiveItem,
+// }: Props

@@ -20,7 +20,7 @@ router.put("/update-userinfo", auth, UserController.updateUserInfo);
 
 router.patch("/update-user-password", auth, UserController.updatePassword);
 
-router.patch(
+router.put(
   "/update-avatar",
   auth,
   singleUpload,

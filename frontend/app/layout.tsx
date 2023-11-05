@@ -8,6 +8,13 @@ import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import store from "./redux/store";
 import { SessionProvider } from "next-auth/react";
+import LoaderProvider from "./LoaderProvider";
+import { ReactNode } from "react";
+import ReduxProvider from "./ReduxProvider";
+
+type Props = {
+  children: ReactNode;
+};
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,25 +28,21 @@ const josefin = Josefin_Sans({
   variable: "--font-Josefin",
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en">
-      <body
-        className={`${poppins.variable} ${josefin.variable} !bg-white bg-no-repeat dark:bg-gradient-to-b dark:from-gray-900 dark:to-black duration-300`}
-      >
-        <Provider store={store}>
+    <ReduxProvider>
+      <html lang="en">
+        <body
+          className={`${poppins.variable} ${josefin.variable} !bg-white bg-no-repeat dark:bg-gradient-to-b dark:from-gray-900 dark:to-black duration-300`}
+        >
           <SessionProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              {children}
+              <LoaderProvider>{children}</LoaderProvider>
               <Toaster />
             </ThemeProvider>
           </SessionProvider>
-        </Provider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ReduxProvider>
   );
 }

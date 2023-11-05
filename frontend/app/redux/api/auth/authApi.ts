@@ -1,5 +1,5 @@
 import { api } from "../apiSlice";
-import { userLoggedIn, userRegistration } from "./authSlice";
+import { userLoggedIn, userLoggedOut, userRegistration } from "./authSlice";
 
 const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -65,6 +65,18 @@ const authApi = api.injectEndpoints({
         } catch (error) {}
       },
     }),
+    logout: builder.query({
+      query: () => ({
+        url: "/users/logout",
+        method: "GET",
+        credentials: "include",
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          dispatch(userLoggedOut());
+        } catch (error) {}
+      },
+    }),
   }),
 });
 
@@ -73,4 +85,5 @@ export const {
   useActivationMutation,
   useLoginMutation,
   useSocialAuthMutation,
+  useLogoutQuery,
 } = authApi;
