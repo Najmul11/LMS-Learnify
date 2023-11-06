@@ -168,16 +168,11 @@ const getUserInfo = async (id: string) => {
 };
 
 const updateUserInfo = async (payload: Partial<TUser>, userId: string) => {
-  const { name, email } = payload;
+  const { name } = payload;
   const user = await User.findById(userId);
+  if (!user) throw new ErrorHandler(httpStatus.NOT_FOUND, "User not found");
 
-  if (email && user) {
-    const isEmailExist = await User.findOne({ email });
-    if (isEmailExist)
-      throw new ErrorHandler(httpStatus.BAD_REQUEST, "Email already exist");
-
-    if (name) user.name = name;
-  }
+  if (name) user.name = name;
 
   await user?.save();
   await redis.set(userId, JSON.stringify(user));

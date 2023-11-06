@@ -1,11 +1,14 @@
 import { styles } from "../../styles/style";
 import Image from "next/image";
 import { AiOutlineCamera } from "react-icons/ai";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import avatarIcon from "../../../public/assets/avatar.png";
-import { useUpdateAvatarMutation } from "@/app/redux/api/user/userApi";
+import {
+  useUpdateAvatarMutation,
+  useUpdateUserInfoMutation,
+} from "@/app/redux/api/user/userApi";
 import { CircularProgress } from "@mui/material";
-import Skeleton from "@mui/material/Skeleton";
+import toast from "react-hot-toast";
 
 type Props = {
   avatar: string | null;
@@ -15,7 +18,26 @@ type Props = {
 const ProfileInfo = ({ user, avatar }: Props) => {
   const [name, setName] = useState((user && user.name) || "");
 
-  const [updateAvatar, { isLoading }] = useUpdateAvatarMutation();
+  const [updateAvatar, { isLoading, isSuccess, error }] =
+    useUpdateAvatarMutation();
+
+  const [
+    updateUserInfo,
+    { isLoading: loading, isSuccess: success, error: updateError },
+  ] = useUpdateUserInfoMutation();
+
+  useEffect(() => {
+    if (isSuccess) toast.success("Profile picture updated");
+  }, [isSuccess]);
+  useEffect(() => {
+    if (success) toast.success("Name updated");
+  }, [success]);
+  useEffect(() => {
+    if (error) toast.error("Filed to upload, try again later");
+  }, [error]);
+  useEffect(() => {
+    if (updateError) toast.error("Filed to update, try again later");
+  }, [updateError]);
 
   const imageHandler = async (e: any) => {
     const file = e.target.files[0];
@@ -26,7 +48,16 @@ const ProfileInfo = ({ user, avatar }: Props) => {
     }
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if (!name) return toast.error("Name can't be empty");
+
+    const data = {
+      name: name,
+    };
+
+    await updateUserInfo(data);
+  };
 
   return (
     <>
@@ -74,6 +105,7 @@ const ProfileInfo = ({ user, avatar }: Props) => {
               <label className="block pb-2">Full Name</label>
               <input
                 type="text"
+                name="name"
                 className={`${styles.input} w-[95%] mb-4 800px:mb-0`}
                 required
                 value={name}
@@ -90,12 +122,22 @@ const ProfileInfo = ({ user, avatar }: Props) => {
                 value={user?.email || ""}
               />
             </div>
-            <input
+            <button
+              disabled={loading}
               className="w-full 800px:w-[250px] h-[40px] border border-[#37a39a] text-center dark:text-[#fff] text-black rounded-[3px] mt-8 cursor-pointer"
-              required
-              value="Update"
               type="submit"
-            />
+            >
+              {loading ? (
+                <CircularProgress
+                  sx={{
+                    color: "#37a39a",
+                  }}
+                  size={22}
+                />
+              ) : (
+                "Update"
+              )}
+            </button>
           </div>
         </form>
         <br />

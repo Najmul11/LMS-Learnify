@@ -16,7 +16,7 @@ router.get("/refresh", UserController.updateAccessToken);
 
 router.get("/me", auth, UserController.getUserInfo);
 
-router.put("/update-userinfo", auth, UserController.updateUserInfo);
+router.patch("/update-userinfo", auth, UserController.updateUserInfo);
 
 router.patch("/update-user-password", auth, UserController.updatePassword);
 

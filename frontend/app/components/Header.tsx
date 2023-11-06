@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import React, { EventHandler, useEffect, useState } from "react";
 import NavItems from "../utils/NavItems";
@@ -12,20 +13,11 @@ import Image from "next/image";
 import avatar from "../../public/assets/avatar.png";
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
-import {
-  useLogoutQuery,
-  useSocialAuthMutation,
-} from "../redux/api/auth/authApi";
+import { useSocialAuthMutation } from "../redux/api/auth/authApi";
 import toast from "react-hot-toast";
 
-type Props = {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-  activeItem: number;
-  route: string;
-  setRoute: (route: string) => void;
-  setActiveItem: (route: number) => void;
-};
+import { usePathname } from "next/navigation";
+
 const Header = () => {
   const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
@@ -33,7 +25,7 @@ const Header = () => {
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
 
-  const { user } = useAppSelector((state) => state.auth);
+  const { user }: { user: any } = useAppSelector((state) => state.auth);
   const [socialAuth, { error, isSuccess }] = useSocialAuthMutation();
   const { data } = useSession();
 
@@ -65,6 +57,7 @@ const Header = () => {
       }
     });
   }
+  const pathname = usePathname();
 
   const handleClose = (e: any) => {
     if (e.target.id === "screen") setOpenSidebar(false);
@@ -102,16 +95,23 @@ const Header = () => {
                 <div className="hidden 800px:block">
                   <Link href={"profile"}>
                     <Image
-                      src={avatar}
+                      width={30}
+                      height={30}
+                      onClick={() => setActiveItem(5)}
+                      src={user?.avatar ? user.avatar.url : avatar}
                       alt=""
-                      className="w-[32px] h-[32px] rounded-full"
+                      className={`w-[32px] h-[32px] rounded-full ${
+                        pathname === "/profile"
+                          ? "border-[3px] border-[#37a39a] "
+                          : ""
+                      }`}
                     />
                   </Link>
                 </div>
               ) : (
                 <HiOutlineUserCircle
                   size={25}
-                  className="hidden 800px:block cursor-pointer dark:text-white text-black "
+                  className={`hidden 800px:block cursor-pointer dark:text-white text-black `}
                   onClick={() => setOpen(true)}
                 />
               )}

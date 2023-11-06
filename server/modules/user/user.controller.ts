@@ -146,6 +146,7 @@ const getUserInfo = catchAsyncError(async (req: Request, res: Response) => {
 const updateUserInfo = catchAsyncError(async (req: Request, res: Response) => {
   const user = req.user;
   const payload = req.body;
+
   const result = await UserService.updateUserInfo(payload, user?._id);
 
   sendResponse(res, {
@@ -159,6 +160,8 @@ const updateUserInfo = catchAsyncError(async (req: Request, res: Response) => {
 const updatePassword = catchAsyncError(async (req: Request, res: Response) => {
   const user = req.user;
   const payload = req.body;
+  console.log(payload);
+
   const result = await UserService.updatePassword(payload, user?._id);
 
   sendResponse(res, {

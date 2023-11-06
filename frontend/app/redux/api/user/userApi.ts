@@ -11,7 +11,29 @@ const userApi = api.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+    updateUserInfo: builder.mutation({
+      query: (data) => ({
+        url: "/users/update-userinfo",
+        method: "PATCH",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["user"],
+    }),
+    updatePassword: builder.mutation({
+      query: (data) => ({
+        url: "/users/update-user-password",
+        method: "PATCH",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["user"],
+    }),
   }),
 });
 
-export const { useUpdateAvatarMutation } = userApi;
+export const {
+  useUpdateAvatarMutation,
+  useUpdateUserInfoMutation,
+  useUpdatePasswordMutation,
+} = userApi;
