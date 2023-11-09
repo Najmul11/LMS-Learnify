@@ -3,6 +3,9 @@ import { Request, Response } from "express";
 import { CourseService } from "./course.service";
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
+import axios from "axios";
+import ErrorHandler from "../../utils/ErrorHandler";
+import config from "../../config";
 
 const createCourse = catchAsyncError(async (req: Request, res: Response) => {
   const courseInfo = req.body;
@@ -144,6 +147,31 @@ const deleteCourse = catchAsyncError(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const generateVideoUrl = catchAsyncError(
+  async (req: Request, res: Response) => {
+    console.log("hit");
+
+    try {
+      const { videoId } = req.body;
+      const response = await axios.post(
+        `https://dev.vdocipher.com/api/videos/${videoId}/otp`,
+        { ttl: 30000 },
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Apisecret ${config.cipher}`,
+          },
+        }
+      );
+      console.log(response);
+
+      res.json(response.data);
+    } catch (error: any) {
+      throw new ErrorHandler(httpStatus.BAD_REQUEST, error.message);
+    }
+  }
+);
 
 export const CourseController = {
   createCourse,
@@ -157,4 +185,5 @@ export const CourseController = {
   addReplyToReview,
   getAllCourses,
   deleteCourse,
+  generateVideoUrl,
 };

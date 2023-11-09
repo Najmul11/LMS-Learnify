@@ -45,6 +45,9 @@ router.get(
   authorizeRoles(ENUM_USER_ROLE.ADMIN),
   CourseController.getAllCourses
 );
+
+router.post("/get-vdocipherOTP", CourseController.generateVideoUrl);
+
 router.delete(
   "/delete-course/:courseId",
   auth,
