@@ -1,5 +1,6 @@
 import { styles } from "../../../styles/style";
 import CoursePlayer from "@/app/utils/CoursePlayer";
+import { CircularProgress } from "@mui/material";
 import React, { FC } from "react";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";
 
@@ -8,6 +9,7 @@ type Props = {
   setActive: (active: number) => void;
   courseData: any;
   handleCourseCreate: any;
+  isLoading: boolean;
 };
 
 const CoursePreview: FC<Props> = ({
@@ -15,6 +17,7 @@ const CoursePreview: FC<Props> = ({
   handleCourseCreate,
   setActive,
   active,
+  isLoading,
 }) => {
   const estimatedPrice = parseFloat(courseData?.estimatedPrice || 0);
   const price = parseFloat(courseData?.price || 0);
@@ -25,7 +28,9 @@ const CoursePreview: FC<Props> = ({
   const prevButton = () => {
     setActive(active - 1);
   };
-  const createCourse = () => {};
+  const createCourse = () => {
+    !isLoading ? handleCourseCreate() : null;
+  };
 
   return (
     <div className="w-[90%] | m-auto py-5 mb-5">
@@ -54,7 +59,7 @@ const CoursePreview: FC<Props> = ({
         <div
           className={`${styles.button} w-[180px] my-3 font-Poppins bg-[crimson] cursor-not-allowed`}
         >
-          Buy Now ({courseData?.price}$)
+          Buy Now
         </div>
         <div className="flex items-center">
           <input
@@ -121,7 +126,7 @@ const CoursePreview: FC<Props> = ({
             </>
           )}
         </div>
-        <div className="w-full">
+        <div className="w-full mt-3">
           <h1 className="text-xl font-Poppins font-[600]">Course Details</h1>
           <p className="text-[18px] mt-[20px] whitespace-pre-line w-full overflow-hidden">
             {courseData?.description}
@@ -135,12 +140,24 @@ const CoursePreview: FC<Props> = ({
           >
             Prev
           </div>
-          <div
-            className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          <button
+            disabled={isLoading}
+            className={`${
+              isLoading ? "!cursor-not-allowed " : "cursor-pointer"
+            }w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 `}
             onClick={() => createCourse()}
           >
-            Create
-          </div>
+            {isLoading ? (
+              <CircularProgress
+                sx={{
+                  color: "#ffffff",
+                }}
+                size={20}
+              />
+            ) : (
+              "Create"
+            )}
+          </button>
         </div>
       </div>
     </div>

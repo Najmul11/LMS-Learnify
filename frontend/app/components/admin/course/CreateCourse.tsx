@@ -5,9 +5,20 @@ import CourseOptions from "./CourseOptions";
 import CourseData from "./CourseData";
 import CourseContent from "./CourseContent";
 import CoursePreview from "./CoursePreview";
+import { useCreateCourseMutation } from "@/app/redux/api/courses/coursesApi";
+import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
+import { TData } from "@/app/utils/interface";
+
+type error = {
+  data: {
+    message: string;
+  };
+};
 
 const CreateCourse = () => {
   const [active, setActive] = useState(0);
+  const [previewImage, setPreviewImage] = useState("");
 
   const [courseInfo, setCourseInfo] = useState({
     name: "",
@@ -41,7 +52,8 @@ const CreateCourse = () => {
       suggestion: "",
     },
   ]);
-  const [courseData, setCourseData] = useState({});
+
+  const [courseData, setCourseData] = useState<any>({});
 
   const handleSubmit = async () => {
     const formattedBenefits = benefits.map((benefit) => ({
@@ -78,13 +90,54 @@ const CreateCourse = () => {
       totalVideos: courseContentData.length,
       benefits: formattedBenefits,
       prerequisites: formattedPrerequisites,
-      courseContent: formattedCourseContentData,
+      courseData: formattedCourseContentData,
     };
-
     setCourseData(data);
   };
 
-  const handleCourseCreate = () => {};
+  const [createCourse, { isLoading, isSuccess, error }] =
+    useCreateCourseMutation();
+
+  const handleCourseCreate = async () => {
+    const courseInformation = {
+      name: courseData?.name,
+      description: courseData?.description,
+      price: courseData.price,
+      estimatedPrice: courseData.estimatedPrice,
+      tags: courseData.tags,
+      level: courseData.level,
+      demoUrl: courseData.demoUrl,
+      benefits: courseData.benefits,
+      prerequisites: courseData.prerequisites,
+      ratings: 0,
+      purchased: 0,
+      courseData: courseData.courseData,
+    };
+
+    const formData = new FormData();
+
+    // Append each key-value pair to the FormData
+    Object.entries(courseInformation).forEach(([key, value]) => {
+      // If the value is an array or object, stringify it
+      const formattedValue =
+        Array.isArray(value) || typeof value === "object"
+          ? JSON.stringify(value)
+          : value;
+      formData.append(key, formattedValue);
+    });
+    formData.append("file", courseData?.thumbnail);
+
+    await createCourse(formData);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Course created successfully ");
+      redirect("/admin/all-courses");
+    }
+    const errorData = error as error;
+    if (error) toast.error(errorData.data.message);
+  }, [isSuccess, error]);
 
   return (
     <div className="w-full flex min-h-screen">
@@ -95,6 +148,8 @@ const CreateCourse = () => {
             setActive={setActive}
             courseInfo={courseInfo}
             setCourseInfo={setCourseInfo}
+            previewImage={previewImage}
+            setPreviewImage={setPreviewImage}
           />
         )}
         {active === 1 && (
@@ -122,6 +177,7 @@ const CreateCourse = () => {
             active={active}
             courseData={courseData}
             handleCourseCreate={handleCourseCreate}
+            isLoading={isLoading}
           />
         )}
       </div>

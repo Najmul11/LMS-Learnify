@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
 import { styles } from "../../../styles/style";
-import Image from "next/image";
 import React, { FC, useState } from "react";
 
 type Props = {
@@ -7,6 +7,8 @@ type Props = {
   setCourseInfo: (courseInfo: any) => void;
   active: number;
   setActive: (active: number) => void;
+  setPreviewImage: (url: any) => void;
+  previewImage: any;
 };
 
 const CourseInformation: FC<Props> = ({
@@ -14,6 +16,8 @@ const CourseInformation: FC<Props> = ({
   setCourseInfo,
   active,
   setActive,
+  previewImage,
+  setPreviewImage,
 }) => {
   const [dragging, setDragging] = useState(false);
 
@@ -25,7 +29,8 @@ const CourseInformation: FC<Props> = ({
 
   const handleFileChange = (e: any) => {
     const file = e.target.files?.[0];
-    console.log(file);
+    setPreviewImage(URL.createObjectURL(file));
+    setCourseInfo({ ...courseInfo, thumbnail: file });
   };
 
   const handleDragOver = (e: any) => {
@@ -41,7 +46,8 @@ const CourseInformation: FC<Props> = ({
     setDragging(false);
 
     const file = e.dataTransfer.files[0];
-    console.log(file);
+    setPreviewImage(URL.createObjectURL(file));
+    setCourseInfo({ ...courseInfo, thumbnail: file });
   };
 
   return (
@@ -181,9 +187,9 @@ const CourseInformation: FC<Props> = ({
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-            {courseInfo.thumbnail ? (
-              <Image
-                src={courseInfo.thumbnail}
+            {courseInfo?.thumbnail ? (
+              <img
+                src={previewImage}
                 alt=""
                 className="max-h-full w-full object-cover"
               />

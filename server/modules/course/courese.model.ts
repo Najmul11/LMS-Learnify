@@ -49,7 +49,7 @@ const CourseSchema = new Schema<TCourse, Record<string, unknown>>(
     },
     categories: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     benefits: [

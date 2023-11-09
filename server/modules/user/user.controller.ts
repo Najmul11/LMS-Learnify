@@ -160,7 +160,6 @@ const updateUserInfo = catchAsyncError(async (req: Request, res: Response) => {
 const updatePassword = catchAsyncError(async (req: Request, res: Response) => {
   const user = req.user;
   const payload = req.body;
-  console.log(payload);
 
   const result = await UserService.updatePassword(payload, user?._id);
 

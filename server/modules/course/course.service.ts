@@ -21,10 +21,25 @@ import { User } from "../user/user.model";
 import { Notification } from "../notification/notification.model";
 
 const createCourse = async (
-  courseInfo: TCourse,
+  courseInfo: any,
   thumbnail: Express.Multer.File | undefined
 ) => {
-  const { name, description, price, tags, level, demoUrl } = courseInfo;
+  const {
+    name,
+    description,
+    price,
+    tags,
+    level,
+    demoUrl,
+    benefits,
+    prerequisites,
+    courseData,
+  } = courseInfo;
+
+  courseInfo.benefits = JSON.parse(benefits);
+  courseInfo.prerequisites = JSON.parse(prerequisites);
+
+  courseInfo.courseData = JSON.parse(courseData);
 
   if (!name || !description || !price || !tags || !level || !demoUrl) {
     throw new ErrorHandler(
@@ -33,15 +48,15 @@ const createCourse = async (
     );
   }
 
-  //   if (!thumbnail)
-  //     throw new ErrorHandler(
-  //       httpStatus.BAD_REQUEST,
-  //       "Must provide course thumbnail."
-  //     );
+  if (!thumbnail)
+    throw new ErrorHandler(
+      httpStatus.BAD_REQUEST,
+      "Must provide course thumbnail."
+    );
 
   const uploadedThumbnail = await cloudinaryHelper.uploadToCloudinary(
     thumbnail,
-    "courses"
+    "learnify/courses/thumbnails"
   );
 
   courseInfo.thumbnail = uploadedThumbnail!;

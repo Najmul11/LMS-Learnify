@@ -41,6 +41,7 @@ const ProfileInfo = ({ user, avatar }: Props) => {
 
   const imageHandler = async (e: any) => {
     const file = e.target.files[0];
+
     const formData = new FormData();
     if (file) {
       formData.append("file", file);

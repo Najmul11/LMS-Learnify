@@ -149,8 +149,6 @@ const deleteCourse = catchAsyncError(async (req: Request, res: Response) => {
 });
 const generateVideoUrl = catchAsyncError(
   async (req: Request, res: Response) => {
-    console.log("hit");
-
     try {
       const { videoId } = req.body;
       const response = await axios.post(
@@ -164,7 +162,6 @@ const generateVideoUrl = catchAsyncError(
           },
         }
       );
-      console.log(response);
 
       res.json(response.data);
     } catch (error: any) {
