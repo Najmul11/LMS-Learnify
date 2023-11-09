@@ -215,12 +215,3 @@ const Header = () => {
 };
 
 export default dynamic(() => Promise.resolve(Header), { ssr: false });
-
-// {
-//   activeItem,
-//   open,
-//   setOpen,
-//   route,
-//   setRoute,
-//   setActiveItem,
-// }: Props

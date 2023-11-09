@@ -5,7 +5,7 @@ export const styles = {
   input:
     "  text-black dark:tex-white font-Poppins  w-full bg-transparent border rounded h-[40px] px-2 outline-none mt-[10px]",
   button:
-    " flex flex-row justify-center items-center py-3 px-6 rounded-full cursor-pointer w-full bg-[#2190ff] min-h-[45px] text-[16px] font-Poppins font-semibold",
+    " flex flex-row justify-center items-center py-3 px-6 rounded-full  w-full bg-[#2190ff] min-h-[45px] text-[16px] font-Poppins font-semibold",
 
   verifictionInput:
     "w-[65px] h-[65px] bg-transparent border-[3px] rounded-[10px] flex items-center text-black dark:text-white justify-center text-[18px] font-Poppins outline-none text-center",

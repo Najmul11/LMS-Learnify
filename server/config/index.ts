@@ -33,4 +33,5 @@ export default {
     mail: process.env.SMTP_MAIL,
     password: process.env.SMTP_PASSWORD,
   },
+  cipher: process.env.VDO_CIPHER_API_SECRET,
 };

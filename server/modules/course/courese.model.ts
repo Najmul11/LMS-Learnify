@@ -47,6 +47,10 @@ const CourseSchema = new Schema<TCourse, Record<string, unknown>>(
       type: String,
       required: true,
     },
+    categories: {
+      type: String,
+      required: true,
+    },
 
     benefits: [
       {

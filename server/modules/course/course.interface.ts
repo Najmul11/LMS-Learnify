@@ -52,6 +52,7 @@ export type TCourse = {
     publicId: string;
     url: string;
   };
+  categories: string;
   tags: string[];
   level: string;
   demoUrl: string;

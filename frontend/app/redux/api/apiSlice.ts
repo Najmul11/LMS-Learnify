@@ -7,7 +7,7 @@ export const api = createApi({
     baseUrl: "http://localhost:5001/api/v1",
     credentials: "include",
   }),
-  tagTypes: ["user"],
+  tagTypes: ["user", "layout"],
   endpoints: (builder) => ({
     refreshToken: builder.query({
       query: (data) => ({

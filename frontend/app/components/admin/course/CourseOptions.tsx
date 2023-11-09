@@ -27,16 +27,18 @@ const CourseOptions = ({ active, setActive }: Props) => {
               <div
                 className={`absolute h-[30px] w-1 ${
                   active + 1 > index ? "bg-blue-500" : "bg-[#384766]"
-                } bottom-[-100%]`}
+                } bottom-[-100%] ${
+                  options.length - 1 === index ? "hidden" : ""
+                }`}
               />
             )}
           </div>
           <h5
             className={`pl-3 ${
-              active === index
-                ? "text-white dark:text-white"
-                : "text-black dark:text-black"
-            } text-[20px]`}
+              active + 1 > index
+                ? " dark:text-white text-black"
+                : "text-gray-400"
+            }  text-[20px]`}
           >
             {option}
           </h5>

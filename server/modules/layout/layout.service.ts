@@ -101,6 +101,8 @@ const updateBanner = async (
         subTitle: bannerSubTitle ? bannerSubTitle : typeExist.banner.subTitle,
       },
     };
+    console.log(banner);
+
     result = await Layout.findOneAndUpdate({ type }, banner, { new: true });
   }
 
@@ -128,9 +130,8 @@ const editLayout = async (payload: TData) => {
 
     result = await Layout.findOneAndUpdate({ type }, newFaq, { new: true });
   }
-  if (type === "categories") {
-    console.log("hello");
 
+  if (type === "categories") {
     if (categories.length < 1)
       throw new ErrorHandler(
         httpStatus.BAD_REQUEST,

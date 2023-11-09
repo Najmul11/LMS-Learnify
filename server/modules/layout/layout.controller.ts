@@ -20,6 +20,7 @@ const createLayout = catchAsyncError(async (req: Request, res: Response) => {
 const updateBanner = catchAsyncError(async (req: Request, res: Response) => {
   const payload = req.body;
   const layoutImage = req.file;
+
   const result = await LayoutService.updateBanner(payload, layoutImage);
 
   sendResponse(res, {
@@ -32,6 +33,8 @@ const updateBanner = catchAsyncError(async (req: Request, res: Response) => {
 
 const editLayout = catchAsyncError(async (req: Request, res: Response) => {
   const payload = req.body;
+  console.log(payload);
+
   const result = await LayoutService.editLayout(payload);
 
   sendResponse(res, {
@@ -43,6 +46,7 @@ const editLayout = catchAsyncError(async (req: Request, res: Response) => {
 });
 const getLayout = catchAsyncError(async (req: Request, res: Response) => {
   const { type } = req.params;
+
   const result = await LayoutService.getLayout(type);
 
   sendResponse(res, {
