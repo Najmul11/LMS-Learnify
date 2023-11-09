@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CourseInfo from "./CourseInfo";
 import CourseOptions from "./CourseOptions";
 import CourseData from "./CourseData";
