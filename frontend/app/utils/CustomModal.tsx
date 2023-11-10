@@ -4,9 +4,10 @@ import React from "react";
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
-  activeItem: any;
+  activeItem?: any;
   setRoute?: (route: string) => void;
   component: any;
+  userId?: string;
 };
 
 const CustomModal = ({
@@ -15,6 +16,7 @@ const CustomModal = ({
   setOpen,
   setRoute,
   component: Component,
+  userId,
 }: Props) => {
   return (
     <Modal
@@ -24,7 +26,7 @@ const CustomModal = ({
       aria-describedby="modal-modal-desription"
     >
       <Box className="absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white dark:bg-slate-900 runded-[8px] shadow p-4 outline-none">
-        <Component setOpen={setOpen} setRoute={setRoute} />
+        <Component setOpen={setOpen} setRoute={setRoute} userId={userId} />
       </Box>
     </Modal>
   );

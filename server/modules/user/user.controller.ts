@@ -199,8 +199,9 @@ const getAllUsers = catchAsyncError(async (req: Request, res: Response) => {
 });
 
 const updateRole = catchAsyncError(async (req: Request, res: Response) => {
-  const { userId } = req.params;
-  const result = await UserService.updateRole(userId);
+  const { email } = req.params;
+  const { role } = req.body;
+  const result = await UserService.updateRole(email, role);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

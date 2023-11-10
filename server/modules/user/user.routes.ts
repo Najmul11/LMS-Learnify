@@ -35,7 +35,7 @@ router.get(
 );
 
 router.patch(
-  "/update-user-role/:userId",
+  "/update-user-role/:email",
   auth,
   authorizeRoles(ENUM_USER_ROLE.ADMIN),
   UserController.updateRole

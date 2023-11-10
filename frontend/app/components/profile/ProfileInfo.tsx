@@ -6,7 +6,7 @@ import avatarIcon from "../../../public/assets/avatar.png";
 import {
   useUpdateAvatarMutation,
   useUpdateUserInfoMutation,
-} from "@/app/redux/api/user/userApi";
+} from "../../redux/api/user/userApi";
 import { CircularProgress } from "@mui/material";
 import toast from "react-hot-toast";
 

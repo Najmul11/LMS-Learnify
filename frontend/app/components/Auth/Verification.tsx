@@ -1,8 +1,8 @@
-import { useAppSelector } from "@/app/redux/hook";
+import { useAppSelector } from "../../redux/hook";
 import { styles } from "../../styles/style";
 import { useState, useRef, useEffect } from "react";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
-import { useActivationMutation } from "@/app/redux/api/auth/authApi";
+import { useActivationMutation } from "../../redux/api/auth/authApi";
 import toast from "react-hot-toast";
 
 type VerifyNumber = {

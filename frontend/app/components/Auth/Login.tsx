@@ -8,7 +8,7 @@ import {
 } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { styles } from "../../styles/style";
-import { useLoginMutation } from "@/app/redux/api/auth/authApi";
+import { useLoginMutation } from "../../redux/api/auth/authApi";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
 

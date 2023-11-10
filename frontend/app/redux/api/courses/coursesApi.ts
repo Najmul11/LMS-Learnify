@@ -10,7 +10,13 @@ const coursesApi = api.injectEndpoints({
         credentials: "include",
       }),
     }),
+    getAllCourse: builder.query({
+      query: () => ({
+        url: "/courses/get-courses",
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
-export const { useCreateCourseMutation } = coursesApi;
+export const { useCreateCourseMutation, useGetAllCourseQuery } = coursesApi;

@@ -1,6 +1,6 @@
 "use client";
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useAppSelector } from "@/app/redux/hook";
+import { useAppSelector } from "../../redux/hook";
 import Profile from "../../components/profile/Profile";
 import Meta from "../../utils/Meta";
 

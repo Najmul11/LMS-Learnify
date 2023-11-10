@@ -29,6 +29,30 @@ const userApi = api.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+    getAllUsers: builder.query({
+      query: () => ({
+        url: "/users/get-all-users",
+        credentials: "include",
+      }),
+      providesTags: ["users"],
+    }),
+    updateRole: builder.mutation({
+      query: ({ email, role }) => ({
+        url: `/users/update-user-role/${email}`,
+        method: "PATCH",
+        body: { role },
+        credentials: "include",
+      }),
+      invalidatesTags: ["users"],
+    }),
+    deleteUser: builder.mutation({
+      query: (userId) => ({
+        url: `/users/delete-user/${userId}`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+      invalidatesTags: ["users"],
+    }),
   }),
 });
 
@@ -36,4 +60,7 @@ export const {
   useUpdateAvatarMutation,
   useUpdateUserInfoMutation,
   useUpdatePasswordMutation,
+  useGetAllUsersQuery,
+  useUpdateRoleMutation,
+  useDeleteUserMutation,
 } = userApi;

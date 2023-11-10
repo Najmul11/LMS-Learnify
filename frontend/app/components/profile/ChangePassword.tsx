@@ -1,4 +1,4 @@
-import { useUpdatePasswordMutation } from "@/app/redux/api/user/userApi";
+import { useUpdatePasswordMutation } from "../../redux/api/user/userApi";
 import { styles } from "../../styles/style";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";

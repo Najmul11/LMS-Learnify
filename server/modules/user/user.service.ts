@@ -253,11 +253,11 @@ const getAllUsers = async () => {
   return result;
 };
 
-const updateRole = async (userId: string) => {
-  const user = await User.findById(userId);
+const updateRole = async (userEmail: string, role: "user" | "admin") => {
+  const user = await User.findOne({ email: userEmail });
   if (!user) throw new ErrorHandler(httpStatus.NOT_FOUND, "User not found");
 
-  user.role === "admin" ? (user.role = "user") : (user.role = "admin");
+  user.role = role;
 
   await user.save();
 

@@ -1,5 +1,5 @@
 import { styles } from "../../../styles/style";
-import CoursePlayer from "@/app/utils/CoursePlayer";
+import CoursePlayer from "../../../utils/CoursePlayer";
 import { CircularProgress } from "@mui/material";
 import React, { FC } from "react";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";

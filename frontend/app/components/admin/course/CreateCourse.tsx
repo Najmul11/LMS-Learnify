@@ -5,10 +5,9 @@ import CourseOptions from "./CourseOptions";
 import CourseData from "./CourseData";
 import CourseContent from "./CourseContent";
 import CoursePreview from "./CoursePreview";
-import { useCreateCourseMutation } from "@/app/redux/api/courses/coursesApi";
+import { useCreateCourseMutation } from "../../../redux/api/courses/coursesApi";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
-import { TData } from "@/app/utils/interface";
 
 type error = {
   data: {
