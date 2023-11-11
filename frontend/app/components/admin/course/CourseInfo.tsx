@@ -189,7 +189,7 @@ const CourseInformation: FC<Props> = ({
           >
             {courseInfo?.thumbnail ? (
               <img
-                src={previewImage}
+                src={previewImage ? previewImage : courseInfo.thumbnail}
                 alt=""
                 className="max-h-full w-full object-cover"
               />

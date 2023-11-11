@@ -106,7 +106,6 @@ const EditHero = () => {
               value={title}
               onChange={(e) => {
                 setTitle(e.target.value);
-                console.log(originalTitle);
                 setIsEdited(e.target.value !== originalTitle ? true : false);
               }}
               rows={3}

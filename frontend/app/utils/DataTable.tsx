@@ -10,7 +10,6 @@ type Props = {
 
 const DataTable = ({ rows, columns, team }: Props) => {
   const { theme, setTheme } = useTheme();
-  console.log(team);
 
   return (
     <div className={`${team ? "pt-0" : "pt-20"}`}>

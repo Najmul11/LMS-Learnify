@@ -5,9 +5,15 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { BsPencil } from "react-icons/bs";
 import { format } from "date-fns";
 import DataTable from "../../../utils/DataTable";
+import { useState } from "react";
+import CustomModal from "../../../utils/CustomModal";
+import DeleteUser from "../users/Actons/DeleteUser";
+import Link from "next/link";
 
 const AllCourses = () => {
   const { data, isLoading, error } = useGetAllCourseQuery(undefined);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [id, setId] = useState("");
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
@@ -21,9 +27,9 @@ const AllCourses = () => {
       flex: 0.2,
       renderCell: (params: any) => {
         return (
-          <Button>
+          <Link href={`/admin/edit-course/${params.row.id}`}>
             <BsPencil className="dark:text-white text-black" size={20} />
-          </Button>
+          </Link>
         );
       },
     },
@@ -33,7 +39,12 @@ const AllCourses = () => {
       flex: 0.2,
       renderCell: (params: any) => {
         return (
-          <Button>
+          <Button
+            onClick={() => {
+              setId(params.row.id);
+              setDeleteOpen(!deleteOpen);
+            }}
+          >
             <AiOutlineDelete
               className="■dark:text-white text-black"
               size={20}
@@ -57,7 +68,20 @@ const AllCourses = () => {
     });
   }
 
-  return <>{rows.length > 0 && <DataTable rows={rows} columns={columns} />}</>;
+  return (
+    <>
+      {rows.length > 0 && <DataTable rows={rows} columns={columns} />}
+      {deleteOpen && (
+        <CustomModal
+          open={deleteOpen}
+          setOpen={setDeleteOpen}
+          component={DeleteUser}
+          id={id}
+          deletingCourse={true}
+        />
+      )}
+    </>
+  );
 };
 
 export default AllCourses;

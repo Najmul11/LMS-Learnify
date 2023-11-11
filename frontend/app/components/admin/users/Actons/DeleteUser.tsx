@@ -1,21 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { styles } from "../../../../styles/style";
 
 import { useDeleteUserMutation } from "../../../../redux/api/user/userApi";
 import toast from "react-hot-toast";
 import { CircularProgress } from "@mui/material";
+import { useDeleteCourseMutation } from "../../../../redux/api/courses/coursesApi";
 
-const DeleteUser = ({
-  setOpen,
-  userId,
-}: {
+type Props = {
   setOpen: (state: boolean) => void;
-  userId: string;
-}) => {
+  id: string;
+  deletingCourse: boolean;
+};
+
+const DeleteUser = ({ setOpen, id, deletingCourse }: Props) => {
   const [deleteUser, { isLoading, isSuccess, error }] = useDeleteUserMutation();
 
+  const [
+    deleteCourse,
+    { isLoading: deleteLoading, isSuccess: deleteSuccess, error: deleteError },
+  ] = useDeleteCourseMutation();
+
   const handleDelete = async () => {
-    await deleteUser(userId);
+    if (deletingCourse) {
+      await deleteCourse(id);
+    } else {
+      await deleteUser(id);
+    }
   };
 
   useEffect(() => {
@@ -29,10 +39,23 @@ const DeleteUser = ({
     }
   }, [isSuccess, error, setOpen]);
 
+  useEffect(() => {
+    if (deleteSuccess) {
+      toast.success("Course deleted");
+      setOpen(false);
+    }
+    if (deleteError) {
+      const errorData = deleteError as any;
+      toast.error(errorData.data.message);
+    }
+  }, [deleteSuccess, deleteError, setOpen]);
+
   return (
     <div className="w-full">
       <h1 className={`${styles.title} !text-left dark:text-white`}>
-        Are you sure delte this user?
+        {deletingCourse
+          ? "Are you sure delete this course?"
+          : " Are you sure delete this user?"}
       </h1>
       <div className="mt-5 flex gap-5 justify-end">
         <button
@@ -45,7 +68,7 @@ const DeleteUser = ({
           onClick={handleDelete}
           className={`${styles.button} !mb-0 z-[1000] !bg-red-800 !rounded-sm text-white !py-1`}
         >
-          {isLoading ? (
+          {isLoading || deleteLoading ? (
             <CircularProgress
               sx={{
                 color: "#37a39a",

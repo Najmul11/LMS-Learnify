@@ -101,7 +101,6 @@ const updateBanner = async (
         subTitle: bannerSubTitle ? bannerSubTitle : typeExist.banner.subTitle,
       },
     };
-    console.log(banner);
 
     result = await Layout.findOneAndUpdate({ type }, banner, { new: true });
   }

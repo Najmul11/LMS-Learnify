@@ -33,7 +33,6 @@ const updateBanner = catchAsyncError(async (req: Request, res: Response) => {
 
 const editLayout = catchAsyncError(async (req: Request, res: Response) => {
   const payload = req.body;
-  console.log(payload);
 
   const result = await LayoutService.editLayout(payload);
 

@@ -35,8 +35,6 @@ const authApi = api.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          console.log(result);
-
           dispatch(
             userLoggedIn({
               token: result.data.data.token,

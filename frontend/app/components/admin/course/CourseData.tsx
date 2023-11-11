@@ -52,9 +52,6 @@ const CourseData = ({
     ) {
       toast.error("Please fill the fields before going to the next step.");
     } else {
-      console.log(benefits);
-      console.log(prerequisites);
-
       setActive(active + 1);
     }
   };

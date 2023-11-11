@@ -10,6 +10,7 @@ type Props = {
   courseData: any;
   handleCourseCreate: any;
   isLoading: boolean;
+  isEditing?: boolean;
 };
 
 const CoursePreview: FC<Props> = ({
@@ -18,6 +19,7 @@ const CoursePreview: FC<Props> = ({
   setActive,
   active,
   isLoading,
+  isEditing = false,
 }) => {
   const estimatedPrice = parseFloat(courseData?.estimatedPrice || 0);
   const price = parseFloat(courseData?.price || 0);
@@ -28,7 +30,7 @@ const CoursePreview: FC<Props> = ({
   const prevButton = () => {
     setActive(active - 1);
   };
-  const createCourse = () => {
+  const handleCourse = () => {
     !isLoading ? handleCourseCreate() : null;
   };
 
@@ -57,7 +59,7 @@ const CoursePreview: FC<Props> = ({
           )}
         </div>
         <div
-          className={`${styles.button} w-[180px] my-3 font-Poppins bg-[crimson] cursor-not-allowed`}
+          className={`${styles.button} !w-[180px] my-3 font-Poppins bg-[crimson] cursor-not-allowed`}
         >
           Buy Now
         </div>
@@ -140,12 +142,13 @@ const CoursePreview: FC<Props> = ({
           >
             Prev
           </div>
+
           <button
             disabled={isLoading}
             className={`${
               isLoading ? "!cursor-not-allowed " : "cursor-pointer"
             }w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 `}
-            onClick={() => createCourse()}
+            onClick={() => handleCourse()}
           >
             {isLoading ? (
               <CircularProgress
@@ -155,7 +158,7 @@ const CoursePreview: FC<Props> = ({
                 size={20}
               />
             ) : (
-              "Create"
+              <>{isEditing ? "Save Edit" : "Create"}</>
             )}
           </button>
         </div>

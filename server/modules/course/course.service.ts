@@ -3,7 +3,6 @@ import ErrorHandler from "../../utils/ErrorHandler";
 import {
   TAnswer,
   TCourse,
-  TCourseData,
   TQuestion,
   TReplyReview,
   TReview,
@@ -67,13 +66,19 @@ const createCourse = async (
 
 const editCourse = async (
   courseId: string,
-  payload: Partial<TCourse>,
+  payload: any,
   thumbnail: Express.Multer.File | undefined
 ) => {
+  const { benefits, prerequisites, courseData } = payload;
+
+  payload.benefits = JSON.parse(benefits);
+  payload.prerequisites = JSON.parse(prerequisites);
+  payload.courseData = JSON.parse(courseData);
+
   const course = await Course.findById(courseId);
   if (!course) throw new ErrorHandler(httpStatus.NOT_FOUND, "Course not found");
 
-  if (thumbnail) {
+  if (thumbnail && typeof thumbnail !== "string") {
     await cloudinaryHelper.deleteFromCloudinary(course.thumbnail?.publicId);
 
     const updatedThumbnail = await cloudinaryHelper.uploadToCloudinary(
@@ -82,6 +87,8 @@ const editCourse = async (
     );
 
     payload.thumbnail = updatedThumbnail!;
+  } else {
+    payload.thumbnail = course.thumbnail;
   }
 
   const result = await Course.findByIdAndUpdate(courseId, payload, {
@@ -305,6 +312,7 @@ const addReplyToReview = async (payload: TReplyReview, user: JwtPayload) => {
   await course.save();
 };
 
+// for admin
 const getAllCourses = async () => {
   const result = await Course.find().sort({ createdAt: -1 });
   return result;

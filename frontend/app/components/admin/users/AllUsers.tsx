@@ -98,7 +98,7 @@ const AllUsers = ({ team = false }: { team?: boolean }) => {
           open={deleteOpen}
           setOpen={setDeleteOpen}
           component={DeleteUser}
-          userId={id}
+          id={id}
         />
       )}
     </>

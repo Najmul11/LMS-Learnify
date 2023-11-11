@@ -118,7 +118,6 @@ const CourseContent: FC<Props> = ({
       toast.error("Section can't be empty!");
     } else {
       setActive(active + 1);
-      console.log(courseContentData);
 
       handleCourseSubmit();
     }

@@ -9,14 +9,48 @@ const coursesApi = api.injectEndpoints({
         body: data,
         credentials: "include",
       }),
+      invalidatesTags: ["courses"],
     }),
-    getAllCourse: builder.query({
-      query: () => ({
-        url: "/courses/get-courses",
+    editCourse: builder.mutation({
+      query: ({ data, courseId }) => ({
+        url: `/courses/edit-course/${courseId}`,
+        method: "PATCH",
+        body: data,
         credentials: "include",
       }),
+      invalidatesTags: ["courses"],
+    }),
+    // for admin
+    getAllCourse: builder.query({
+      query: () => ({
+        url: "/courses/get-all-courses",
+        credentials: "include",
+      }),
+      providesTags: ["courses"],
+    }),
+    deleteCourse: builder.mutation({
+      query: (courseId: any) => ({
+        url: `/courses/delete-course/${courseId}`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+      invalidatesTags: ["courses"],
+    }),
+    // get course datail without content
+    getSingleCourse: builder.query({
+      query: (courseId: any) => ({
+        url: `/courses/get-course/${courseId}`,
+        credentials: "include",
+      }),
+      providesTags: ["courses"],
     }),
   }),
 });
 
-export const { useCreateCourseMutation, useGetAllCourseQuery } = coursesApi;
+export const {
+  useCreateCourseMutation,
+  useGetAllCourseQuery,
+  useDeleteCourseMutation,
+  useGetSingleCourseQuery,
+  useEditCourseMutation,
+} = coursesApi;

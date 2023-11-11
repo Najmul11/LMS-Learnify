@@ -5,9 +5,13 @@ import CourseOptions from "./CourseOptions";
 import CourseData from "./CourseData";
 import CourseContent from "./CourseContent";
 import CoursePreview from "./CoursePreview";
-import { useCreateCourseMutation } from "../../../redux/api/courses/coursesApi";
+import {
+  useEditCourseMutation,
+  useGetAllCourseQuery,
+} from "../../../redux/api/courses/coursesApi";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
+import { useParams } from "next/navigation";
 
 type error = {
   data: {
@@ -15,10 +19,11 @@ type error = {
   };
 };
 
-const CreateCourse = () => {
-  const [active, setActive] = useState(0);
-  const [previewImage, setPreviewImage] = useState("");
+const EditCourse = () => {
+  const { data } = useGetAllCourseQuery(undefined);
+  const { id }: any = useParams();
 
+  const [courseData, setCourseData] = useState<any>({});
   const [courseInfo, setCourseInfo] = useState({
     name: "",
     description: "",
@@ -32,7 +37,6 @@ const CreateCourse = () => {
   });
 
   const [benefits, setBenefits] = useState([{ title: "" }]);
-
   const [prerequisites, setPrerequisites] = useState([{ title: "" }]);
 
   const [courseContentData, setCourseContentData] = useState([
@@ -52,7 +56,31 @@ const CreateCourse = () => {
     },
   ]);
 
-  const [courseData, setCourseData] = useState<any>({});
+  const [active, setActive] = useState(0);
+  const [previewImage, setPreviewImage] = useState("");
+
+  //   find the specific course using id
+  const courseToEdit = data?.data?.find((course: any) => course._id === id);
+
+  useEffect(() => {
+    if (courseToEdit) {
+      setCourseInfo({
+        name: courseToEdit.name,
+        description: courseToEdit.description,
+        price: courseToEdit.price,
+        estimatedPrice: courseToEdit.estimatedPrice,
+        tags: courseToEdit.tags.join(", "),
+        categories: courseToEdit.categories,
+        level: courseToEdit.level,
+        demoUrl: courseToEdit.demoUrl,
+        thumbnail: courseToEdit.thumbnail?.url,
+      });
+
+      setBenefits(courseToEdit.benefits);
+      setPrerequisites(courseToEdit.prerequisites);
+      setCourseContentData(courseToEdit.courseData);
+    }
+  }, [courseToEdit]);
 
   const handleSubmit = async () => {
     const formattedBenefits = benefits.map((benefit) => ({
@@ -91,13 +119,13 @@ const CreateCourse = () => {
       prerequisites: formattedPrerequisites,
       courseData: formattedCourseContentData,
     };
+
     setCourseData(data);
   };
 
-  const [createCourse, { isLoading, isSuccess, error }] =
-    useCreateCourseMutation();
+  const [editCourse, { isLoading, isSuccess, error }] = useEditCourseMutation();
 
-  const handleCourseCreate = async () => {
+  const handleCourse = async () => {
     const courseInformation = {
       name: courseData?.name,
       description: courseData?.description,
@@ -126,7 +154,7 @@ const CreateCourse = () => {
     });
     formData.append("file", courseData?.thumbnail);
 
-    await createCourse(formData);
+    await editCourse({ data: formData, courseId: courseToEdit?._id });
   };
 
   useEffect(() => {
@@ -175,8 +203,9 @@ const CreateCourse = () => {
             setActive={setActive}
             active={active}
             courseData={courseData}
-            handleCourseCreate={handleCourseCreate}
+            handleCourseCreate={handleCourse}
             isLoading={isLoading}
+            isEditing={true}
           />
         )}
       </div>
@@ -187,4 +216,4 @@ const CreateCourse = () => {
   );
 };
 
-export default CreateCourse;
+export default EditCourse;
