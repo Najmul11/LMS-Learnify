@@ -33,15 +33,15 @@ interface ItemProps {
 
 const Item = ({ title, to, icon, selected, setSelected }: ItemProps) => {
   return (
-    <MenuItem
-      active={selected === title}
-      onClick={() => setSelected(title)}
-      icon={icon}
-    >
-      <Link href={to}>
+    <Link href={to}>
+      <MenuItem
+        active={selected === title}
+        onClick={() => setSelected(title)}
+        icon={icon}
+      >
         <Typography className="text-[16px] font-Poppins">{title}</Typography>
-      </Link>
-    </MenuItem>
+      </MenuItem>
+    </Link>
   );
 };
 

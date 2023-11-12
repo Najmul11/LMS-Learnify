@@ -2,6 +2,7 @@
 import { ReactNode } from "react";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import DashboardHeader from "../components/admin/DashboardHeader";
+import Footer from "../components/home/footer/Footer";
 
 type Props = {
   children: ReactNode;
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: Props) {
         <div className="w-[84%] ">
           <DashboardHeader />
           {children}
+          <Footer />
         </div>
       </div>
     </>

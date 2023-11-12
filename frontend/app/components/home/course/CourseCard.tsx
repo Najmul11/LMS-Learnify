@@ -8,7 +8,7 @@ type Props = {
 
 const CourseCard = ({ course, isProfile }: Props) => {
   return (
-    <Link href={"/"}>
+    <Link href={`/course/${course._id}`}>
       <div
         className="w-full min-h-[30vh] dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm 
         dark:shadow-inner"

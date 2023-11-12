@@ -106,7 +106,13 @@ const getSingleCourse = async (courseId: string) => {
     return course;
   }
 
-  const course = await Course.findById(courseId).select("-courseData");
+  const course = await Course.findById(courseId)
+    .select("-courseData")
+    .populate({
+      path: "reviews.user",
+      model: "User",
+      select: "name",
+    });
 
   if (!course) throw new ErrorHandler(httpStatus.NOT_FOUND, "Course not found");
 
