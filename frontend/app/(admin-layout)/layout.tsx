@@ -10,7 +10,7 @@ type Props = {
 export default function RootLayout({ children }: Props) {
   return (
     <>
-      <div className="flex h-[100vh]">
+      <div className="flex min-h-screen">
         <div className="1500px:w-[16%] w-1/5">
           <AdminSidebar />
         </div>

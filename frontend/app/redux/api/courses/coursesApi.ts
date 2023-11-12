@@ -44,6 +44,13 @@ const coursesApi = api.injectEndpoints({
       }),
       providesTags: ["courses"],
     }),
+    getUserAllCourse: builder.query({
+      query: () => ({
+        url: "/courses/get-courses",
+        credentials: "include",
+      }),
+      providesTags: ["user-courses"],
+    }),
   }),
 });
 
@@ -53,4 +60,5 @@ export const {
   useDeleteCourseMutation,
   useGetSingleCourseQuery,
   useEditCourseMutation,
+  useGetUserAllCourseQuery,
 } = coursesApi;

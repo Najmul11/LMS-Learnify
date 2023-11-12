@@ -71,7 +71,7 @@ const DeleteUser = ({ setOpen, id, deletingCourse }: Props) => {
           {isLoading || deleteLoading ? (
             <CircularProgress
               sx={{
-                color: "#37a39a",
+                color: "#fff",
               }}
               size={20}
             />

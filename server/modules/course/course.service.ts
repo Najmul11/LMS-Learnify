@@ -123,7 +123,9 @@ const getAllCourse = async () => {
     return JSON.parse(cachedData);
   }
 
-  const result = await Course.find({}).select("-courseData");
+  const result = await Course.find({}).select(
+    "-courseData.videoUrl -courseData.videoSection -courseData.links -courseData.course"
+  );
 
   await redis.set("allCourse", JSON.stringify(result));
 
