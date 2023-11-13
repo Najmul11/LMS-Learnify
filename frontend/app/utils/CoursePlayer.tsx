@@ -32,17 +32,19 @@ const CoursePlayer: FC<Props> = ({ videoUrl, title }) => {
   }, [videoUrl, videoData, api]);
 
   return (
-    <div style={{ paddingTop: "41%", position: "relative" }}>
+    <div
+      style={{ paddingTop: "41%", position: "relative" }}
+      className="w-[90%] "
+    >
       {videoData.otp && videoData.playbackInfo && (
         <iframe
           src={`https://player.vdocipher.com/v2/?otp=${videoData.otp}&playbackInfo=${videoData.playbackInfo}&player=N7Hx3Od3DLpqvwfm`}
           style={{
             border: 0,
-            width: "90%",
+            width: "100%",
             height: "100%",
             position: "absolute",
             top: 0,
-            left: 0,
           }}
           allowFullScreen={true}
           allow="encrypted-media"
