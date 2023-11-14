@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState, useCallback } from "react";
 
 type Props = {
   videoUrl: string;
@@ -13,6 +13,26 @@ const CoursePlayer: FC<Props> = ({ videoUrl, title }) => {
   });
 
   const [api, setApi] = useState(false);
+
+  // const fetchData = useCallback(() => {
+  //   axios
+  //     .post(`http://localhost:5001/api/v1/courses/get-vdocipherOTP`, {
+  //       videoId: videoUrl,
+  //     })
+  //     .then((res) => {
+  //       setApi(true);
+  //       setVideoData(res.data);
+  //     })
+  //     .catch((error) => {
+  //       setTimeout(fetchData, 1000);
+  //     });
+  // }, [videoUrl]);
+
+  // useEffect(() => {
+  //   if (!api) {
+  //     fetchData();
+  //   }
+  // }, [fetchData, api]);
 
   useEffect(() => {
     if (!api) {

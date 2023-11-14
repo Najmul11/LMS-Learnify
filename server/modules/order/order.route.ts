@@ -12,4 +12,8 @@ router.get(
   OrderController.getAllOrders
 );
 
+router.get("/payment/stripe-key", OrderController.getStripeKey);
+
+router.post("/payment", auth, OrderController.newPayment);
+
 export const OrderRoutes = router;

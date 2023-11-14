@@ -28,8 +28,31 @@ const getAllOrders = catchAsyncError(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getStripeKey = catchAsyncError(async (req: Request, res: Response) => {
+  const result = await OrderService.getStripeKey();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Stripe publish key retrieved successfully",
+    data: result,
+  });
+});
+const newPayment = catchAsyncError(async (req: Request, res: Response) => {
+  const payload = req.body;
+  const result = await OrderService.newPayment(payload.amount);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Payment proceed successfully",
+    data: result,
+  });
+});
 
 export const OrderController = {
   createOrder,
   getAllOrders,
+  getStripeKey,
+  newPayment,
 };

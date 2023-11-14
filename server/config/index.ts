@@ -34,4 +34,6 @@ export default {
     password: process.env.SMTP_PASSWORD,
   },
   cipher: process.env.VDO_CIPHER_API_SECRET,
+  stripe_publish: process.env.STRIPE_PUBLISH_KEY,
+  stripe_secret: process.env.STRIPE_SECRET_KEY,
 };

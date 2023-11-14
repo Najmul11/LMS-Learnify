@@ -56,6 +56,7 @@ const coursesApi = api.injectEndpoints({
         url: `/courses/get-course/${courseId}`,
         credentials: "include",
       }),
+      providesTags: ["courses"],
     }),
   }),
 });

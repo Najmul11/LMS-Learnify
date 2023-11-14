@@ -4,9 +4,25 @@ import Prerequisites from "./prerequisites/Prerequisites";
 import CourseBenefits from "./courseBenefits/CourseBenefits";
 import CourseReviews from "./courseReviews/CourseReviews";
 import CourseAction from "./courseAction/CourseAction";
+import { IoCloseOutline } from "react-icons/io5";
+import { useState, useEffect } from "react";
+import {
+  useCreatePaymentIntentMutation,
+  useGetStripePublishableKeyQuery,
+} from "@/app/redux/api/orders/ordersApi";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "./checkoutForm/CheckoutForm";
 
 const CourseDetails = ({ data }: any) => {
+  const [open, setOpen] = useState(false);
+  const [stripePromise, setStripePromise] = useState<any>(null);
+  const [clientSecret, setClientSecret] = useState<any>("");
+
   const { user }: any = useAppSelector((state) => state.auth);
+  const { data: stripeData } = useGetStripePublishableKeyQuery(undefined);
+  const [createPaymentIntent, { data: paymentIntentData }] =
+    useCreatePaymentIntentMutation();
 
   const isPurchased = user?.courses?.find(
     (course: any) => course?.courseId === data?._id
@@ -17,7 +33,28 @@ const CourseDetails = ({ data }: any) => {
     100
   ).toFixed(2);
 
-  const handleOrder = () => {};
+  // stripe data set
+  useEffect(() => {
+    if (stripeData?.data?.publishableKey) {
+      const publishKey = stripeData?.data?.publishableKey;
+      setStripePromise(loadStripe(publishKey));
+    }
+
+    if (data) {
+      const amount = Math.round(data?.price);
+      createPaymentIntent(amount);
+    }
+  }, [data, stripeData, createPaymentIntent]);
+
+  useEffect(() => {
+    if (paymentIntentData) {
+      setClientSecret(paymentIntentData?.data?.client_secret);
+    }
+  }, [paymentIntentData]);
+
+  const handleOrder = async () => {
+    setOpen(true);
+  };
 
   return (
     <div>
@@ -88,6 +125,30 @@ const CourseDetails = ({ data }: any) => {
           />
         </div>
       </div>
+      <>
+        {stripePromise && (
+          <>
+            {open && (
+              <div className="w-full h-screen bg-[#00000036] fixed top-0 left-0 z-50 flex items-center justify-center backdrop-blur-md bg-black bg-opacity-40">
+                <div className="w-[500px] dark:bg-[#171C24]  bg-white rounded-xl shadow p-3 dark:text-white">
+                  <div className="w-full flex justify-end">
+                    <IoCloseOutline
+                      size={40}
+                      className="text-black cursor-pointer"
+                      onClick={() => setOpen(false)}
+                    />
+                  </div>
+                  {stripePromise && clientSecret && (
+                    <Elements stripe={stripePromise} options={{ clientSecret }}>
+                      <CheckoutForm data={data} setOpen={setOpen} />
+                    </Elements>
+                  )}
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </>
     </div>
   );
 };
