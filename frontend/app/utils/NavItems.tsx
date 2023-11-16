@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 type Props = {
@@ -8,10 +9,6 @@ type Props = {
 };
 
 export const navItemsData = [
-  {
-    name: "Home",
-    url: "/",
-  },
   {
     name: "Courses",
     url: "/courses",
@@ -26,6 +23,7 @@ export const navItemsData = [
   },
 ];
 const NavItems = ({ activeItem, isMobile, setActiveItem }: Props) => {
+  const pathname = usePathname();
   return (
     <>
       <div className="hidden 800px:flex">
@@ -33,11 +31,11 @@ const NavItems = ({ activeItem, isMobile, setActiveItem }: Props) => {
           <Link href={`${nav.url}`} key={index}>
             <span
               onClick={() => setActiveItem(index)}
-              className={`${
-                activeItem === index
-                  ? "dark:text-[#37a39a] text-[crimson] "
-                  : "dark:text-white text-black"
-              } text-[18px] px-6 font-Poppins font-[400]`}
+              className={` ${
+                pathname === nav.url
+                  ? "text-[#37a39a]"
+                  : "text-black dark:text-white"
+              } text-[16px] px-6 font-Poppins font-[500]`}
             >
               {nav.name}
             </span>
@@ -61,10 +59,10 @@ const NavItems = ({ activeItem, isMobile, setActiveItem }: Props) => {
               <span
                 onClick={() => setActiveItem(index)}
                 className={`${
-                  activeItem === index
-                    ? "dark:text-[#37a39a] text-[crimson] "
-                    : "dark:text-white text-black"
-                } text-[18px] py-5 px-6 block font-Poppins font-[400]`}
+                  pathname === nav.url
+                    ? "text-[#37a39a]"
+                    : "text-black dark:text-white"
+                } text-[18px] py-5 px-6 block font-Poppins font-[500]`}
               >
                 {nav.name}
               </span>
@@ -77,3 +75,9 @@ const NavItems = ({ activeItem, isMobile, setActiveItem }: Props) => {
 };
 
 export default NavItems;
+
+// className={`${
+//   activeItem === index
+//     ? "dark:text-[#37a39a] text-[crimson] "
+//     : "dark:text-white text-black"
+// } text-[18px] px-6 font-Poppins font-[400]`}

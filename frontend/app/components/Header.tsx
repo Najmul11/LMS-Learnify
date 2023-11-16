@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { EventHandler, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavItems from "../utils/NavItems";
 import ThemeSwitcher from "../utils/ThemeSwitcher";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
@@ -129,7 +129,7 @@ const Header = () => {
 
         {openSidebar && (
           <div
-            className="fixed w-full h-screen top-0 left-0 z-[9999] dark:bg-[unset] bg-[#00000024]"
+            className="fixed w-full h-screen top-0 left-0 z-[9999] dark:bg-[unset] bg-[#00000024] 800px:hidden"
             id="screen"
             onClick={handleClose}
           >
