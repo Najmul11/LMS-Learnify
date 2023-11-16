@@ -2,12 +2,7 @@ import { useGetHeroDataQuery } from "../../../redux/api/layout/layoutApi";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { HiMinus, HiPlus } from "react-icons/hi";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import AddIcon from "@mui/icons-material/Add";
-import { FaPlus } from "react-icons/fa";
 import { useState } from "react";
 import { useTheme } from "next-themes";
 
@@ -27,7 +22,7 @@ const FAQ = () => {
 
   return (
     <div className="w-[90%] 800px:w-[60%]  mx-auto mt-12" id="faq">
-      <h1 className="capitalize 800px:text-[40px] text-[25px] text-black dark:tex-white font-[500] font-Poppins text-center py-2">
+      <h1 className="capitalize 800px:text-[40px] text-[25px] text-black dark:text-white font-[500] font-Poppins text-center py-2">
         Frequently asked question
       </h1>
       <div className="mt-10">
