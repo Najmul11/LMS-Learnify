@@ -93,7 +93,7 @@ const Header = () => {
 
               {user ? (
                 <div className="hidden 800px:block">
-                  <Link href={"profile"}>
+                  <Link href={"/profile"}>
                     <Image
                       width={30}
                       height={30}
