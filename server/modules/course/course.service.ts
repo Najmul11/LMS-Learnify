@@ -1,12 +1,6 @@
 import httpStatus from "http-status";
 import ErrorHandler from "../../utils/ErrorHandler";
-import {
-  TAnswer,
-  TCourse,
-  TQuestion,
-  TReplyReview,
-  TReview,
-} from "./course.interface";
+import { TAnswer, TQuestion, TReplyReview, TReview } from "./course.interface";
 import { cloudinaryHelper } from "../../cloudinary/cloudinaryHelper";
 import { Course } from "./courese.model";
 import { redis } from "../../server";

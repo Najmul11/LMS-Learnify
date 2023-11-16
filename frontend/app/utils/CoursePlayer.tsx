@@ -14,47 +14,48 @@ const CoursePlayer: FC<Props> = ({ videoUrl, title }) => {
 
   const [api, setApi] = useState(false);
 
-  // const fetchData = useCallback(() => {
-  //   axios
-  //     .post(`http://localhost:5001/api/v1/courses/get-vdocipherOTP`, {
-  //       videoId: videoUrl,
-  //     })
-  //     .then((res) => {
-  //       setApi(true);
-  //       setVideoData(res.data);
-  //     })
-  //     .catch((error) => {
-  //       setTimeout(fetchData, 1000);
-  //     });
-  // }, [videoUrl]);
+  const fetchData = useCallback(() => {
+    axios
+      .post(`http://localhost:5001/api/v1/courses/get-vdocipherOTP`, {
+        videoId: videoUrl,
+      })
+      .then((res) => {
+        setApi(true);
+        setVideoData(res.data);
+      })
+      .catch((error) => {
+        setTimeout(fetchData, 1000);
+      });
+  }, [videoUrl]);
+
+  useEffect(() => {
+    // if (!api) {
+    fetchData();
+    // }
+  }, [fetchData, api, videoUrl]);
 
   // useEffect(() => {
   //   if (!api) {
-  //     fetchData();
+  //     console.log(videoUrl);
+
+  //     axios
+  //       .post(`http://localhost:5001/api/v1/courses/get-vdocipherOTP`, {
+  //         videoId: videoUrl,
+  //       })
+  //       .then((res) => {
+  //         setApi(true);
+
+  //         setVideoData(res.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
   //   }
-  // }, [fetchData, api]);
-
-  useEffect(() => {
-    if (!api) {
-      axios
-        .post(`http://localhost:5001/api/v1/courses/get-vdocipherOTP`, {
-          videoId: videoUrl,
-        })
-        .then((res) => {
-          setApi(true);
-
-          setVideoData(res.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, [videoUrl, videoData, api]);
+  // }, [videoUrl, videoData, api]);
 
   return (
     <div
-      style={{ paddingTop: "41%", position: "relative" }}
-      className="w-[90%] "
+      style={{ paddingTop: "56.25%", position: "relative", overflow: "hidden" }}
     >
       {videoData.otp && videoData.playbackInfo && (
         <iframe
@@ -65,6 +66,7 @@ const CoursePlayer: FC<Props> = ({ videoUrl, title }) => {
             height: "100%",
             position: "absolute",
             top: 0,
+            left: 0,
           }}
           allowFullScreen={true}
           allow="encrypted-media"

@@ -8,6 +8,7 @@ import {
 import { useCreateOrderMutation } from "../../../../redux/api/orders/ordersApi";
 import { styles } from "../../../../styles/style";
 import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 type Props = {
   setOpen: any;
@@ -15,12 +16,12 @@ type Props = {
 };
 const CheckoutForm = ({ setOpen, data }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<any>("");
 
   const stripe = useStripe();
   const elements = useElements();
 
-  const [createOrder, { isSuccess, error }] = useCreateOrderMutation();
+  const [createOrder, { isSuccess, error, isLoading: createOrderLoading }] =
+    useCreateOrderMutation();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -42,7 +43,7 @@ const CheckoutForm = ({ setOpen, data }: Props) => {
     }
 
     if (error) {
-      setMessage(error.message);
+      toast.error(error.message as string);
       setIsLoading(false);
     }
   };
@@ -51,25 +52,25 @@ const CheckoutForm = ({ setOpen, data }: Props) => {
     if (isSuccess) {
       toast.success("Order placed successfully");
       setOpen(false);
+      redirect(`/course-access/${data?._id}`);
     }
-  }, [isSuccess, setOpen]);
+    if (error) {
+      const errorData = error as any;
+      toast.error(errorData.data.message);
+    }
+  }, [isSuccess, setOpen, data, error]);
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
       <LinkAuthenticationElement id="link-authentication-element" />
       <PaymentElement id="payment-element" className="mt-5 dark:text-white" />
       <button
-        disabled={isLoading || !stripe || !elements}
+        disabled={isLoading || !stripe || !elements || createOrderLoading}
         id="submit"
-        className={`${styles.button} mt-5 !h-[35px] !w-[120px] bg-[#37a39a] text-white`}
+        className={`${styles.button} my-5 !h-[35px] !w-[120px] bg-[#37a39a] text-white`}
       >
         <span id="button-text">{isLoading ? "Paying..." : "Pay now"}</span>
       </button>
-      {message && (
-        <div id="payment-message" className="text-red-500 font-Poppins pt-2">
-          {message}
-        </div>
-      )}
     </form>
   );
 };

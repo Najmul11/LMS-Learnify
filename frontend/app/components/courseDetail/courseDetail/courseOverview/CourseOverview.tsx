@@ -8,9 +8,17 @@ import { HiMinus, HiPlus } from "react-icons/hi";
 
 type Props = {
   courseData: any;
+  courseAccessPage?: boolean;
+  activeVideo?: any;
+  setActiveVideo?: any;
 };
 
-const CourseOverview = ({ courseData }: Props) => {
+const CourseOverview = ({
+  courseData,
+  courseAccessPage,
+  activeVideo,
+  setActiveVideo,
+}: Props) => {
   const { theme, setTheme } = useTheme();
 
   // find unique sections,retrieving the section tile
@@ -45,57 +53,93 @@ const CourseOverview = ({ courseData }: Props) => {
     }));
   };
 
+  const sectionLectures: number[] = [];
+
+  const handleActiveVdo = (sectionIndex: number, lectureIndex: number) => {
+    if (sectionIndex > 0) {
+      let total = 0;
+      for (let index = 0; index < sectionIndex; index++) {
+        total = total + sectionLectures[index];
+      }
+      setActiveVideo(total + lectureIndex);
+    } else {
+      setActiveVideo(lectureIndex);
+    }
+  };
+
   return (
     <div>
-      {uniqueSectionArray.map((sectionTitle: string, index: number) => (
-        <Accordion
-          key={index}
-          className=" py-2 mt-2  !dark:bg-opacity-20 "
-          onChange={() => handleChange(index)}
-          sx={{
-            bgcolor: `${theme === "dark" ? "#171C24" : "#fff "}`,
-            borderRadius: "5px",
-            boxShadow: "none",
-          }}
-        >
-          <AccordionSummary
-            expandIcon={
-              expanded[index] ? (
-                <HiMinus className="dark:text-[#37a39a]" />
-              ) : (
-                <HiPlus className="dark:text-[#37a39a]" />
-              )
-            }
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+      {uniqueSectionArray.map((sectionTitle: string, sectionIndex: number) => {
+        sectionLectures.push(sectionObjectsMap[sectionTitle].length);
+        return (
+          <Accordion
+            key={sectionIndex}
+            className=" py-2 mt-2  !dark:bg-opacity-20 "
+            onChange={() => handleChange(sectionIndex)}
+            sx={{
+              bgcolor: `${theme === "dark" ? "#171C24" : "#fff "}`,
+              borderRadius: "5px",
+              boxShadow: "none",
+            }}
           >
-            <div>
-              <p className="font-Poppins dark:text-white font-[500]">
-                {sectionTitle}
-              </p>
-              <p className="text-sm font-[500] text-[#37a39a]">
-                {sectionObjectsMap[sectionTitle].length}{" "}
-                {sectionObjectsMap[sectionTitle].length === 1
-                  ? "Lecture"
-                  : "Lectures"}
-              </p>
-            </div>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className="flex flex-col gap-y-1 dark:text-white">
-              {sectionObjectsMap[sectionTitle].map((lecture: any) => (
-                <div
-                  key={lecture._id}
-                  className="flex items-center gap-3  py-2 pl-2 800px:pl-4"
-                >
-                  <OndemandVideoIcon sx={{ color: "#37a39a" }} />
-                  <p>{lecture.title}</p>
+            <AccordionSummary
+              expandIcon={
+                expanded[sectionIndex] ? (
+                  <HiMinus className="dark:text-[#37a39a]" />
+                ) : (
+                  <HiPlus className="dark:text-[#37a39a]" />
+                )
+              }
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <div>
+                <p className="font-Poppins dark:text-white font-[500]">
+                  {sectionTitle}
+                </p>
+                <p className="text-sm font-[500] text-[#37a39a]">
+                  {sectionObjectsMap[sectionTitle].length}{" "}
+                  {sectionObjectsMap[sectionTitle].length === 1
+                    ? "Lecture"
+                    : "Lectures"}
+                </p>
+              </div>
+            </AccordionSummary>
+            <AccordionDetails>
+              {courseAccessPage ? (
+                <div className="flex flex-col gap-y-2 dark:text-white ">
+                  {sectionObjectsMap[sectionTitle].map(
+                    (lecture: any, lectureIndex: number) => (
+                      <button
+                        onClick={() =>
+                          handleActiveVdo(sectionIndex, lectureIndex)
+                        }
+                        key={lecture._id}
+                        className="flex items-center gap-3  py-3 pl-2 800px:pl-4 hover:bg-slate-100 dark:bg-slate-400 dark:bg-opacity-10 rounded"
+                      >
+                        <OndemandVideoIcon sx={{ color: "#37a39a" }} />
+                        <p>{lecture.title}</p>
+                      </button>
+                    )
+                  )}
                 </div>
-              ))}
-            </div>
-          </AccordionDetails>
-        </Accordion>
-      ))}
+              ) : (
+                <div className="flex flex-col gap-y-1 dark:text-white">
+                  {sectionObjectsMap[sectionTitle].map((lecture: any) => (
+                    <div
+                      key={lecture._id}
+                      className="flex items-center gap-3  py-2 pl-2 800px:pl-4"
+                    >
+                      <OndemandVideoIcon sx={{ color: "#37a39a" }} />
+                      <p>{lecture.title}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
     </div>
   );
 };
