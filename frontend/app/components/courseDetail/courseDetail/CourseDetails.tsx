@@ -13,11 +13,14 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./checkoutForm/CheckoutForm";
+import { useTheme } from "next-themes";
 
 const CourseDetails = ({ data }: any) => {
   const [open, setOpen] = useState(false);
   const [stripePromise, setStripePromise] = useState<any>(null);
   const [clientSecret, setClientSecret] = useState<any>("");
+
+  const { theme, setTheme } = useTheme();
 
   const { user }: any = useAppSelector((state) => state.auth);
   const { data: stripeData } = useGetStripePublishableKeyQuery(undefined);
@@ -54,6 +57,24 @@ const CourseDetails = ({ data }: any) => {
 
   const handleOrder = async () => {
     setOpen(true);
+  };
+  const appearance: any = {
+    theme: "minimal",
+
+    variables: {
+      colorPrimary: "#37a39a",
+      colorTextSecondary: "#37a39a",
+      colorText: `${theme === "dark" ? "white" : "black"}`,
+      colorBackground: `${theme === "dark" ? "#171C24" : "white"}`,
+      colorDanger: "#df1b41",
+      fontFamily: "Ideal Sans, system-ui, sans-serif",
+      // See all possible variables below
+    },
+    rules: {
+      ".Input, .Block": {
+        border: "1.5px solid var(--colorPrimary)",
+      },
+    },
   };
 
   return (
@@ -134,12 +155,15 @@ const CourseDetails = ({ data }: any) => {
                   <div className="w-full flex justify-end">
                     <IoCloseOutline
                       size={40}
-                      className="text-black cursor-pointer"
+                      className="text-black cursor-pointer dark:text-white"
                       onClick={() => setOpen(false)}
                     />
                   </div>
                   {stripePromise && clientSecret && (
-                    <Elements stripe={stripePromise} options={{ clientSecret }}>
+                    <Elements
+                      stripe={stripePromise}
+                      options={{ clientSecret, appearance }}
+                    >
                       <CheckoutForm data={data} setOpen={setOpen} />
                     </Elements>
                   )}
