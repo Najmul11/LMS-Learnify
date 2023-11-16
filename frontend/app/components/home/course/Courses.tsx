@@ -1,15 +1,24 @@
 import { useGetUserAllCourseQuery } from "@/app/redux/api/courses/coursesApi";
 import React from "react";
 import CourseCard from "./CourseCard";
+import { useTheme } from "next-themes";
 
 const Courses = () => {
   const { data, isLoading, isSuccess } = useGetUserAllCourseQuery(undefined);
+  const { theme } = useTheme();
 
   return (
     <div className="w-[90%] 800px:w-[80%] m-auto">
       <h1 className="text-center font-Poppins text-[25px] leading-[35px] sm:text-3xl lg:text-4xl dark:text-white font-[700] tracking-tight 800px:!leading-[60px]">
         Expand Your Career
-        <span className="text-gradient"> Opportunity</span>
+        <span
+          className={`${
+            theme === "dark" ? "text-gradient-dark " : "text-gradient "
+          }`}
+        >
+          {" "}
+          Opportunity
+        </span>
         <br />
         Opportunity With Our Courses
       </h1>

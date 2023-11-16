@@ -4,8 +4,10 @@ import React from "react";
 import banner from "../../../../public/assets/hero.png";
 import ReviewCard from "./ReviewCard";
 import { reviews } from "./Review.constant";
+import { useTheme } from "next-themes";
 
 const Reviews = () => {
+  const { theme } = useTheme();
   return (
     <div className="w-[90%] 800px:w-[85%] m-auto mt-20">
       <div className="w-full 800px:flex items-center">
@@ -14,7 +16,14 @@ const Reviews = () => {
         </div>
         <div className="800px:w-[50%] w-full ">
           <h3 className={`${styles.title} 800px:!text-[40px] dark:text-white`}>
-            Our Students Are <span className="text-gradient">Our Strength</span>{" "}
+            Our Students Are{" "}
+            <span
+              className={`${
+                theme === "dark" ? "text-gradient-dark " : "text-gradient "
+              }`}
+            >
+              Our Strength
+            </span>{" "}
             <br /> See What They Say About Us
           </h3>
           <br />

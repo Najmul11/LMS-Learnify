@@ -14,7 +14,7 @@ const Page = () => {
           className="w-[90%] 800px:w-[80%]  mx-auto mt-12 min-h-[70vh]"
           id="faq"
         >
-          <h1 className="capitalize 800px:text-[40px] text-[25px] text-black dark:text-white font-[500] font-Poppins text-center py-2">
+          <h1 className="capitalize 800px:text-[45px] text-[25px] text-black dark:text-white font-[500] font-Poppins text-center py-2">
             All Courses
           </h1>
           <br />
