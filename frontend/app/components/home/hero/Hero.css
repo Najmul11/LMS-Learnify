@@ -8,3 +8,41 @@
   background-clip: text;
   color: transparent;
 }
+
+.bg-shape {
+  width: 200px;
+  height: 200px;
+  border-radius: 999px;
+  position: absolute;
+  opacity: 0;
+  animation: one 20s infinite ease;
+  animation-delay: 7s;
+}
+
+@keyframes one {
+  0% {
+    opacity: 0;
+    left: 0;
+    bottom: 30%;
+  }
+  25% {
+    opacity: 1;
+    left: 50%;
+    bottom: 120%;
+  }
+  50% {
+    opacity: 1;
+    right: 10%;
+    bottom: 110%;
+  }
+  75% {
+    opacity: 0;
+    right: 20%;
+    bottom: -20%;
+  }
+  100% {
+    opacity: 0;
+    right: 100%;
+    bottom: 0%;
+  }
+}

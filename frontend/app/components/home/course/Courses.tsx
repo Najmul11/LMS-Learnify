@@ -20,7 +20,7 @@ const Courses = () => {
           Opportunity
         </span>
         <br />
-        Opportunity With Our Courses
+        With Diverse Course Offerings.
       </h1>
       <br />
       <br />

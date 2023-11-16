@@ -16,15 +16,15 @@ const Reviews = () => {
         </div>
         <div className="800px:w-[50%] w-full ">
           <h3 className={`${styles.title} 800px:!text-[40px] dark:text-white`}>
-            Our Students Are{" "}
+            Journey Through{" "}
             <span
               className={`${
                 theme === "dark" ? "text-gradient-dark " : "text-gradient "
               }`}
             >
-              Our Strength
+              Triumph
             </span>{" "}
-            <br /> See What They Say About Us
+            <br /> Students Speak, We Listen.
           </h3>
           <br />
           <p className={`${styles.label} dark:text-white`}>
@@ -47,5 +47,3 @@ const Reviews = () => {
 };
 
 export default Reviews;
-
-// className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-[25px] xl:gap-[35px] mb-12 border-0 md:[&>*:nth-child(3)]:!mt-[-60px] md:[&>*:nth-child(6)]:!mt-[-40px]"
