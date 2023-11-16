@@ -7,6 +7,8 @@ import Loader from "@/app/components/loader/Loader";
 
 const Page = ({ params }: any) => {
   const { data, isLoading, error } = useLoadUserQuery(undefined);
+  console.log(data?.data);
+
   useEffect(() => {
     if (data) {
       const isPurchased = data.data.courses.find(
@@ -23,7 +25,15 @@ const Page = ({ params }: any) => {
     }
   }, [data, params, error]);
 
-  return <div>{isLoading ? <Loader /> : <CourseAccess id={params?.id} />}</div>;
+  return (
+    <div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <CourseAccess id={params?.id} userData={data?.data} />
+      )}
+    </div>
+  );
 };
 
 export default Page;

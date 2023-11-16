@@ -1,12 +1,11 @@
 import { useGetCourseContentQuery } from "@/app/redux/api/courses/coursesApi";
 import CourseContentMedia from "./courseContentMedia/CourseContentMedia";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Loader from "../loader/Loader";
-import CourseContentList from "./courseContentList/CourseContentList";
 import CourseOverview from "../courseDetail/courseDetail/courseOverview/CourseOverview";
 
-const CourseAccess = ({ id }: any) => {
+const CourseAccess = ({ id, userData }: any) => {
   const { data, isLoading, error } = useGetCourseContentQuery(id);
   const [activeVideo, setActiveVideo] = useState(0);
 
@@ -22,6 +21,7 @@ const CourseAccess = ({ id }: any) => {
               setActiveVideo={setActiveVideo}
               data={data?.data?.courseData}
               id={id}
+              user={userData}
             />
           </div>
           <div className="col-span-3">
