@@ -10,17 +10,11 @@ type TComment = {
   }[];
 };
 
-export type TReviewReply = {
-  user: Types.ObjectId;
-  comment: string;
-};
-
 export type TReview = {
   _id?: Types.ObjectId;
   user: Types.ObjectId;
   rating: number;
   comment: string;
-  commentReplies?: TReviewReply[];
 };
 
 type TLink = {

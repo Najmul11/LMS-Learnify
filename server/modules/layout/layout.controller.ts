@@ -6,8 +6,7 @@ import httpStatus from "http-status";
 
 const createLayout = catchAsyncError(async (req: Request, res: Response) => {
   const payload = req.body;
-  const layoutImage = req.file;
-  const result = await LayoutService.createLayout(payload, layoutImage);
+  const result = await LayoutService.createLayout(payload);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -19,9 +18,8 @@ const createLayout = catchAsyncError(async (req: Request, res: Response) => {
 
 const updateBanner = catchAsyncError(async (req: Request, res: Response) => {
   const payload = req.body;
-  const layoutImage = req.file;
 
-  const result = await LayoutService.updateBanner(payload, layoutImage);
+  const result = await LayoutService.updateBanner(payload);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

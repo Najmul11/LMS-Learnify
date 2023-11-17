@@ -5,10 +5,15 @@ type Props = {
   course: any;
   isProfile?: boolean;
 };
-
 const CourseCard = ({ course, isProfile }: Props) => {
+  console.log(course?.courseData);
+
   return (
-    <Link href={`/course/${course._id}`}>
+    <Link
+      href={`${
+        isProfile ? `/course-access/${course._id}` : `/course/${course._id}`
+      }`}
+    >
       <div
         className="w-full min-h-[30vh] dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm 
         dark:shadow-inner"
@@ -25,19 +30,21 @@ const CourseCard = ({ course, isProfile }: Props) => {
         <h1 className="font-Poppins text-black text-[16px] dark:text-[#fff]">
           {course.name}
         </h1>
-        <div className="w-full flex items-center justify-between pt-3">
-          <div className="flex items-center">
-            <h3
-              className={`text-black ${
-                course.price > 0 ? "" : ""
-              } dark:text-[#fff]`}
-            >
-              {course.price > 0 ? `${course.price}$` : "Free"}
-            </h3>
-            <h5 className="pl-3 text-[14px]  line-through opacity-80 text-black dark:text-[#fff]">
-              {course.estimatedPrice}$
-            </h5>
-          </div>
+        <div className={`w-full flex items-center justify-between  pt-3`}>
+          {!isProfile && (
+            <div className="flex items-center">
+              <h3
+                className={`text-black ${
+                  course.price > 0 ? "" : ""
+                } dark:text-[#fff]`}
+              >
+                {course.price > 0 ? `${course.price}$` : "Free"}
+              </h3>
+              <h5 className="pl-3 text-[14px]  line-through opacity-80 text-black dark:text-[#fff]">
+                {course.estimatedPrice}$
+              </h5>
+            </div>
+          )}
           <div className="flex items-center ">
             <AiOutlineUnorderedList
               size={20}

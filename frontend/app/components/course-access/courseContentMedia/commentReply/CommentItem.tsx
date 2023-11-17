@@ -6,14 +6,13 @@ import { CircularProgress } from "@mui/material";
 import { VscVerifiedFilled } from "react-icons/vsc";
 
 const CommentItem = ({
-  data,
-  activeVideo,
   item,
   answer,
   setAnswer,
   handleAnswerSubmit,
   setQuestionId,
   answerLoad,
+  questionId,
 }: any) => {
   const [replyActive, setReplyActive] = useState(false);
 
@@ -58,7 +57,7 @@ const CommentItem = ({
         </span>
       </div>
 
-      {replyActive && (
+      {replyActive && questionId === item._id && (
         <>
           {item?.questionReplies?.map((reply: any) => (
             <>

@@ -9,6 +9,7 @@ type Props = {
   user?: any;
   setQuestionId?: any;
   answerLoad?: any;
+  questionId?: string;
 };
 const CommentReply = ({
   data,
@@ -16,9 +17,9 @@ const CommentReply = ({
   answer,
   setAnswer,
   handleAnswerSubmit,
-  user,
   setQuestionId,
   answerLoad,
+  questionId,
 }: Props) => {
   return (
     <div className="w-full my-3">
@@ -34,6 +35,7 @@ const CommentReply = ({
           handleAnswerSubmit={handleAnswerSubmit}
           setQuestionId={setQuestionId}
           answerLoad={answerLoad}
+          questionId={questionId}
         />
       ))}
     </div>

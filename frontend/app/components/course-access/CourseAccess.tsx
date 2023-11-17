@@ -24,9 +24,10 @@ const CourseAccess = ({ id, userData }: any) => {
               data={data?.data?.courseData}
               id={id}
               user={userData}
+              reviews={data?.data?.reviews}
             />
           </div>
-          <div className="col-span-3">
+          <div className="800px:col-span-3  col-span-10">
             <CourseOverview
               activeVideo={activeVideo}
               setActiveVideo={setActiveVideo}

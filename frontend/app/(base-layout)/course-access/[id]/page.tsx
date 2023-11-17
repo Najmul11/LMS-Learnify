@@ -11,7 +11,7 @@ const Page = ({ params }: any) => {
   useEffect(() => {
     if (data) {
       const isPurchased = data.data.courses.find(
-        (course: any) => course?.courseId === params.id
+        (course: any) => course?.courseId?._id === params.id
       );
 
       if (!isPurchased) {

@@ -163,7 +163,11 @@ const updateAccessToken = async (token: string) => {
 };
 
 const getUserInfo = async (id: string) => {
-  const result = await User.findById(id);
+  const result = await User.findById(id).populate({
+    path: "courses.courseId",
+    model: "Course",
+  });
+
   return result;
 };
 

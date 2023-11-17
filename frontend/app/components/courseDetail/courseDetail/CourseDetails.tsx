@@ -26,9 +26,10 @@ const CourseDetails = ({ data }: any) => {
   const { data: stripeData } = useGetStripePublishableKeyQuery(undefined);
   const [createPaymentIntent, { data: paymentIntentData }] =
     useCreatePaymentIntentMutation();
+  console.log(user?.courses);
 
   const isPurchased = user?.courses?.find(
-    (course: any) => course?.courseId === data?._id
+    (course: any) => course?.courseId?._id === data?._id
   );
 
   const discountPercentage = (

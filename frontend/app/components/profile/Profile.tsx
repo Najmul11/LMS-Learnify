@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import SideBarProfile from "./SidebarProfile";
 import ProfileInfo from "./ProfileInfo";
 import ChangePassword from "./ChangePassword";
+import EnrolledCourses from "./EnrolledCourses";
 
 const Profile = ({ user }: { user: any }) => {
   const [scroll, setScroll] = useState(false);
@@ -44,6 +45,11 @@ const Profile = ({ user }: { user: any }) => {
       {active === 2 && (
         <div className="w-full h-full bg-transparent mt-[80px]">
           <ChangePassword />
+        </div>
+      )}
+      {active === 3 && (
+        <div className="w-full h-full bg-transparent mt-[80px]">
+          <EnrolledCourses user={user} />
         </div>
       )}
     </div>

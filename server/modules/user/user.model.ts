@@ -47,6 +47,7 @@ const UserSchema = new Schema<TUser, Record<string, unknown>, TUserMethods>(
       {
         courseId: {
           type: String,
+          ref: "course",
         },
       },
     ],

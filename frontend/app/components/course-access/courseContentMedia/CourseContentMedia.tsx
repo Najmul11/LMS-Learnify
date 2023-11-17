@@ -1,6 +1,7 @@
 import { styles } from "../../../styles/style";
 import { CircularProgress } from "@mui/material";
 import avatar from "../../../../public/assets/avatar.png";
+import { format } from "date-fns";
 
 import CoursePlayer from "../../../utils/CoursePlayer";
 import {
@@ -15,8 +16,10 @@ import toast from "react-hot-toast";
 import {
   useAddNewAnswerMutation,
   useAddNewQuestionMutation,
+  useAddReviewInCourseMutation,
 } from "../../../redux/api/courses/coursesApi";
 import CommentReply from "./commentReply/CommentReply";
+import StartRating from "@/app/utils/StarRating";
 
 type Props = {
   data: any;
@@ -24,6 +27,7 @@ type Props = {
   setActiveVideo: any;
   id: string;
   user: any;
+  reviews: any;
 };
 
 const CourseContentMedia = ({
@@ -32,6 +36,7 @@ const CourseContentMedia = ({
   setActiveVideo,
   id,
   user,
+  reviews,
 }: Props) => {
   const [activeBar, setActiveBar] = useState(0);
   const [question, setQuestion] = useState("");
@@ -47,6 +52,11 @@ const CourseContentMedia = ({
     addNewAnswer,
     { isLoading: answerLoad, isSuccess: answerSuccess, error: answerError },
   ] = useAddNewAnswerMutation();
+
+  const [
+    addReviewInCourse,
+    { isLoading: riviewLoad, isSuccess: reviewSuccess, error: reviewError },
+  ] = useAddReviewInCourseMutation();
 
   const handleQuestion = async () => {
     if (question.length === 0) return toast.error("Question can't be empty");
@@ -71,6 +81,17 @@ const CourseContentMedia = ({
     addNewAnswer(answerData);
   };
 
+  const handleAddReview = async () => {
+    if (review.length === 0) return toast.error("Review can't be empty");
+
+    const reviewData = {
+      comment: review,
+      rating: rating,
+    };
+
+    addReviewInCourse({ data: reviewData, courseId: id });
+  };
+
   useEffect(() => {
     if (isSuccess) {
       toast.success("Thank you. Soon you'll be replied");
@@ -90,6 +111,17 @@ const CourseContentMedia = ({
       toast.error("Some error occuured, try later");
     }
   }, [answerSuccess, answerError]);
+
+  useEffect(() => {
+    if (reviewSuccess) {
+      toast.success("Thanks for the feedback");
+      setReview("");
+      setRating(0);
+    }
+    if (reviewError) {
+      toast.error("Some error occuured, try later");
+    }
+  }, [reviewSuccess, reviewError]);
 
   const handleNext = () => {
     if (activeVideo < data.length - 1) {
@@ -131,8 +163,8 @@ const CourseContentMedia = ({
         {["Overview", "Resources", "Q&A", "Reviews"].map((text, index) => (
           <h5
             key={index}
-            className={`800px: text-[20px] cursor-pointer ${
-              activeBar === index ? "text-red-500" : ""
+            className={`800px: text-[20px] cursor-pointer  ${
+              activeBar === index ? "text-[#37a39a]" : "dark:text-white"
             }`}
             onClick={() => setActiveBar(index)}
           >
@@ -219,6 +251,7 @@ const CourseContentMedia = ({
                 user={user}
                 setQuestionId={setQuestionId}
                 answerLoad={answerLoad}
+                questionId={questionId}
               />
             </div>
           </div>
@@ -229,10 +262,10 @@ const CourseContentMedia = ({
           <div className="flex w-full">
             <Image
               src={user.avatar ? user.avatar.url : avatar}
-              width={50}
-              height={50}
+              width={40}
+              height={40}
               alt=""
-              className="w-[50px] h-[50px] rounded-full object-cover"
+              className="w-[40px] h-[40px] rounded-full object-cover"
             />
             <div className="w-full">
               <h5 className="pl-3 text-[20px] font-[500] dark:text-white">
@@ -243,17 +276,16 @@ const CourseContentMedia = ({
                   rating >= i ? (
                     <AiFillStar
                       key={i}
-                      className="mr-1 cursor-pointer"
+                      className="mr-1 cursor-pointer text-[20.5px] "
                       color="rgb(246,186,0)"
-                      size={25}
+                      size={20.5}
                       onClick={() => setRating(i)}
                     />
                   ) : (
                     <AiOutlineStar
                       key={i}
-                      className="mr-1 cursor-pointer"
+                      className="mr-1 cursor-pointer text-[20.5px]"
                       color="rgb(246,186,0)"
-                      size={25}
                       onClick={() => setRating(i)}
                     />
                   )
@@ -271,10 +303,47 @@ const CourseContentMedia = ({
               ></textarea>
               <div className="w-full flex justify-end">
                 <button
+                  disabled={riviewLoad}
                   className={`${styles.button} !w-[120px] h-[40px] text-[18px] mt-5 text-white`}
+                  onClick={handleAddReview}
                 >
-                  Submit
+                  {riviewLoad ? (
+                    <CircularProgress
+                      sx={{
+                        color: "#ffffff",
+                      }}
+                      size={20}
+                    />
+                  ) : (
+                    "Submit"
+                  )}
                 </button>
+              </div>
+              <div className="w-full my-6">
+                {reviews.map((review: any) => (
+                  <div className="flex mb-2 dark:text-white" key={review._id}>
+                    <div className="w-[40px] h-[40px] bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer">
+                      <Image
+                        src={review?.user ? review?.user?.avatar?.url : avatar}
+                        width={40}
+                        height={40}
+                        alt=""
+                        className="rounded-full w-[40px] h-[40px]"
+                      />
+                    </div>
+                    <div className="pl-3">
+                      <h5 className="text-[18px]">{review?.user?.name}</h5>
+                      <StartRating
+                        ratings={review?.rating}
+                        length={review.length}
+                      />
+                      <p className="text-[16px]">{review?.comment}</p>
+                      <small className="text-[#003A55]  dark:text-[#A3b3BC]">
+                        {format(new Date(review?.createdAt), "dd MMM yyyy")} •
+                      </small>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

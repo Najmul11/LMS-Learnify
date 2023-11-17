@@ -88,6 +88,13 @@ const editCourse = async (
   const result = await Course.findByIdAndUpdate(courseId, payload, {
     new: true,
   });
+
+  // need to update on redis for all course after edit course
+  const allCourse = await Course.find().select(
+    "-courseData.videoUrl -courseData.videoSection -courseData.links -courseData.course"
+  );
+  await redis.set("allCourse", JSON.stringify(allCourse));
+
   return result;
 };
 
@@ -147,7 +154,7 @@ const getCourseByUser = async (user: JwtPayload, courseId: string) => {
       "You are not eligible to access this course"
     );
 
-  const result = await Course.findById(courseId, { courseData: 1 })
+  const result = await Course.findById(courseId, { courseData: 1, reviews: 1 })
     .populate({
       path: "courseData.questions.user",
       model: "User",
@@ -157,6 +164,11 @@ const getCourseByUser = async (user: JwtPayload, courseId: string) => {
       path: "courseData.questions.questionReplies.user",
       model: "User",
       select: "name avatar role",
+    })
+    .populate({
+      path: "reviews.user",
+      model: "User",
+      select: "name avatar",
     });
 
   return result;
@@ -282,7 +294,7 @@ const addReview = async (
 
   if (review) {
     review.comment = newReview.comment;
-    review.rating = newReview.rating;
+    review.rating = newReview.rating ? newReview.rating : review.rating;
   } else {
     course?.reviews.push(newReview);
   }
@@ -296,34 +308,19 @@ const addReview = async (
 
   if (course) course.ratings = average;
 
+  console.log(user);
+
   await course?.save();
 
   const notification = {
+    userId: user?._id,
     title: "New Review Received",
     message: `${user.name} has given a review in ${course?.name}`,
   };
 
+  await Notification.create(notification);
+
   return course;
-};
-
-const addReplyToReview = async (payload: TReplyReview, user: JwtPayload) => {
-  const { courseId, comment, reviewId } = payload;
-
-  const course = await Course.findById(courseId);
-  if (!course) throw new ErrorHandler(httpStatus.NOT_FOUND, "Course not found");
-
-  const review = course.reviews.find(
-    (review) => review._id!.toString() === reviewId
-  );
-  if (!review) throw new ErrorHandler(httpStatus.NOT_FOUND, "Review not found");
-
-  const newReply = {
-    user: user._id,
-    comment,
-  };
-
-  review.commentReplies?.push(newReply);
-  await course.save();
 };
 
 // for admin
@@ -352,7 +349,6 @@ export const CourseService = {
   addQuestion,
   addAnswer,
   addReview,
-  addReplyToReview,
   getAllCourses,
   deleteCourse,
 };

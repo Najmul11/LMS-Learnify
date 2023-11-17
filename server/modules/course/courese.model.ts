@@ -76,17 +76,10 @@ const CourseSchema = new Schema<TCourse, Record<string, unknown>>(
         comment: {
           type: String,
         },
-        commentReplies: [
-          {
-            user: {
-              type: Schema.Types.ObjectId,
-              ref: "user",
-            },
-            comment: {
-              type: String,
-            },
-          },
-        ],
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
       },
     ],
 

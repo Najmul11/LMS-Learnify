@@ -100,6 +100,7 @@ const addReview = catchAsyncError(async (req: Request, res: Response) => {
   const user = req.user;
   const payload = req.body;
   const { courseId } = req.params;
+
   const result = await CourseService.addReview(payload, courseId, user!);
 
   sendResponse(res, {
@@ -109,20 +110,6 @@ const addReview = catchAsyncError(async (req: Request, res: Response) => {
     data: result,
   });
 });
-const addReplyToReview = catchAsyncError(
-  async (req: Request, res: Response) => {
-    const user = req.user;
-    const payload = req.body;
-    const result = await CourseService.addReplyToReview(payload, user!);
-
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Replied to the review successfully",
-      data: result,
-    });
-  }
-);
 
 const getAllCourses = catchAsyncError(async (req: Request, res: Response) => {
   const result = await CourseService.getAllCourses();
@@ -179,7 +166,6 @@ export const CourseController = {
   addQuestion,
   addAnswer,
   addReview,
-  addReplyToReview,
   getAllCourses,
   deleteCourse,
   generateVideoUrl,
