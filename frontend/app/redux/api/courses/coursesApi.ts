@@ -64,7 +64,25 @@ const coursesApi = api.injectEndpoints({
         url: `/courses/get-course-content/${courseId}`,
         credentials: "include",
       }),
-      providesTags: ["courses"],
+      providesTags: ["courses", "course-details"],
+    }),
+    addNewQuestion: builder.mutation({
+      query: (data) => ({
+        url: `/courses/add-question`,
+        method: "PATCH",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["courses", "course-details"],
+    }),
+    addNewAnswer: builder.mutation({
+      query: (data) => ({
+        url: `/courses/add-answer`,
+        method: "PATCH",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["courses", "course-details"],
     }),
   }),
 });
@@ -78,4 +96,6 @@ export const {
   useGetUserAllCourseQuery,
   useGetCourseDetailsQuery,
   useGetCourseContentQuery,
+  useAddNewQuestionMutation,
+  useAddNewAnswerMutation,
 } = coursesApi;

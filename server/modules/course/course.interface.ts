@@ -4,7 +4,7 @@ type TComment = {
   _id?: Types.ObjectId;
   user: Types.ObjectId;
   question: string;
-  questionsReplies: {
+  questionReplies: {
     user: Types.ObjectId;
     answer: string;
   }[];

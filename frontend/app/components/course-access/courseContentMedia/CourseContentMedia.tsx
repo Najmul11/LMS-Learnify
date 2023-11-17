@@ -1,4 +1,7 @@
 import { styles } from "../../../styles/style";
+import { CircularProgress } from "@mui/material";
+import avatar from "../../../../public/assets/avatar.png";
+
 import CoursePlayer from "../../../utils/CoursePlayer";
 import {
   AiFillStar,
@@ -6,8 +9,14 @@ import {
   AiOutlineArrowRight,
   AiOutlineStar,
 } from "react-icons/ai";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import toast from "react-hot-toast";
+import {
+  useAddNewAnswerMutation,
+  useAddNewQuestionMutation,
+} from "../../../redux/api/courses/coursesApi";
+import CommentReply from "./commentReply/CommentReply";
 
 type Props = {
   data: any;
@@ -25,9 +34,62 @@ const CourseContentMedia = ({
   user,
 }: Props) => {
   const [activeBar, setActiveBar] = useState(0);
-  const [comment, setComment] = useState("");
+  const [question, setQuestion] = useState("");
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
+  const [answer, setAnswer] = useState<Record<string, unknown>>({});
+  const [questionId, setQuestionId] = useState("");
+
+  const [addNewQuestion, { isLoading, isSuccess, error }] =
+    useAddNewQuestionMutation();
+
+  const [
+    addNewAnswer,
+    { isLoading: answerLoad, isSuccess: answerSuccess, error: answerError },
+  ] = useAddNewAnswerMutation();
+
+  const handleQuestion = async () => {
+    if (question.length === 0) return toast.error("Question can't be empty");
+
+    const questionData = {
+      courseId: id,
+      contentId: data[activeVideo]?._id,
+      question,
+    };
+    addNewQuestion(questionData);
+  };
+
+  const handleAnswerSubmit = async (itemId: string) => {
+    if (!answer[itemId]) return toast.error("Answer can't be empty");
+
+    const answerData = {
+      courseId: id,
+      contentId: data[activeVideo]?._id,
+      answer: answer[itemId],
+      questionId,
+    };
+    addNewAnswer(answerData);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Thank you. Soon you'll be replied");
+      setQuestion("");
+    }
+    if (error) {
+      toast.error("Some error occuured, try later");
+    }
+  }, [isSuccess, error]);
+
+  useEffect(() => {
+    if (answerSuccess) {
+      toast.success("Your reply has been posted");
+      setAnswer({});
+    }
+    if (answerError) {
+      toast.error("Some error occuured, try later");
+    }
+  }, [answerSuccess, answerError]);
 
   const handleNext = () => {
     if (activeVideo < data.length - 1) {
@@ -105,48 +167,68 @@ const CourseContentMedia = ({
         <>
           <div className="flex w-full">
             <Image
-              src={
-                user.avatar
-                  ? user.avatar.url
-                  : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"
-              }
-              width={50}
-              height={50}
+              src={user.avatar ? user.avatar.url : avatar}
+              width={40}
+              height={40}
               alt=""
-              className="rounded-full w-[50px] h-[50px]"
+              className="rounded-full w-[40px] h-[40px]"
             />
             <textarea
               name=""
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
               id=""
               cols={40}
               rows={5}
               placeholder="Write your question..."
-              className="outline-none bg-transparent ml-3 border border-slate-400 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] font-Poppins"
+              className="outline-none bg-transparent ml-3 border border-[#00000027] dark:border-slate-500 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] font-Poppins dark:text-white"
             ></textarea>
           </div>
           <div className="w-full flex justify-end">
             <button
-              className={`${styles.button} !w-[120px] h-[40px] text-[18px] mt-5 text-white`}
+              disabled={isLoading}
+              className={`${
+                styles.button
+              } !w-[120px] h-[40px] text-[18px] mt-5 text-white ${
+                isLoading ? "cursor-not-allowed" : ""
+              }`}
+              onClick={handleQuestion}
             >
-              Submit
+              {isLoading ? (
+                <CircularProgress
+                  sx={{
+                    color: "#ffffff",
+                  }}
+                  size={20}
+                />
+              ) : (
+                "Submit"
+              )}
             </button>
           </div>
           <br />
           <br />
-          <div>{/* {replies} */}</div>
+          <div className="w-full  ">
+            <div>
+              <CommentReply
+                activeVideo={activeVideo}
+                answer={answer}
+                setAnswer={setAnswer}
+                data={data}
+                handleAnswerSubmit={handleAnswerSubmit}
+                user={user}
+                setQuestionId={setQuestionId}
+                answerLoad={answerLoad}
+              />
+            </div>
+          </div>
         </>
       )}
       {activeBar === 3 && (
         <div className="w-full">
           <div className="flex w-full">
             <Image
-              src={
-                user.avatar
-                  ? user.avatar.url
-                  : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"
-              }
+              src={user.avatar ? user.avatar.url : avatar}
               width={50}
               height={50}
               alt=""

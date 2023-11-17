@@ -115,7 +115,7 @@ const CourseOverview = ({
                           handleActiveVdo(sectionIndex, lectureIndex)
                         }
                         key={lecture._id}
-                        className="flex items-center gap-3  py-3 pl-2 800px:pl-4 hover:bg-slate-100 dark:bg-slate-400 dark:bg-opacity-10 rounded"
+                        className="flex items-center gap-3  py-3 pl-2 800px:pl-4 hover:bg-slate-100 dark:hover:bg-opacity-5 rounded"
                       >
                         <OndemandVideoIcon sx={{ color: "#37a39a" }} />
                         <p>{lecture.title}</p>

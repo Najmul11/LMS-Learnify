@@ -136,7 +136,7 @@ const CourseSchema = new Schema<TCourse, Record<string, unknown>>(
             question: {
               type: String,
             },
-            questionsReplies: [
+            questionReplies: [
               {
                 user: {
                   type: Schema.Types.ObjectId,
@@ -145,8 +145,16 @@ const CourseSchema = new Schema<TCourse, Record<string, unknown>>(
                 answer: {
                   type: String,
                 },
+                createdAt: {
+                  type: Date,
+                  default: Date.now,
+                },
               },
             ],
+            createdAt: {
+              type: Date,
+              default: Date.now,
+            },
           },
         ],
       },

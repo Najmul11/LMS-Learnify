@@ -147,7 +147,17 @@ const getCourseByUser = async (user: JwtPayload, courseId: string) => {
       "You are not eligible to access this course"
     );
 
-  const result = await Course.findById(courseId, { courseData: 1 });
+  const result = await Course.findById(courseId, { courseData: 1 })
+    .populate({
+      path: "courseData.questions.user",
+      model: "User",
+      select: "name avatar",
+    })
+    .populate({
+      path: "courseData.questions.questionReplies.user",
+      model: "User",
+      select: "name avatar role",
+    });
 
   return result;
 };
@@ -169,7 +179,7 @@ const addQuestion = async (payload: TQuestion, userId: string) => {
   const newQuestion = {
     user: new mongoose.Types.ObjectId(userId),
     question: question,
-    questionsReplies: [],
+    questionReplies: [],
   };
 
   courseContent.questions.push(newQuestion);
@@ -210,7 +220,7 @@ const addAnswer = async (payload: TAnswer, userId: string) => {
     answer: answer,
   };
 
-  question.questionsReplies.push(newAnswer);
+  question.questionReplies.push(newAnswer);
   await course?.save();
 
   if (userId === question.user?.toString()) {

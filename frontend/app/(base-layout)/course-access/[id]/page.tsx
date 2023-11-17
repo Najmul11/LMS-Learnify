@@ -7,7 +7,6 @@ import Loader from "@/app/components/loader/Loader";
 
 const Page = ({ params }: any) => {
   const { data, isLoading, error } = useLoadUserQuery(undefined);
-  console.log(data?.data);
 
   useEffect(() => {
     if (data) {

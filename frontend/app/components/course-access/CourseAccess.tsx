@@ -6,7 +6,9 @@ import Loader from "../loader/Loader";
 import CourseOverview from "../courseDetail/courseDetail/courseOverview/CourseOverview";
 
 const CourseAccess = ({ id, userData }: any) => {
-  const { data, isLoading, error } = useGetCourseContentQuery(id);
+  const { data, isLoading, error } = useGetCourseContentQuery(id, {
+    refetchOnMountOrArgChange: true,
+  });
   const [activeVideo, setActiveVideo] = useState(0);
 
   return (
