@@ -22,14 +22,6 @@ const LayoutSchema = new Schema<TLayout, Record<string, unknown>>({
   },
   banner: {
     type: {
-      image: {
-        publicId: {
-          type: String,
-        },
-        url: {
-          type: String,
-        },
-      },
       title: {
         type: String,
       },

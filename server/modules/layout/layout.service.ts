@@ -4,10 +4,7 @@ import ErrorHandler from "../../utils/ErrorHandler";
 import { TBanner, TData, TLayout } from "./layout.interface";
 import { Layout } from "./layout.model";
 
-const createLayout = async (
-  payload: TData,
-  layoutImage: Express.Multer.File | undefined
-) => {
+const createLayout = async (payload: TData) => {
   const { type, bannerSubTitle, bannerTitle, faq, categories } = payload;
 
   const typeExist = await Layout.findOne({ type });
@@ -17,27 +14,19 @@ const createLayout = async (
   let result = null;
 
   if (type === "banner") {
-    if (!bannerSubTitle || !bannerTitle || !layoutImage)
+    if (!bannerSubTitle || !bannerTitle)
       throw new ErrorHandler(
         httpStatus.BAD_REQUEST,
         `Please provide all information`
       );
 
-    const uploadedLayout = await cloudinaryHelper.uploadToCloudinary(
-      layoutImage,
-      "layout"
-    );
-
-    if (uploadedLayout) {
-      result = await Layout.create({
-        type: type,
-        banner: {
-          image: uploadedLayout,
-          title: bannerTitle,
-          subTitle: bannerSubTitle,
-        },
-      });
-    }
+    result = await Layout.create({
+      type: type,
+      banner: {
+        title: bannerTitle,
+        subTitle: bannerSubTitle,
+      },
+    });
   }
 
   if (type === "faq") {
@@ -68,10 +57,7 @@ const createLayout = async (
   return result;
 };
 
-const updateBanner = async (
-  payload: TData,
-  layoutImage: Express.Multer.File | undefined
-) => {
+const updateBanner = async (payload: TData) => {
   const { type, bannerSubTitle, bannerTitle } = payload;
 
   const typeExist = await Layout.findOne({ type });
@@ -81,22 +67,9 @@ const updateBanner = async (
   let result = null;
 
   if (type === "banner") {
-    let uploadedLayout = null;
-    if (layoutImage) {
-      await cloudinaryHelper.deleteFromCloudinary(
-        typeExist.banner.image.publicId
-      );
-
-      uploadedLayout = await cloudinaryHelper.uploadToCloudinary(
-        layoutImage,
-        "layout"
-      );
-    }
-
     const banner = {
       type: type,
       banner: {
-        image: uploadedLayout ? uploadedLayout : typeExist.banner.image,
         title: bannerTitle ? bannerTitle : typeExist.banner.title,
         subTitle: bannerSubTitle ? bannerSubTitle : typeExist.banner.subTitle,
       },
