@@ -26,7 +26,6 @@ const CourseDetails = ({ data }: any) => {
   const { data: stripeData } = useGetStripePublishableKeyQuery(undefined);
   const [createPaymentIntent, { data: paymentIntentData }] =
     useCreatePaymentIntentMutation();
-  console.log(user?.courses);
 
   const isPurchased = user?.courses?.find(
     (course: any) => course?.courseId?._id === data?._id
@@ -160,12 +159,12 @@ const CourseDetails = ({ data }: any) => {
                       onClick={() => setOpen(false)}
                     />
                   </div>
-                  {stripePromise && clientSecret && (
+                  {stripePromise && clientSecret && user && (
                     <Elements
                       stripe={stripePromise}
                       options={{ clientSecret, appearance }}
                     >
-                      <CheckoutForm data={data} setOpen={setOpen} />
+                      <CheckoutForm data={data} setOpen={setOpen} user={user} />
                     </Elements>
                   )}
                 </div>

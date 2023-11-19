@@ -9,12 +9,17 @@ import { useCreateOrderMutation } from "../../../../redux/api/orders/ordersApi";
 import { styles } from "../../../../styles/style";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
+import socketIO from "socket.io-client";
+
+const SOCKET_ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_URL || "";
+const sockeId = socketIO(SOCKET_ENDPOINT, { transports: ["websocket"] });
 
 type Props = {
   setOpen: any;
   data: any;
+  user: any;
 };
-const CheckoutForm = ({ setOpen, data }: Props) => {
+const CheckoutForm = ({ setOpen, data, user }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const stripe = useStripe();
@@ -52,13 +57,18 @@ const CheckoutForm = ({ setOpen, data }: Props) => {
     if (isSuccess) {
       toast.success("Order placed successfully");
       setOpen(false);
+      sockeId.emit("notification", {
+        title: "New Order",
+        message: `You have a new Order from ${data?.name}`,
+        userId: `${user?._id}`,
+      });
       redirect(`/course-access/${data?._id}`);
     }
     if (error) {
       const errorData = error as any;
       toast.error(errorData.data.message);
     }
-  }, [isSuccess, setOpen, data, error]);
+  }, [isSuccess, setOpen, data, error, user]);
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>

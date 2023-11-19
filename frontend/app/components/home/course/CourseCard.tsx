@@ -6,8 +6,6 @@ type Props = {
   isProfile?: boolean;
 };
 const CourseCard = ({ course, isProfile }: Props) => {
-  console.log(course?.courseData);
-
   return (
     <Link
       href={`${

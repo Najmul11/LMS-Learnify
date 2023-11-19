@@ -1,11 +1,14 @@
 /* eslint-disable no-console */
 import mongoose from "mongoose";
-import { Server } from "http";
+import { Server, createServer } from "http";
 import app from "./app";
 import config from "./config";
 import { Redis } from "ioredis";
+import { initSocket } from "./socketServer";
 
 let server: Server;
+let socketServer = createServer(app);
+initSocket(socketServer);
 
 process.on("uncaughtException", (error) => {
   console.log(error);
@@ -17,7 +20,7 @@ async function bootstrap() {
     await mongoose.connect(config.database_url as string);
     console.log("🚀 Database connected succesfully");
 
-    server = app.listen(config.port, () => {
+    server = socketServer.listen(config.port, () => {
       console.log(`🚀 Application listening on port ${config.port}`);
     });
   } catch (error) {

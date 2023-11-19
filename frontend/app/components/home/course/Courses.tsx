@@ -1,5 +1,4 @@
 import { useGetUserAllCourseQuery } from "@/app/redux/api/courses/coursesApi";
-import React from "react";
 import CourseCard from "./CourseCard";
 import { useTheme } from "next-themes";
 
@@ -16,7 +15,6 @@ const Courses = () => {
             theme === "dark" ? "text-gradient-dark " : "text-gradient "
           }`}
         >
-          {" "}
           Opportunity
         </span>
         <br />
