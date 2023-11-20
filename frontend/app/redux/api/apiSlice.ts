@@ -14,6 +14,10 @@ export const api = createApi({
     "courses",
     "user-courses",
     "course-details",
+    "notifications",
+    "course-anallytics",
+    "orders-anallytics",
+    "users-anallytics",
   ],
   endpoints: (builder) => ({
     refreshToken: builder.query({

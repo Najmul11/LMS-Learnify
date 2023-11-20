@@ -7,12 +7,8 @@ import { ThemeProvider } from "./utils/theme-provider";
 import { Toaster } from "react-hot-toast";
 import { SessionProvider } from "next-auth/react";
 import LoaderProvider from "./LoaderProvider";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import ReduxProvider from "./ReduxProvider";
-import socketIO from "socket.io-client";
-
-const SOCKET_ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_URL || "";
-const sockeId = socketIO(SOCKET_ENDPOINT, { transports: ["websocket"] });
 
 type Props = {
   children: ReactNode;
@@ -31,10 +27,6 @@ const josefin = Josefin_Sans({
 });
 
 export default function RootLayout({ children }: Props) {
-  useEffect(() => {
-    sockeId.on("connection", () => {});
-  }, []);
-
   return (
     <ReduxProvider>
       <html lang="en">

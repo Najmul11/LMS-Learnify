@@ -19,14 +19,7 @@ const Footer = () => {
                   Our Story
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/privacy-policy"
-                  className="text-base text-black dark:text-gray-300 dark:hover:text-white"
-                >
-                  Privacy Policy
-                </Link>
-              </li>
+
               <li>
                 <Link
                   href="#faq"
@@ -48,22 +41,6 @@ const Footer = () => {
                   className="text-base text-black dark:text-gray-300 dark:hover:text-white"
                 >
                   Courses
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/profile"
-                  className="text-base text-black dark:text-gray-300 dark:hover:text-white"
-                >
-                  My Account
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/course-dashboard"
-                  className="text-base text-black dark:text-gray-300 dark:hover:text-white"
-                >
-                  Course Dashboard
                 </Link>
               </li>
             </ul>

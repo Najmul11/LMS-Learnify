@@ -100,6 +100,7 @@ const AdminSidebar = () => {
           height: "100vh",
           width: isCollapsed ? "0%" : "16%",
           zIndex: 1000,
+          backgroundColor: `${theme === "dark" ? "black" : ""}`,
         }}
       >
         <Menu>
@@ -118,7 +119,7 @@ const AdminSidebar = () => {
                 ml="15px"
               >
                 <Link href="/">
-                  <h3 className="text-[25px] font-Poppins uppercase dark:text-white text-black">
+                  <h3 className="text-[25px] font-Poppins uppercase  text-black">
                     Learnify
                   </h3>
                 </Link>
@@ -145,7 +146,7 @@ const AdminSidebar = () => {
               <Box textAlign="center">
                 <Typography
                   variant="h4"
-                  className="text-[20px] text-black dark:text-[#ffffffc1]"
+                  className="text-[20px] text-black "
                   sx={{ m: "10px 0 0 0" }}
                 >
                   {user?.name}
@@ -153,7 +154,7 @@ const AdminSidebar = () => {
                 <Typography
                   variant="h6"
                   sx={{ m: "10px 0 0 0" }}
-                  className="text-[20px] text-black dark:text-[#ffffffc1] capitalize"
+                  className="text-[20px] text-black  capitalize"
                 >
                   {user?.role}
                 </Typography>

@@ -82,3 +82,16 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #37a39a;
+  /* border-radius: 6px; */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}

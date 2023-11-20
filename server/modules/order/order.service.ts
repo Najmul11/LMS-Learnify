@@ -124,7 +124,11 @@ const createOrder = async (payload: Partial<TOrder>, userId: string) => {
 };
 
 const getAllOrders = async () => {
-  const result = await Order.find().sort({ createdAt: -1 });
+  const result = await Order.find().sort({ createdAt: -1 }).populate({
+    path: "userId",
+    model: "User",
+    select: "name",
+  });
   return result;
 };
 

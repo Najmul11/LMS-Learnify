@@ -101,13 +101,13 @@ const ProfileInfo = ({ user, avatar }: Props) => {
       <br />
       <div className="w-full pl-6 800px:pl-10">
         <form onSubmit={handleSubmit}>
-          <div className="800px:w-[50%] m-auto block pb-4">
+          <div className="800px:w-[50%] m-auto block pb-4 dark:text-white">
             <div className="w-[100%]">
               <label className="block pb-2">Full Name</label>
               <input
                 type="text"
                 name="name"
-                className={`${styles.input} w-[95%] mb-4 800px:mb-0`}
+                className={`${styles.input} w-[95%] mb-4 800px:mb-0 dark:text-white`}
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -118,7 +118,7 @@ const ProfileInfo = ({ user, avatar }: Props) => {
               <input
                 type="text"
                 readOnly
-                className={`${styles.input} w-[95%] mb-1 800px:mb-0`}
+                className={`${styles.input} w-[95%] mb-1 800px:mb-0 dark:text-white`}
                 required
                 value={user?.email || ""}
               />

@@ -45,7 +45,7 @@ const DataTable = ({ rows, columns, team }: Props) => {
               color: theme === "dark" ? "#fff" : "#000",
             },
             "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: theme === "dark" ? "#FF0000" : "#A4A9FC",
+              backgroundColor: theme === "dark" ? "#111C43" : "#37a39a",
               borderBottom: "none",
               color: theme === "dark" ? "#fff !important" : "#000",
             },
@@ -55,7 +55,7 @@ const DataTable = ({ rows, columns, team }: Props) => {
             "& .MuiDataGrid-footerContainer": {
               color: theme === "dark" ? "#fff" : "#000",
               borderTop: "none",
-              backgroundColor: theme === "dark" ? "#FF0000" : "#A4A9FC",
+              backgroundColor: theme === "dark" ? "#111C43" : "#37a39a",
             },
             "& .MuiCheckbox-root": {
               color:
