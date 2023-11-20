@@ -4,6 +4,7 @@ import CourseAccess from "../../../components/course-access/CourseAccess";
 import React, { useEffect } from "react";
 import { redirect } from "next/navigation";
 import Loader from "@/app/components/loader/Loader";
+import ProtectedRoutes from "@/app/components/protectedRoutes/ProtectedRoutes";
 
 const Page = ({ params }: any) => {
   const { data, isLoading, error } = useLoadUserQuery(undefined);
@@ -25,13 +26,15 @@ const Page = ({ params }: any) => {
   }, [data, params, error]);
 
   return (
-    <div>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <CourseAccess id={params?.id} userData={data?.data} />
-      )}
-    </div>
+    <ProtectedRoutes>
+      <div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <CourseAccess id={params?.id} userData={data?.data} />
+        )}
+      </div>
+    </ProtectedRoutes>
   );
 };
 

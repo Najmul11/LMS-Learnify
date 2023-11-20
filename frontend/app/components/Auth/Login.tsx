@@ -26,7 +26,7 @@ const schema = Yup.object().shape({
 
 const Login = ({ setRoute, setOpen }: Props) => {
   const [show, setShow] = useState(false);
-  const [login, { error, isSuccess }] = useLoginMutation();
+  const [login, { error, isSuccess, isLoading }] = useLoginMutation();
 
   useEffect(() => {
     if (isSuccess) {
@@ -64,9 +64,9 @@ const Login = ({ setRoute, setOpen }: Props) => {
 
   return (
     <div className="w-full">
-      <h1 className={`${styles.title}`}>Login with Learnify</h1>
+      <h1 className={`${styles.title} dark:text-white`}>Login with Learnify</h1>
       <form onSubmit={handleSubmit}>
-        <label className={styles.label} htmlFor="email">
+        <label className={`${styles.label} dark:text-white`} htmlFor="email">
           Enter your Email
         </label>
         <input
@@ -76,7 +76,7 @@ const Login = ({ setRoute, setOpen }: Props) => {
           onChange={handleChange}
           id="email"
           placeholder="loginmail@gmail.com"
-          className={`${
+          className={`dark:text-white ${
             errors.email && touched.email ? "border-red-500" : ""
           } ${styles.input}`}
         />
@@ -85,7 +85,10 @@ const Login = ({ setRoute, setOpen }: Props) => {
         )}
 
         <div className="w-full mt-5 relative mb-1">
-          <label className={`${styles.label}`} htmlFor="password">
+          <label
+            className={`${styles.label} dark:text-white`}
+            htmlFor="password"
+          >
             Enter your password
           </label>
           <input
@@ -95,19 +98,19 @@ const Login = ({ setRoute, setOpen }: Props) => {
             onChange={handleChange}
             id="password"
             placeholder="password!@%"
-            className={`${
+            className={`dark:text-white ${
               errors.password && touched.password ? "border-red-500" : ""
             } ${styles.input}`}
           />
           {!show ? (
             <AiOutlineEyeInvisible
-              className="absolute bottom-3 right-2 z-1 cursor-pointer"
+              className="absolute bottom-3 right-2 z-1 cursor-pointer dark:text-white"
               size={20}
               onClick={() => setShow(true)}
             />
           ) : (
             <AiOutlineEye
-              className="absolute bottom-3 right-2 z-1 cursor-pointer"
+              className="absolute bottom-3 right-2 z-1 cursor-pointer dark:text-white"
               size={20}
               onClick={() => setShow(false)}
             />
@@ -118,11 +121,16 @@ const Login = ({ setRoute, setOpen }: Props) => {
         )}
 
         <div className="mt-5 w-full ">
-          <input type="submit" value="Login" className={`${styles.button}`} />
+          <input
+            disabled={isLoading}
+            type="submit"
+            value="Login"
+            className={`${styles.button} cursor-pointer`}
+          />
         </div>
 
         <br />
-        <h5 className="text-center pt-4 font-Poppins text-[14px] text-black">
+        <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
           Or join with
         </h5>
         <div className="flex items-center justify-center my-3">
@@ -134,10 +142,10 @@ const Login = ({ setRoute, setOpen }: Props) => {
           <AiFillGithub
             size={30}
             onClick={() => signIn("github")}
-            className="cursor-pointer ml-2"
+            className="cursor-pointer ml-2 dark:text-white"
           />
         </div>
-        <h5 className="text-center pt-4 font-Poppins text-[14px]">
+        <h5 className="text-center pt-4 font-Poppins text-[14px] dark:text-white">
           Not have any account?{" "}
           <span
             className="text-[#2190ff] pl-1 cursor-pointer"

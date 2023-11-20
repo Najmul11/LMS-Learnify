@@ -1,14 +1,21 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SideBarProfile from "./SidebarProfile";
 import ProfileInfo from "./ProfileInfo";
 import ChangePassword from "./ChangePassword";
 import EnrolledCourses from "./EnrolledCourses";
+import { useLazyLogoutQuery } from "../../redux/api/auth/authApi";
+import { useSession, signOut } from "next-auth/react";
+import { redirect } from "next/navigation";
+import toast from "react-hot-toast";
 
 const Profile = ({ user }: { user: any }) => {
   const [scroll, setScroll] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [active, setActive] = useState(1);
+
+  const [logout, { isLoading, error, isSuccess }] = useLazyLogoutQuery();
+  const { data } = useSession();
 
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
@@ -20,7 +27,19 @@ const Profile = ({ user }: { user: any }) => {
     });
   }
 
-  const logoutHandler = async () => {};
+  const logoutHandler = async () => {
+    if (data) {
+      signOut();
+    }
+    logout(1);
+    localStorage.removeItem("hasSocial");
+  };
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Logged out successfully");
+      redirect("/");
+    }
+  }, [isSuccess]);
 
   return (
     <div className="w-[85%] flex mx-auto">

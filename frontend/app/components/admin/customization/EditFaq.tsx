@@ -90,7 +90,7 @@ const EditFaq = () => {
             <div
               className={`${
                 q._id !== questions[0]?._id ? "border-t" : ""
-              } border-gray-200 pt-6`}
+              } border-gray-200 pt-6 dark:text-white`}
               key={index}
             >
               <dt className="text-lg">
@@ -99,7 +99,7 @@ const EditFaq = () => {
                   onClick={() => toggleQuestion(q._id)}
                 >
                   <input
-                    className={`${styles.input} border-none`}
+                    className={`${styles.input} border-none dark:text-white`}
                     value={q.question}
                     onChange={(e: any) =>
                       handleQuestionChange(q._id, e.target.value)
@@ -108,9 +108,9 @@ const EditFaq = () => {
                   />
                   <span className="ml-6 flex-shrink-0">
                     {q.active ? (
-                      <HiMinus className="h-6 w-6" />
+                      <HiMinus className="h-6 w-6 dark:text-[#37a39a]" />
                     ) : (
-                      <HiPlus className="h-6 w-6" />
+                      <HiPlus className="h-6 w-6 dark:text-[#37a39a]" />
                     )}
                   </span>
                 </button>
@@ -118,7 +118,7 @@ const EditFaq = () => {
               {q.active && (
                 <dd className="mt-2 pr-12">
                   <input
-                    className={`${styles.input} border-none`}
+                    className={`${styles.input} border-none dark:text-white`}
                     value={q.answer}
                     onChange={(e: any) =>
                       handleAnswerChange(q._id, e.target.value)
@@ -149,34 +149,35 @@ const EditFaq = () => {
           onClick={newFaqHandler}
         />
       </div>
-      <div
-        className={`${
-          styles.button
-        } !w-[100px] min-h-[40px] h-[40px] dark:text-white text-black rounded-sm bg-[#cccccc34]
+      <div className=" mt-10 flex justify-end">
+        <div
+          className={`${
+            styles.button
+          } !w-[100px] min-h-[40px] h-[40px] !text-white  rounded-sm 
   ${
     areQuestionsUnchanged(data?.data?.faq, questions) ||
     isAnyQuestionEmpty(questions)
       ? "cursor-not-allowed"
-      : "cursor-pointer bg-[#42d383]"
-  } 
-  rounded absolute bottom-12 right-12`}
-        onClick={
-          areQuestionsUnchanged(data?.data?.faq, questions) ||
-          isAnyQuestionEmpty(questions)
-            ? () => null
-            : handleEdit
-        }
-      >
-        {isLoading ? (
-          <CircularProgress
-            sx={{
-              color: "#37a39a",
-            }}
-            size={20}
-          />
-        ) : (
-          "Save"
-        )}
+      : "cursor-pointer bg-[#37a39a]"
+  } rounded `}
+          onClick={
+            areQuestionsUnchanged(data?.data?.faq, questions) ||
+            isAnyQuestionEmpty(questions)
+              ? () => null
+              : handleEdit
+          }
+        >
+          {isLoading ? (
+            <CircularProgress
+              sx={{
+                color: "#37a39a",
+              }}
+              size={20}
+            />
+          ) : (
+            "Save"
+          )}
+        </div>
       </div>
     </div>
   );

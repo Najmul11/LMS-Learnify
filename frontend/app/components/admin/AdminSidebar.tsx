@@ -19,9 +19,13 @@ import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import VideoCallIcon from "@mui/icons-material/VideoCall";
 import WebIcon from "@mui/icons-material/Web";
 import QuizIcon from "@mui/icons-material/Quiz";
-import WysiwygIcon from "@mui/icons-material/Wysiwyg";
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
+import { useLazyLogoutQuery } from "../../redux/api/auth/authApi";
+import { redirect } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface ItemProps {
   title: string;
@@ -29,11 +33,13 @@ interface ItemProps {
   icon: JSX.Element;
   selected: string;
   setSelected: (value: string) => void;
+  path?: string;
 }
 
 const Item = ({ title, to, icon, selected, setSelected }: ItemProps) => {
+  const activePath = usePathname();
   return (
-    <Link href={to}>
+    <Link href={to} className={`${activePath === to ? "text-[#37a39a]" : ""}`}>
       <MenuItem
         active={selected === title}
         onClick={() => setSelected(title)}
@@ -47,7 +53,6 @@ const Item = ({ title, to, icon, selected, setSelected }: ItemProps) => {
 
 const AdminSidebar = () => {
   const { user } = useAppSelector((state: any) => state.auth);
-  const [logout, setLogout] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const [mounted, setMounted] = useState(false);
@@ -58,7 +63,23 @@ const AdminSidebar = () => {
     setMounted(true);
   }, []);
 
-  const logoutHandler = () => {};
+  const [logout, { isLoading, error, isSuccess }] = useLazyLogoutQuery();
+  const { data } = useSession();
+
+  const logoutHandler = async () => {
+    if (data) {
+      signOut();
+    }
+    logout(1);
+    localStorage.removeItem("hasSocial");
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Logged out successfully");
+      redirect("/");
+    }
+  }, [isSuccess]);
 
   return (
     <Box
@@ -243,13 +264,7 @@ const AdminSidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title="Categories"
-              to="/admin/categories"
-              icon={<WysiwygIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+
             {!isCollapsed && (
               <Typography
                 variant="h5"

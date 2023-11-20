@@ -2,15 +2,14 @@ import { useGetCourseDetailsQuery } from "@/app/redux/api/courses/coursesApi";
 import { useParams } from "next/navigation";
 import React from "react";
 import CourseDetails from "./courseDetail/CourseDetails";
+import Loader from "../loader/Loader";
 
 const CoursedetailPage = () => {
   const { id }: any = useParams();
   const { data, isLoading } = useGetCourseDetailsQuery(id);
 
   return (
-    <div>
-      <CourseDetails data={data?.data} />
-    </div>
+    <div>{isLoading ? <Loader /> : <CourseDetails data={data?.data} />}</div>
   );
 };
 

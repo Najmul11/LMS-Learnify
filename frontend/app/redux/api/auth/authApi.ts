@@ -56,8 +56,8 @@ const authApi = api.injectEndpoints({
 
           dispatch(
             userLoggedIn({
-              token: result.data.data.accessToken,
-              user: result.data.data.user,
+              token: result.data?.data?.accessToken,
+              user: result?.data?.data?.user,
             })
           );
         } catch (error) {}
@@ -84,4 +84,5 @@ export const {
   useLoginMutation,
   useSocialAuthMutation,
   useLogoutQuery,
+  useLazyLogoutQuery,
 } = authApi;

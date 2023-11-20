@@ -38,7 +38,7 @@ const CourseAction = ({
           {isPurchased ? (
             <Link
               className={`${styles.button} !w-[180px] my-3 font-Poppins cursor-pointer   text-white`}
-              href={`/course-access/${data._id}`}
+              href={`/course-access/${data?._id}`}
             >
               Enter Course
             </Link>
