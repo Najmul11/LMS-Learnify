@@ -16,14 +16,18 @@ const CourseCard = ({ course, isProfile }: Props) => {
         className="w-full min-h-[30vh] dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm 
         dark:shadow-inner"
       >
-        <Image
-          src={course?.thumbnail?.url}
-          width={500}
-          height={500}
-          objectFit="contain"
-          className="rounded w-full"
-          alt=""
-        />
+        <div className="relative">
+          <Image
+            src={course?.thumbnail?.url}
+            width={500}
+            height={500}
+            className="rounded w-full h-44"
+            alt=""
+          />
+          <span className="absolute top-2 right-0 rounded-sm py-[1px] px-2 text-white bg-[#090D16] text-sm">
+            {course?.level}
+          </span>
+        </div>
         <br />
         <h1 className="font-Poppins text-black text-[16px] dark:text-[#fff]">
           {course.name}

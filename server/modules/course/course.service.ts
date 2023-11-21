@@ -338,6 +338,12 @@ const deleteCourse = async (courseId: string) => {
 
   await redis.del(courseId);
 
+  // set on redis after delete
+  const allCourse = await Course.find({}).select(
+    "-courseData.videoUrl -courseData.videoSection -courseData.links -courseData.course"
+  );
+  await redis.set("allCourse", JSON.stringify(allCourse));
+
   return result;
 };
 
