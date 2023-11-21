@@ -1,5 +1,5 @@
 import { AiOutlineStar } from "react-icons/ai";
-import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 
 const StartRating = ({ ratings, length }: any) => {
   return (

@@ -1,5 +1,5 @@
-import { styles } from "@/app/styles/style";
-import CoursePlayer from "@/app/utils/CoursePlayer";
+import { styles } from "../../../../styles/style";
+import CoursePlayer from "../../../../utils/CoursePlayer";
 import Link from "next/link";
 
 type Props = {

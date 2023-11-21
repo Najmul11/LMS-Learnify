@@ -1,4 +1,4 @@
-import { useGetUserAllCourseQuery } from "@/app/redux/api/courses/coursesApi";
+import { useGetUserAllCourseQuery } from "../../../redux/api/courses/coursesApi";
 import CourseCard from "./CourseCard";
 import { useTheme } from "next-themes";
 

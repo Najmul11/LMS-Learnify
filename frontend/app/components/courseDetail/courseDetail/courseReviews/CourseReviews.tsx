@@ -1,3 +1,5 @@
+import StartRating from "../../../../utils/StarRating";
+import { format } from "date-fns";
 import React from "react";
 
 const CourseReviews = ({ reviews }: any) => {
@@ -21,13 +23,14 @@ const CourseReviews = ({ reviews }: any) => {
                 <p className="text-black dark:text-white">
                   {review?.user?.name}
                 </p>
-                <h5 className="text-[18px] pr-2 text-red-500 dark:text-white">
-                  here comes rating
-                </h5>
+                <StartRating
+                  ratings={review?.rating}
+                  length={reviews?.length}
+                />
               </div>
               <p className="text-black dark:text-white">{review?.comment}</p>
               <small className="text-[#000000d1] dark:text-[#ffffff83]">
-                {review.createdAt}
+                {format(new Date(review?.createdAt), "dd MMM yyyy")}
               </small>
             </div>
           </div>

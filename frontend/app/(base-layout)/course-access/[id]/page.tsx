@@ -3,8 +3,9 @@ import { useLoadUserQuery } from "../../../redux/api/apiSlice";
 import CourseAccess from "../../../components/course-access/CourseAccess";
 import React, { useEffect } from "react";
 import { redirect } from "next/navigation";
-import Loader from "@/app/components/loader/Loader";
-import ProtectedRoutes from "@/app/components/protectedRoutes/ProtectedRoutes";
+import Loader from "../../../components/loader/Loader";
+import ProtectedRoutes from "../../../components/protectedRoutes/ProtectedRoutes";
+import Meta from "../../../utils/Meta";
 
 const Page = ({ params }: any) => {
   const { data, isLoading, error } = useLoadUserQuery(undefined);
@@ -28,6 +29,7 @@ const Page = ({ params }: any) => {
   return (
     <ProtectedRoutes>
       <div>
+        <Meta title="Course Access - Learnify" />
         {isLoading ? (
           <Loader />
         ) : (

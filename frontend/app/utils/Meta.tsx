@@ -1,7 +1,7 @@
 interface IMeta {
-  title: string;
-  description: string;
-  keywords: string;
+  title?: string;
+  description?: string;
+  keywords?: string;
 }
 
 const Meta = ({ title, description, keywords }: IMeta) => {

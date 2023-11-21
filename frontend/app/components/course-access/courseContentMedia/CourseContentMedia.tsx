@@ -19,7 +19,7 @@ import {
   useAddReviewInCourseMutation,
 } from "../../../redux/api/courses/coursesApi";
 import CommentReply from "./commentReply/CommentReply";
-import StartRating from "@/app/utils/StarRating";
+import StartRating from "../../../utils/StarRating";
 
 type Props = {
   data: any;
@@ -134,6 +134,7 @@ const CourseContentMedia = ({
       <CoursePlayer
         title={data[activeVideo]?.title}
         videoUrl={data[activeVideo]?.videoUrl}
+        hasAccess={true}
       />
       <div className="w-full flex items-center justify-between my-3">
         <button

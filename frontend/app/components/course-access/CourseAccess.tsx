@@ -1,4 +1,4 @@
-import { useGetCourseContentQuery } from "@/app/redux/api/courses/coursesApi";
+import { useGetCourseContentQuery } from "../../redux/api/courses/coursesApi";
 import CourseContentMedia from "./courseContentMedia/CourseContentMedia";
 
 import { useState } from "react";

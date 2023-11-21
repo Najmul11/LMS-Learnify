@@ -1,24 +1,31 @@
 import axios from "axios";
 import React, { FC, useEffect, useState, useCallback } from "react";
+import { useAppSelector } from "../redux/hook";
 
 type Props = {
   videoUrl: string;
   title: string;
+  hasAccess?: boolean;
 };
 
-const CoursePlayer: FC<Props> = ({ videoUrl, title }) => {
+const CoursePlayer: FC<Props> = ({ videoUrl, hasAccess }) => {
   const [videoData, setVideoData] = useState({
     otp: "",
     playbackInfo: "",
   });
 
+  const { user }: any = useAppSelector((state) => state.auth);
   const [api, setApi] = useState(false);
 
   const fetchData = useCallback(() => {
     axios
-      .post(`http://localhost:5001/api/v1/courses/get-vdocipherOTP`, {
-        videoId: videoUrl,
-      })
+      .post(
+        `https://learnify-backend-three.vercel.app/api/v1/courses/get-vdocipherOTP`,
+        {
+          videoId: videoUrl,
+          email: hasAccess ? user?.email : "",
+        }
+      )
       .then((res) => {
         setApi(true);
         setVideoData(res.data);
@@ -26,32 +33,13 @@ const CoursePlayer: FC<Props> = ({ videoUrl, title }) => {
       .catch((error) => {
         setTimeout(fetchData, 1000);
       });
-  }, [videoUrl]);
+  }, [videoUrl, user, hasAccess]);
 
   useEffect(() => {
     // if (!api) {
     fetchData();
     // }
   }, [fetchData, api, videoUrl]);
-
-  // useEffect(() => {
-  //   if (!api) {
-  //     console.log(videoUrl);
-
-  //     axios
-  //       .post(`http://localhost:5001/api/v1/courses/get-vdocipherOTP`, {
-  //         videoId: videoUrl,
-  //       })
-  //       .then((res) => {
-  //         setApi(true);
-
-  //         setVideoData(res.data);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-  //   }
-  // }, [videoUrl, videoData, api]);
 
   return (
     <div

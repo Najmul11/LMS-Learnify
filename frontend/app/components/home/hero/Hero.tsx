@@ -1,4 +1,4 @@
-import { styles } from "@/app/styles/style";
+import { styles } from "../../../styles/style";
 import Link from "next/link";
 import "./Hero.css";
 import { useTheme } from "next-themes";

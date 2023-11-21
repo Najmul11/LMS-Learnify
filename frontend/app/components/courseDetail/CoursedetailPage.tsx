@@ -1,4 +1,4 @@
-import { useGetCourseDetailsQuery } from "@/app/redux/api/courses/coursesApi";
+import { useGetCourseDetailsQuery } from "../../redux/api/courses/coursesApi";
 import { useParams } from "next/navigation";
 import React from "react";
 import CourseDetails from "./courseDetail/CourseDetails";

@@ -1,5 +1,6 @@
 "use client";
 import { useTheme } from "next-themes";
+import "./About.css";
 
 const About = () => {
   const { theme } = useTheme();

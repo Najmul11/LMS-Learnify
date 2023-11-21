@@ -5,7 +5,6 @@ import Meta from "../utils/Meta";
 import Reviews from "../components/home/reviews/Reviews";
 import FAQ from "../components/home/faq/FAQ";
 import GetCreative from "../components/home/getCreative/GetCreative";
-import Footer from "../components/home/footer/Footer";
 
 const Page = () => {
   return (

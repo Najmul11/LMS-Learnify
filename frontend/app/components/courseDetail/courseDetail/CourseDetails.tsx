@@ -9,11 +9,13 @@ import { useState, useEffect } from "react";
 import {
   useCreatePaymentIntentMutation,
   useGetStripePublishableKeyQuery,
-} from "@/app/redux/api/orders/ordersApi";
+} from "../../../redux/api/orders/ordersApi";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./checkoutForm/CheckoutForm";
 import { useTheme } from "next-themes";
+import StartRating from "../../../utils/StarRating";
+import toast from "react-hot-toast";
 
 const CourseDetails = ({ data }: any) => {
   const [open, setOpen] = useState(false);
@@ -56,6 +58,7 @@ const CourseDetails = ({ data }: any) => {
   }, [paymentIntentData]);
 
   const handleOrder = async () => {
+    if (!user) return toast.error("Please login first");
     setOpen(true);
   };
   const appearance: any = {
@@ -68,7 +71,6 @@ const CourseDetails = ({ data }: any) => {
       colorBackground: `${theme === "dark" ? "#171C24" : "white"}`,
       colorDanger: "#df1b41",
       fontFamily: "Ideal Sans, system-ui, sans-serif",
-      // See all possible variables below
     },
     rules: {
       ".Input, .Block": {
@@ -85,6 +87,12 @@ const CourseDetails = ({ data }: any) => {
             <h1 className="text-[25px] 800px:text-[30px] font-Poppins font-[600] text-black dark:text-white">
               {data?.name}
             </h1>
+            <div className="flex justify-between items-center ">
+              <StartRating ratings={data?.ratings} />
+              <p className="dark:text-white font-[500]">
+                ({data?.purchased} students)
+              </p>
+            </div>
             <br />
             <div>
               <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">

@@ -1,8 +1,10 @@
-import About from "@/app/components/about/About";
+import Meta from "../../utils/Meta";
+import About from "../../components/about/About";
 
 const page = () => {
   return (
     <div>
+      <Meta title="About - Learnify" />
       <About />
     </div>
   );

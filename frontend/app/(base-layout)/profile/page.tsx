@@ -3,13 +3,15 @@
 import { useAppSelector } from "../../redux/hook";
 import Profile from "../../components/profile/Profile";
 import ProtectedRoutes from "../../components/protectedRoutes/ProtectedRoutes";
+import Meta from "../../utils/Meta";
 
 const ProfilePage = () => {
-  const { user } = useAppSelector((state) => state.auth);
+  const { user }: any = useAppSelector((state) => state.auth);
 
   return (
     <ProtectedRoutes>
       <div>
+        <Meta title={`${user?.name} - Learnify`} />
         <Profile user={user} />
       </div>
     </ProtectedRoutes>

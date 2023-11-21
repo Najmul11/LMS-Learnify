@@ -14,7 +14,7 @@ const Profile = ({ user }: { user: any }) => {
   const [avatar, setAvatar] = useState(null);
   const [active, setActive] = useState(1);
 
-  const [logout, { isLoading, error, isSuccess }] = useLazyLogoutQuery();
+  const [logout, { isSuccess }] = useLazyLogoutQuery();
   const { data } = useSession();
 
   if (typeof window !== "undefined") {

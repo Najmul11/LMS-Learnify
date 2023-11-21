@@ -159,7 +159,7 @@ const EditCourse = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Course created successfully ");
+      toast.success("Course edited successfully ");
       redirect("/admin/courses");
     }
     const errorData = error as error;
