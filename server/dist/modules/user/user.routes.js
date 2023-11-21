@@ -1,0 +1,25 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserRoutes = void 0;
+const express_1 = __importDefault(require("express"));
+const user_controller_1 = require("./user.controller");
+const auth_1 = require("../../middleware/auth");
+const multer_1 = __importDefault(require("../../middleware/multer"));
+const router = express_1.default.Router();
+router.post("/registration", user_controller_1.UserController.userRegistration);
+router.post("/social-auth", user_controller_1.UserController.socialAuth);
+router.post("/activate-user", user_controller_1.UserController.activateUser);
+router.post("/login", user_controller_1.UserController.loginUser);
+router.get("/logout", auth_1.auth, user_controller_1.UserController.logoutUser);
+router.get("/refresh", user_controller_1.UserController.updateAccessToken);
+router.get("/me", auth_1.auth, user_controller_1.UserController.getUserInfo);
+router.patch("/update-userinfo", auth_1.auth, user_controller_1.UserController.updateUserInfo);
+router.patch("/update-user-password", auth_1.auth, user_controller_1.UserController.updatePassword);
+router.put("/update-avatar", auth_1.auth, multer_1.default, user_controller_1.UserController.updateProfilePicture);
+router.get("/get-all-users", auth_1.auth, (0, auth_1.authorizeRoles)(auth_1.ENUM_USER_ROLE.ADMIN), user_controller_1.UserController.getAllUsers);
+router.patch("/update-user-role/:email", auth_1.auth, (0, auth_1.authorizeRoles)(auth_1.ENUM_USER_ROLE.ADMIN), user_controller_1.UserController.updateRole);
+router.delete("/delete-user/:userId", auth_1.auth, (0, auth_1.authorizeRoles)(auth_1.ENUM_USER_ROLE.ADMIN), user_controller_1.UserController.deleteUser);
+exports.UserRoutes = router;

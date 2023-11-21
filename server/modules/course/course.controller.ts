@@ -137,10 +137,22 @@ const deleteCourse = catchAsyncError(async (req: Request, res: Response) => {
 const generateVideoUrl = catchAsyncError(
   async (req: Request, res: Response) => {
     try {
-      const { videoId } = req.body;
+      const { videoId, email } = req.body;
       const response = await axios.post(
         `https://dev.vdocipher.com/api/videos/${videoId}/otp`,
-        { ttl: 30000 },
+        {
+          ttl: 30000,
+          annotate: JSON.stringify([
+            {
+              type: "rtext",
+              text: email ? email : "",
+              alpha: "0.70",
+              color: "#FF0000",
+              size: "17",
+              interval: "5000",
+            },
+          ]),
+        },
         {
           headers: {
             Accept: "application/json",

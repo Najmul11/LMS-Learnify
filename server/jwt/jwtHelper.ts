@@ -10,7 +10,10 @@ const createOption = (tokenExpire: number) => {
     expires: new Date(Date.now() + tokenExpire * 1000 * 60 * 60 * 24),
     maxAge: tokenExpire * 1000 * 60 * 60 * 24,
     httpOnly: true,
-    sameSite: "lax",
+    // development sameSite "lax", production "none"
+    sameSite: "none",
+    // secure true in production
+    secure: true,
   };
 };
 
