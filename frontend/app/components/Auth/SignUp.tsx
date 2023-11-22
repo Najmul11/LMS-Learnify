@@ -10,6 +10,7 @@ import { FcGoogle } from "react-icons/fc";
 import { styles } from "../../styles/style";
 import { useRegisterMutation } from "../../redux/api/auth/authApi";
 import toast from "react-hot-toast";
+import { CircularProgress } from "@mui/material";
 
 type Props = {
   setRoute: (route: string) => void;
@@ -128,13 +129,13 @@ const SignUp = ({ setRoute }: Props) => {
           />
           {!show ? (
             <AiOutlineEyeInvisible
-              className="absolute bottom-3 right-2 z-1 cursor-pointer dark:text-white"
+              className="absolute bottom-3 right-2 z-1 cursor-pointer dark:text-white text-black"
               size={20}
               onClick={() => setShow(true)}
             />
           ) : (
             <AiOutlineEye
-              className="absolute bottom-3 right-2 z-1 cursor-pointer dark:text-white"
+              className="absolute bottom-3 right-2 z-1 cursor-pointer dark:text-white text-black"
               size={20}
               onClick={() => setShow(false)}
             />
@@ -145,12 +146,22 @@ const SignUp = ({ setRoute }: Props) => {
         )}
 
         <div className="mt-5 w-full ">
-          <input
-            disabled={isLoading}
+          <button
             type="submit"
-            value="Sign Up"
+            disabled={isLoading}
             className={`${styles.button} cursor-pointer`}
-          />
+          >
+            {isLoading ? (
+              <CircularProgress
+                sx={{
+                  color: "#fff",
+                }}
+                size={23}
+              />
+            ) : (
+              "Sign Up"
+            )}
+          </button>
         </div>
 
         <br />
@@ -161,10 +172,10 @@ const SignUp = ({ setRoute }: Props) => {
           <FcGoogle size={30} className="cursor-pointer mr-2" />
           <AiFillGithub
             size={30}
-            className="cursor-pointer ml-2 dark:text-white"
+            className="cursor-pointer ml-2 dark:text-white text-black"
           />
         </div>
-        <h5 className="text-center pt-4 font-Poppins text-[14px] dark:text-white">
+        <h5 className="text-center pt-4 font-Poppins text-[14px] dark:text-white text-black">
           Already have an account?{" "}
           <span
             className="text-[#2190ff] pl-1 cursor-pointer"

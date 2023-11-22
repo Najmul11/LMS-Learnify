@@ -1,5 +1,3 @@
-import { Model, Document } from "mongoose";
-
 interface MonthData {
   month: string;
   count: number;

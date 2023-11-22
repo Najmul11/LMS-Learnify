@@ -1,3 +1,4 @@
+"use client";
 import { format } from "date-fns";
 import Image from "next/image";
 import avatar from "../../../../../public/assets/avatar.png";
@@ -18,10 +19,10 @@ const CommentItem = ({
 
   return (
     <div className="my-4">
-      <div className="flex mb-2 dark:text-white">
+      <div className="flex mb-2 dark:text-white text-black">
         <div className="w-[40px] h-[40px] bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer">
           <Image
-            src={item?.user ? item.user.avatar.url : avatar}
+            src={item?.user ? item?.user?.avatar?.url : avatar}
             width={40}
             height={40}
             alt=""
@@ -57,7 +58,7 @@ const CommentItem = ({
         </span>
       </div>
 
-      {replyActive && questionId === item._id && (
+      {replyActive && questionId === item?._id && (
         <>
           {item?.questionReplies?.map((reply: any) => (
             <>
@@ -67,7 +68,7 @@ const CommentItem = ({
               >
                 <div>
                   <Image
-                    src={reply.user.avatar ? reply.user.avatar.url : avatar}
+                    src={reply?.user.avatar ? reply?.user?.avatar.url : avatar}
                     width={30}
                     height={30}
                     alt=""
@@ -83,7 +84,7 @@ const CommentItem = ({
                   </h5>
                   <p>{reply?.answer}</p>
                   <small className="text-[#ffffff83]">
-                    {format(new Date(reply.createdAt), "dd MMM yyyy")} •
+                    {format(new Date(reply?.createdAt), "dd MMM yyyy")} •
                   </small>
                 </div>
               </div>
@@ -98,12 +99,12 @@ const CommentItem = ({
                 onChange={(e) =>
                   setAnswer({ ...answer, [item?._id]: e.target.value })
                 }
-                className="block 800px:ml-12 mt-2 outline-none bg-transparent border-b border-[#00000027] dark:border-slate-500 p-[5px] w-[95%] dark:text-white pr-16"
+                className="block 800px:ml-12 mt-2 outline-none bg-transparent border-b border-[#00000027] dark:border-slate-500 p-[5px] w-[95%] dark:text-white text-black pr-16"
               />
               <button
                 type="submit"
                 disabled={answerLoad}
-                className={`absolute right-0 bottom-1 dark:text-white ${
+                className={`absolute right-0 bottom-1  text-[#37a39a] font-[500] ${
                   answerLoad ? "cursor-no-drop" : ""
                 }`}
                 onClick={() => handleAnswerSubmit(item?._id)}

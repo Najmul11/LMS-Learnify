@@ -15,7 +15,9 @@ import { redis } from "../../server";
 const stripe = require("stripe")(config.stripe_secret);
 
 const createOrder = async (payload: Partial<TOrder>, userId: string) => {
-  const { courseId, paymentInfo } = payload;
+  const { courseId, paymentInfo }: any = payload;
+  if (!courseId)
+    throw new ErrorHandler(httpStatus.NOT_FOUND, "Please provide Course id");
 
   if (paymentInfo) {
     if ("id" in paymentInfo) {
@@ -67,6 +69,7 @@ const createOrder = async (payload: Partial<TOrder>, userId: string) => {
     }
 
     await course.save({ session });
+    await redis.setex(courseId, 604800, JSON.stringify(course));
 
     const mailData = {
       order: {

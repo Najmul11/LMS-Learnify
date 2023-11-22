@@ -60,12 +60,12 @@ const ChangePassword = () => {
             />
           </div>
           <div className="w-[100%] 800px:w-[60%] mt-2">
-            <label className="block pb-2 dark:text-white">
+            <label className="block pb-2 dark:text-white text-black">
               Enter your new password
             </label>
             <input
               type="password"
-              className={`${styles.input} w-[95%] mb-4 800px:mb-0 dark:text-white`}
+              className={`${styles.input} w-[95%] mb-4 800px:mb-0 dark:text-white text-black`}
               required
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}

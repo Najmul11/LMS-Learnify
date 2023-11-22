@@ -1,3 +1,4 @@
+import StarRating from "@/app/utils/StarRating";
 import Image from "next/image";
 import Link from "next/link";
 import { AiOutlineUnorderedList } from "react-icons/ai";
@@ -9,7 +10,7 @@ const CourseCard = ({ course, isProfile }: Props) => {
   return (
     <Link
       href={`${
-        isProfile ? `/course-access/${course._id}` : `/course/${course._id}`
+        isProfile ? `/course-access/${course?._id}` : `/course/${course?._id}`
       }`}
     >
       <div
@@ -29,21 +30,24 @@ const CourseCard = ({ course, isProfile }: Props) => {
           </span>
         </div>
         <br />
-        <h1 className="font-Poppins text-black text-[16px] dark:text-[#fff]">
-          {course.name}
+        <h1 className="font-Poppins text-black font-[500] text-[16px] dark:text-[#fff] capitalize">
+          {course?.name}
         </h1>
+        <div className="mt-1">
+          <StarRating ratings={course?.ratings} />
+        </div>
         <div className={`w-full flex items-center justify-between  pt-3`}>
           {!isProfile && (
             <div className="flex items-center">
               <h3
-                className={`text-black ${
-                  course.price > 0 ? "" : ""
+                className={`text-black font-medium ${
+                  course?.price > 0 ? "" : ""
                 } dark:text-[#fff]`}
               >
-                {course.price > 0 ? `${course.price}$` : "Free"}
+                {course?.price > 0 ? `${course?.price}$` : "Free"}
               </h3>
               <h5 className="pl-3 text-[14px]  line-through opacity-80 text-black dark:text-[#fff]">
-                {course.estimatedPrice}$
+                {course?.estimatedPrice}$
               </h5>
             </div>
           )}
@@ -53,7 +57,7 @@ const CourseCard = ({ course, isProfile }: Props) => {
               className="dark:text-white text-black"
             />
             <h5 className="pl-2 text-black dark:text-[#fff]">
-              {course.courseData?.length} Lectures
+              {course?.courseData?.length} Lectures
             </h5>
           </div>
         </div>

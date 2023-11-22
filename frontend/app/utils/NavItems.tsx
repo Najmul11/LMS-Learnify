@@ -75,9 +75,3 @@ const NavItems = ({ activeItem, isMobile, setActiveItem }: Props) => {
 };
 
 export default NavItems;
-
-// className={`${
-//   activeItem === index
-//     ? "dark:text-[#37a39a] text-[crimson] "
-//     : "dark:text-white text-black"
-// } text-[18px] px-6 font-Poppins font-[400]`}

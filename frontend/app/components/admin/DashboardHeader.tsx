@@ -71,7 +71,7 @@ const DashboardHeader = () => {
           ref={notificationRef}
           className="w-[350px] h-[50vh] dark:bg-[#111C43] bg-white shadow-xl absolute top-16 z-[100000000] rounded overflow-y-scroll overflow-x-hidden"
         >
-          <h5 className="text-center text-[20px] font-Poppins dark:text-white p-3 sticky top-0 w-full bg-white dark:bg-slate-600">
+          <h5 className="text-center text-[20px] font-Poppins text-black dark:text-white p-3 sticky top-0 w-full bg-white dark:bg-slate-600">
             Notifications
           </h5>
           {notifications.length > 0 &&
@@ -94,7 +94,7 @@ const DashboardHeader = () => {
                 <p className="px-2 text-black dark:text-white">
                   {notification?.message}
                 </p>
-                <p className="p-2 dark:text-white text-[14px]">
+                <p className="p-2 text-gray-400 dark:text-white text-[14px]">
                   {format(new Date(notification?.createdAt), "dd MMM yyyy")}
                 </p>
               </div>

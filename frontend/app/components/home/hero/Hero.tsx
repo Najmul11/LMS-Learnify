@@ -14,7 +14,7 @@ const Hero = () => {
             : "from-white via-[#44f5e6a2] to-white"
         } blur-2xl hidden 800px:block`}
       ></div>
-      <h1 className="font-[700] text-[25px] leading-[35px] sm:text-3xl lg:text-5xl tracking-tight text-center dark:text-white font-Poppins 800px:!leading-[60px]">
+      <h1 className="font-[700] text-[25px] leading-[35px] sm:text-3xl lg:text-5xl tracking-tight text-center dark:text-white font-Poppins 800px:!leading-[60px] text-black">
         Unleash your inner <br className="800px:hidden" />{" "}
         <span
           className={`${

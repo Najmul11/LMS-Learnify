@@ -62,6 +62,7 @@ const editCourse = (courseId, payload, thumbnail) => __awaiter(void 0, void 0, v
     // need to update on redis for all course after edit course
     const allCourse = yield courese_model_1.Course.find().select("-courseData.videoUrl -courseData.videoSection -courseData.links -courseData.course");
     yield server_1.redis.set("allCourse", JSON.stringify(allCourse));
+    yield server_1.redis.setex(courseId, 604800, JSON.stringify(course));
     return result;
 });
 // get single course without purchase
@@ -202,8 +203,8 @@ const addReview = (payload, courseId, user) => __awaiter(void 0, void 0, void 0,
     const average = sum / (((_c = course === null || course === void 0 ? void 0 : course.reviews) === null || _c === void 0 ? void 0 : _c.length) || 1);
     if (course)
         course.ratings = average;
-    console.log(user);
     yield (course === null || course === void 0 ? void 0 : course.save());
+    yield server_1.redis.set(courseId, JSON.stringify(course));
     const notification = {
         userId: user === null || user === void 0 ? void 0 : user._id,
         title: "New Review Received",
@@ -223,6 +224,9 @@ const deleteCourse = (courseId) => __awaiter(void 0, void 0, void 0, function* (
         throw new ErrorHandler_1.default(http_status_1.default.NOT_FOUND, "Course not found");
     const result = yield courese_model_1.Course.findByIdAndDelete(courseId);
     yield server_1.redis.del(courseId);
+    // set on redis after delete
+    const allCourse = yield courese_model_1.Course.find({}).select("-courseData.videoUrl -courseData.videoSection -courseData.links -courseData.course");
+    yield server_1.redis.set("allCourse", JSON.stringify(allCourse));
     return result;
 });
 exports.CourseService = {

@@ -52,7 +52,7 @@ const DeleteUser = ({ setOpen, id, deletingCourse }: Props) => {
 
   return (
     <div className="w-full">
-      <h1 className={`${styles.title} !text-left dark:text-white`}>
+      <h1 className={`${styles.title} !text-left dark:text-white text-black`}>
         {deletingCourse
           ? "Are you sure delete this course?"
           : " Are you sure delete this user?"}

@@ -52,7 +52,7 @@ const DashboardWidget = ({ open, setOpen }: Props) => {
             <div className="flex items-center p-5 justify-between">
               <div>
                 <BiBorderLeft className="dark:text-[#45CBA0] text-[#000] text-[30px]" />
-                <h5 className="pt-2 font-Poppins dark:text-[#fff] text-[20px]">
+                <h5 className="pt-2 font-Poppins dark:text-[#fff] text-[20px] text-black">
                   120
                 </h5>
                 <h5 className="py-2 font-Poppins dark:text-[#45CBA0] text-black text-[20px] font-[400]">
@@ -61,7 +61,9 @@ const DashboardWidget = ({ open, setOpen }: Props) => {
               </div>
               <div>
                 <CircularProgressWithLabel value={100} open={open} />
-                <h5 className="text-center pt-4 dark:text-white">+120%</h5>
+                <h5 className="text-center pt-4 dark:text-white text-black">
+                  +120%
+                </h5>
               </div>
             </div>
           </div>
@@ -78,7 +80,9 @@ const DashboardWidget = ({ open, setOpen }: Props) => {
               </div>
               <div>
                 <CircularProgressWithLabel value={100} open={open} />
-                <h5 className="text-center pt-4 dark:text-white">+150%</h5>
+                <h5 className="text-center pt-4 dark:text-white text-black">
+                  +150%
+                </h5>
               </div>
             </div>
           </div>

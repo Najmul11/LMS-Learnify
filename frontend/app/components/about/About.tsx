@@ -17,7 +17,7 @@ const About = () => {
           Learnify
         </span>
       </h1>
-      <div className="mt-10 dark:text-white text-xl ">
+      <div className="mt-10 dark:text-white text-xl text-black">
         <p>
           Are you ready to elevate your programming skills to new heights? Look
           no further than Learnify, the premier programming community dedicated

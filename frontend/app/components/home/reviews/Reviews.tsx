@@ -15,7 +15,9 @@ const Reviews = () => {
           <Image src={banner} alt="business" width={500} height={500} />
         </div>
         <div className="800px:w-[50%] w-full">
-          <h3 className={`${styles.title} 800px:!text-[40px] dark:text-white`}>
+          <h3
+            className={`${styles.title} 800px:!text-[40px] dark:text-white text-black`}
+          >
             Journey Through{" "}
             <span
               className={`${
@@ -27,7 +29,7 @@ const Reviews = () => {
             <br /> Students Speak, We Listen.
           </h3>
           <br />
-          <p className={`${styles.label} dark:text-white`}>
+          <p className={`${styles.label} dark:text-white text-black`}>
             At Learnify, we take immense pride in the success stories of our
             students. Their journeys with us have been transformative, filled
             with dedication and achievement. Let&lsquo;s hear directly from some

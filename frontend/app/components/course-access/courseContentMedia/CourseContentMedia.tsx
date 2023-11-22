@@ -1,3 +1,4 @@
+"use client";
 import { styles } from "../../../styles/style";
 import { CircularProgress } from "@mui/material";
 import avatar from "../../../../public/assets/avatar.png";
@@ -19,7 +20,7 @@ import {
   useAddReviewInCourseMutation,
 } from "../../../redux/api/courses/coursesApi";
 import CommentReply from "./commentReply/CommentReply";
-import StartRating from "../../../utils/StarRating";
+import StarRating from "../../../utils/StarRating";
 
 type Props = {
   data: any;
@@ -175,20 +176,21 @@ const CourseContentMedia = ({
       </div>
       <br />
       {activeBar === 0 && (
-        <p className="text=[18px] whitespace-pre-line mb-3 dark:text-white">
+        <p className="text=[18px] whitespace-pre-line mb-3 dark:text-white text-black">
           {data[activeVideo]?.description}
         </p>
       )}
       {activeBar === 1 && (
         <>
           {data[activeVideo].links.map((item: any) => (
-            <div className="mb-5" key={item._id}>
+            <div className="mb-5" key={item?._id}>
               <h2 className="800px: text-[20px] 800px:inline-block dark:text-white text-black">
                 {item.title && item.title + ":"}
               </h2>
               <a
                 className="inline-block text-[#4395c4] 800px: text-[20px] 800px:pl-2"
                 href={item.url}
+                target="_blank"
               >
                 {item.url}
               </a>
@@ -200,7 +202,7 @@ const CourseContentMedia = ({
         <>
           <div className="flex w-full">
             <Image
-              src={user.avatar ? user.avatar.url : avatar}
+              src={user?.avatar ? user?.avatar.url : avatar}
               width={40}
               height={40}
               alt=""
@@ -214,7 +216,7 @@ const CourseContentMedia = ({
               cols={40}
               rows={5}
               placeholder="Write your question..."
-              className="outline-none bg-transparent ml-3 border border-[#00000027] dark:border-slate-500 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] font-Poppins dark:text-white"
+              className="outline-none bg-transparent ml-3 border border-[#00000027] dark:border-slate-500 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] font-Poppins dark:text-white text-black"
             ></textarea>
           </div>
           <div className="w-full flex justify-end">
@@ -262,14 +264,14 @@ const CourseContentMedia = ({
         <div className="w-full">
           <div className="flex w-full">
             <Image
-              src={user.avatar ? user.avatar.url : avatar}
+              src={user?.avatar ? user.avatar.url : avatar}
               width={40}
               height={40}
               alt=""
               className="w-[40px] h-[40px] rounded-full object-cover"
             />
             <div className="w-full">
-              <h5 className="pl-3 text-[20px] font-[500] dark:text-white">
+              <h5 className="pl-3 text-[20px] font-[500] dark:text-white text-black">
                 Give a Rating <span className="text-red-500">*</span>
               </h5>
               <div className="flex w-full ml-2 pb-3">
@@ -322,7 +324,10 @@ const CourseContentMedia = ({
               </div>
               <div className="w-full my-6">
                 {reviews.map((review: any) => (
-                  <div className="flex mb-2 dark:text-white" key={review._id}>
+                  <div
+                    className="flex mb-2 text-black dark:text-white"
+                    key={review._id}
+                  >
                     <div className="w-[40px] h-[40px] bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer">
                       <Image
                         src={review?.user ? review?.user?.avatar?.url : avatar}
@@ -334,7 +339,7 @@ const CourseContentMedia = ({
                     </div>
                     <div className="pl-3">
                       <h5 className="text-[18px]">{review?.user?.name}</h5>
-                      <StartRating
+                      <StarRating
                         ratings={review?.rating}
                         length={review.length}
                       />

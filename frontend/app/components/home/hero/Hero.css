@@ -16,7 +16,7 @@
   position: absolute;
   opacity: 0;
   animation: one 20s infinite ease;
-  animation-delay: 7s;
+  animation-delay: 5s;
 }
 
 @keyframes one {

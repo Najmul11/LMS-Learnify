@@ -22,9 +22,10 @@ const createOption = (tokenExpire) => {
         expires: new Date(Date.now() + tokenExpire * 1000 * 60 * 60 * 24),
         maxAge: tokenExpire * 1000 * 60 * 60 * 24,
         httpOnly: true,
+        // development sameSite "lax", production "none"
         sameSite: "none",
+        // secure true in production
         secure: true,
-        // domain: "vercel.app",
     };
 };
 const createToken = (payload, secret, expireTime) => {

@@ -33,12 +33,12 @@ const UsersAnalytics = ({ isDashboard }: any) => {
           <h1
             className={`${styles.title} ${
               isDashboard && "!text-[20px]"
-            } px-5 text-start dark:text-white`}
+            } px-5 text-start dark:text-white text-black`}
           >
             Users Analytics
           </h1>
           {!isDashboard && (
-            <p className={`${styles.label} px-5 dark:text-white`}>
+            <p className={`${styles.label} px-5 dark:text-white text-black`}>
               Last 12 months analytics data
             </p>
           )}

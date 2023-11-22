@@ -29,10 +29,11 @@ const Profile = ({ user }: { user: any }) => {
 
   const logoutHandler = async () => {
     if (data) {
-      signOut();
+      await signOut({ redirect: false });
+      await logout(1);
+      return localStorage.removeItem("hasSocial");
     }
     logout(1);
-    localStorage.removeItem("hasSocial");
   };
   useEffect(() => {
     if (isSuccess) {

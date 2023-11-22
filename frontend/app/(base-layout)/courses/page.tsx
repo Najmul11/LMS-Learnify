@@ -23,8 +23,8 @@ const Page = () => {
             <br />
             <br />
             <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 1500px:grid-cols-4 1500px:gap-[35px] mb-12 border-0">
-              {data?.data.map((course: any) => (
-                <CourseCard key={course._id} course={course} />
+              {data?.data?.map((course: any) => (
+                <CourseCard key={course?._id} course={course} />
               ))}
             </div>
           </div>

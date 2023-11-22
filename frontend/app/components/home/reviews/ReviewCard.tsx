@@ -48,4 +48,3 @@ const ReviewCard = ({ review }: any) => {
 };
 
 export default ReviewCard;
-// className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-5 space-y-5 px-4 my-10"

@@ -11,6 +11,7 @@ import { styles } from "../../styles/style";
 import { useLoginMutation } from "../../redux/api/auth/authApi";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
+import { CircularProgress } from "@mui/material";
 
 type Props = {
   setRoute: (route: string) => void;
@@ -64,7 +65,9 @@ const Login = ({ setRoute, setOpen }: Props) => {
 
   return (
     <div className="w-full">
-      <h1 className={`${styles.title} dark:text-white`}>Login with Learnify</h1>
+      <h1 className={`${styles.title} dark:text-white `}>
+        Login with Learnify
+      </h1>
       <form onSubmit={handleSubmit}>
         <label className={`${styles.label} dark:text-white`} htmlFor="email">
           Enter your Email
@@ -121,12 +124,22 @@ const Login = ({ setRoute, setOpen }: Props) => {
         )}
 
         <div className="mt-5 w-full ">
-          <input
-            disabled={isLoading}
+          <button
             type="submit"
-            value="Login"
+            disabled={isLoading}
             className={`${styles.button} cursor-pointer`}
-          />
+          >
+            {isLoading ? (
+              <CircularProgress
+                sx={{
+                  color: "#fff",
+                }}
+                size={23}
+              />
+            ) : (
+              "Login"
+            )}
+          </button>
         </div>
 
         <br />
@@ -141,7 +154,11 @@ const Login = ({ setRoute, setOpen }: Props) => {
           />
           <AiFillGithub
             size={30}
-            onClick={() => signIn("github")}
+            onClick={() =>
+              signIn("github", {
+                callbackUrl: "https://learnify-v1.vercel.app",
+              })
+            }
             className="cursor-pointer ml-2 dark:text-white"
           />
         </div>

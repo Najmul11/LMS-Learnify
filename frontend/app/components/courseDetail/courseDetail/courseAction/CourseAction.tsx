@@ -19,7 +19,7 @@ const CourseAction = ({
     <div className="w-full 800px:w-[35%] relative mx-auto ">
       <div className="sticky top-[100px] left-0 z-50 w-full mx-auto ">
         <CoursePlayer title={data?.title} videoUrl={data?.demoUrl} />
-        <div className="flex items-center gap-10 pt-5 dark:text-white">
+        <div className="flex items-center gap-10 pt-5 text-black dark:text-white">
           <h1 className=" text-[25px]">
             {data?.price === "Free" ? "Free" : data?.price + "$"}
           </h1>
@@ -51,7 +51,7 @@ const CourseAction = ({
             </div>
           )}
         </div>
-        <div className="mt-3 dark:text-white">
+        <div className="mt-3 dark:text-white text-black">
           <p className="pb-1">▪️ Source code included</p>
           <p className="pb-1">▪️ Full lifetime access</p>
           <p className="pb-1">▪️ Certificate of completion</p>

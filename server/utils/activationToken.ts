@@ -1,8 +1,6 @@
 import config from "../config";
 import { TUser } from "../modules/user/user.interface";
 import jwt, { Secret } from "jsonwebtoken";
-import ErrorHandler from "./ErrorHandler";
-import httpStatus from "http-status";
 
 type TActivationCode = {
   token: string;

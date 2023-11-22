@@ -64,7 +64,10 @@ const CheckoutForm = ({ setOpen, data, user }: Props) => {
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
-      <LinkAuthenticationElement id="link-authentication-element" />
+      <LinkAuthenticationElement
+        options={{ defaultValues: { email: user?.email } }}
+        id="link-authentication-element"
+      />
       <PaymentElement id="payment-element" className="mt-5 dark:text-black" />
       <button
         disabled={isLoading || !stripe || !elements || createOrderLoading}

@@ -14,7 +14,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./checkoutForm/CheckoutForm";
 import { useTheme } from "next-themes";
-import StartRating from "../../../utils/StarRating";
+import StarRating from "../../../utils/StarRating";
 import toast from "react-hot-toast";
 
 const CourseDetails = ({ data }: any) => {
@@ -88,8 +88,8 @@ const CourseDetails = ({ data }: any) => {
               {data?.name}
             </h1>
             <div className="flex justify-between items-center ">
-              <StartRating ratings={data?.ratings} />
-              <p className="dark:text-white font-[500]">
+              <StarRating ratings={data?.ratings} />
+              <p className="dark:text-white text-black font-[500]">
                 ({data?.purchased} students)
               </p>
             </div>
@@ -159,11 +159,11 @@ const CourseDetails = ({ data }: any) => {
           <>
             {open && (
               <div className="w-full h-screen bg-[#00000036] fixed top-0 left-0 z-50 flex items-center justify-center backdrop-blur-md bg-black bg-opacity-40">
-                <div className="w-[500px] dark:bg-[#171C24]  bg-white rounded-xl shadow p-3 dark:text-white">
+                <div className="w-[500px] dark:bg-[#171C24]  bg-white rounded-xl shadow p-3 dark:text-white text-black">
                   <div className="w-full flex justify-end">
                     <IoCloseOutline
                       size={40}
-                      className="text-black cursor-pointer dark:text-white"
+                      className="text-black cursor-pointer dark:text-white "
                       onClick={() => setOpen(false)}
                     />
                   </div>

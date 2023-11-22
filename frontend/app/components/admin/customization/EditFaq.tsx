@@ -90,7 +90,7 @@ const EditFaq = () => {
             <div
               className={`${
                 q._id !== questions[0]?._id ? "border-t" : ""
-              } border-gray-200 pt-6 dark:text-white`}
+              } border-gray-200 pt-6 dark:text-white text-black`}
               key={index}
             >
               <dt className="text-lg">
@@ -99,7 +99,7 @@ const EditFaq = () => {
                   onClick={() => toggleQuestion(q._id)}
                 >
                   <input
-                    className={`${styles.input} border-none dark:text-white`}
+                    className={`${styles.input} border-none dark:text-white text-black`}
                     value={q.question}
                     onChange={(e: any) =>
                       handleQuestionChange(q._id, e.target.value)
@@ -108,9 +108,9 @@ const EditFaq = () => {
                   />
                   <span className="ml-6 flex-shrink-0">
                     {q.active ? (
-                      <HiMinus className="h-6 w-6 dark:text-[#37a39a]" />
+                      <HiMinus className="h-6 w-6 dark:text-[#37a39a] text-black" />
                     ) : (
-                      <HiPlus className="h-6 w-6 dark:text-[#37a39a]" />
+                      <HiPlus className="h-6 w-6 dark:text-[#37a39a] text-black" />
                     )}
                   </span>
                 </button>
@@ -118,7 +118,7 @@ const EditFaq = () => {
               {q.active && (
                 <dd className="mt-2 pr-12">
                   <input
-                    className={`${styles.input} border-none dark:text-white`}
+                    className={`${styles.input} border-none dark:text-white text-black`}
                     value={q.answer}
                     onChange={(e: any) =>
                       handleAnswerChange(q._id, e.target.value)

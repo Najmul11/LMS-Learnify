@@ -65,7 +65,7 @@ const EditHero = () => {
         ></div>
         <div className="w-full 800px:w-[55%] flex flex-col item-center ">
           <textarea
-            className=" resize-none  px-3 w-full  bg-transparent capitalize font-[700] text-[25px] leading-[35px] sm:text-3xl lg:text-5xl tracking-tight text-center dark:text-white font-Poppins 800px:!leading-[60px] "
+            className=" resize-none  px-3 w-full  bg-transparent capitalize font-[700] text-[25px] leading-[35px] sm:text-3xl lg:text-5xl tracking-tight text-center dark:text-white text-black font-Poppins 800px:!leading-[60px] "
             placeholder="Improve Your Online Learning Experience Better Instantly"
             value={title}
             onChange={(e) => {

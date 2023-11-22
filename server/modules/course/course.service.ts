@@ -309,9 +309,8 @@ const addReview = async (
 
   if (course) course.ratings = average;
 
-  console.log(user);
-
   await course?.save();
+  await redis.set(courseId, JSON.stringify(course));
 
   const notification = {
     userId: user?._id,

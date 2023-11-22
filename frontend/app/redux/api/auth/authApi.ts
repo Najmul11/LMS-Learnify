@@ -32,6 +32,7 @@ const authApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["courses", "course-details", "user"],
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;

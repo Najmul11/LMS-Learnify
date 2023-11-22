@@ -34,7 +34,7 @@ const Header = () => {
   );
 
   useEffect(() => {
-    if ((social === false || social === "false") && !user && data) {
+    if ((social === false || social === "false") && data) {
       socialAuth({
         email: data?.user?.email,
         name: data?.user?.name,
@@ -42,7 +42,7 @@ const Header = () => {
       });
       localStorage.setItem("hasSocial", "true");
     }
-  }, [data, user, socialAuth, social]);
+  }, [data, socialAuth, social]);
 
   useEffect(() => {
     if (isSuccess) toast.success("Login Successfully");
@@ -143,7 +143,9 @@ const Header = () => {
                 <button className="w-full py-5 pl-5 ">
                   <Link href={"profile"}>
                     <Image
-                      src={avatar}
+                      width={30}
+                      height={30}
+                      src={user?.avatar ? user?.avatar?.url : avatar}
                       alt=""
                       className="w-[32px] h-[32px] rounded-full"
                     />

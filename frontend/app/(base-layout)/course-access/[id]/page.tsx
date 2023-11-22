@@ -12,10 +12,9 @@ const Page = ({ params }: any) => {
 
   useEffect(() => {
     if (data) {
-      const isPurchased = data.data.courses.find(
-        (course: any) => course?.courseId?._id === params.id
+      const isPurchased = data?.data?.courses.find(
+        (course: any) => course?.courseId?._id === params?.id
       );
-
       if (!isPurchased) {
         redirect("/");
       }

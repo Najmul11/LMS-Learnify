@@ -28,6 +28,8 @@ const server_1 = require("../../server");
 const stripe = require("stripe")(config_1.default.stripe_secret);
 const createOrder = (payload, userId) => __awaiter(void 0, void 0, void 0, function* () {
     const { courseId, paymentInfo } = payload;
+    if (!courseId)
+        throw new ErrorHandler_1.default(http_status_1.default.NOT_FOUND, "Please provide Course id");
     if (paymentInfo) {
         if ("id" in paymentInfo) {
             const paymentIntentId = paymentInfo.id;
@@ -59,6 +61,7 @@ const createOrder = (payload, userId) => __awaiter(void 0, void 0, void 0, funct
             course.purchased = course.purchased + 1;
         }
         yield course.save({ session });
+        yield server_1.redis.setex(courseId, 604800, JSON.stringify(course));
         const mailData = {
             order: {
                 _id: course._id.toString().slice(0, 6),

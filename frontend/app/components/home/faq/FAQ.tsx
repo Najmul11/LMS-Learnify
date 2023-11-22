@@ -40,18 +40,22 @@ const FAQ = () => {
             <AccordionSummary
               expandIcon={
                 expanded[i] ? (
-                  <HiMinus className="dark:text-[#37a39a]" />
+                  <HiMinus className="dark:text-[#37a39a] text-black" />
                 ) : (
-                  <HiPlus className="dark:text-[#37a39a]" />
+                  <HiPlus className="dark:text-[#37a39a] text-black" />
                 )
               }
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
-              <p className="font-Poppins dark:text-white">{q.question}</p>
+              <p className="font-Poppins dark:text-white text-black">
+                {q.question}
+              </p>
             </AccordionSummary>
             <AccordionDetails>
-              <p className="font-Poppins dark:text-white">{q.answer}</p>
+              <p className="font-Poppins dark:text-white text-black">
+                {q.answer}
+              </p>
             </AccordionDetails>
           </Accordion>
         ))}
