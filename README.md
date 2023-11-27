@@ -8,7 +8,7 @@
 
 <!-- **Preview**: [YouTube](https://youtu.be/) -->
 
-**Frontend Repository**: https://github.com/Najmul11/LMS-SkillDigger/tree/main/frontend
+**Frontend Repository**: https://github.com/Najmul11/LMS-SkillDigger/tree/main/frontend  
 **Backend Repository**: https://github.com/Najmul11/LMS-SkillDigger/tree/main/server
 
 ### Library and tools used in frontend
