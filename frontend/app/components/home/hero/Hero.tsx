@@ -2,9 +2,16 @@ import { styles } from "../../../styles/style";
 import Link from "next/link";
 import "./Hero.css";
 import { useTheme } from "next-themes";
+import { useGetHeroDataQuery } from "../../../redux/api/layout/layoutApi";
+import React from "react";
 
 const Hero = () => {
   const { theme } = useTheme();
+
+  const { data } = useGetHeroDataQuery("banner", {
+    refetchOnMountOrArgChange: true,
+  });
+
   return (
     <div className="flex flex-col gap-6 items-center justify-center min-h-[65vh] 800px:min-h-[87vh] relative ">
       <div
@@ -15,21 +22,26 @@ const Hero = () => {
         } blur-2xl hidden 800px:block`}
       ></div>
       <h1 className="font-[700] text-[25px] leading-[35px] sm:text-3xl lg:text-5xl tracking-tight text-center dark:text-white font-Poppins 800px:!leading-[60px] text-black">
-        Unleash your inner <br className="800px:hidden" />{" "}
-        <span
-          className={`${
-            theme === "dark" ? "text-gradient-dark " : "text-gradient "
-          } `}
-        >
-          programming
-        </span>{" "}
-        <br />
-        genius with our community
+        {data?.data?.banner?.title
+          ?.split("programming")
+          .map((part: string, index: number) => (
+            <React.Fragment key={index}>
+              {index > 0 && <br className="800px:hidden" />}
+              {index > 0 && (
+                <span
+                  className={`${
+                    theme === "dark" ? "text-gradient-dark" : "text-gradient"
+                  }`}
+                >
+                  programming
+                  <br />
+                </span>
+              )}
+              {part}
+            </React.Fragment>
+          ))}
       </h1>
-      <p className="800px:block hidden font-poppins 800px:text-[22px] 800px:leading-[32px] text-[16px] leading-[23px] font-normal text-[#003A55]  dark:text-[#A3b3BC]">
-        Amplify your programming journey with Learnify&apos;s <br /> dedicated
-        community and comprehensive resources.
-      </p>
+      <StyledSubTitle subTitle={data?.data?.banner?.subTitle} />
       <p className="text-center 800px:hidden font-poppins 800px:text-[22px] 800px:leading-[32px] text-[16px] leading-[25px] font-normal text-[#003A55]  dark:text-[#A3b3BC]">
         Amplify your programming journey with <br className="800px:hidden" />{" "}
         Learnify&apos;s dedicated community and <br className="800px:hidden" />
@@ -46,3 +58,13 @@ const Hero = () => {
 };
 
 export default Hero;
+
+const StyledSubTitle = ({ subTitle }: any) => {
+  const modified = subTitle?.replace("dedicated", "<br />dedicated");
+  return (
+    <p
+      className="800px:block hidden font-poppins 800px:text-[22px] 800px:leading-[32px] text-[16px] leading-[23px] font-normal text-[#003A55] dark:text-[#A3b3BC]"
+      dangerouslySetInnerHTML={{ __html: modified }}
+    ></p>
+  );
+};

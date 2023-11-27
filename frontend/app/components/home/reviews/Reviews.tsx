@@ -16,7 +16,7 @@ const Reviews = () => {
         </div>
         <div className="800px:w-[50%] w-full">
           <h3
-            className={`${styles.title} 800px:!text-[40px] dark:text-white text-black`}
+            className={`${styles.title} !font-[700] 800px:!text-[40px] dark:text-white text-black`}
           >
             Journey Through{" "}
             <span

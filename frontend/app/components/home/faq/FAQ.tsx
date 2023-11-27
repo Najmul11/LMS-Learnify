@@ -22,7 +22,7 @@ const FAQ = () => {
 
   return (
     <div className="w-[90%] 800px:w-[60%]  mx-auto mt-12" id="faq">
-      <h1 className="capitalize 800px:text-[40px] text-[25px] text-black dark:text-white font-[500] font-Poppins text-center py-2">
+      <h1 className="capitalize 800px:text-[40px] text-[25px] text-black dark:text-white font-[700] font-Poppins text-center py-2">
         Frequently asked question
       </h1>
       <div className="mt-10">
