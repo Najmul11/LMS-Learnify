@@ -2,15 +2,10 @@ import { styles } from "../../../styles/style";
 import Link from "next/link";
 import "./Hero.css";
 import { useTheme } from "next-themes";
-import { useGetHeroDataQuery } from "../../../redux/api/layout/layoutApi";
 import React from "react";
 
-const Hero = () => {
+const Hero = ({ data }: any) => {
   const { theme } = useTheme();
-
-  const { data } = useGetHeroDataQuery("banner", {
-    refetchOnMountOrArgChange: true,
-  });
 
   return (
     <div className="flex flex-col gap-6 items-center justify-center min-h-[65vh] 800px:min-h-[87vh] relative ">
