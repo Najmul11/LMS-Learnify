@@ -20,7 +20,7 @@ const CoursePlayer: FC<Props> = ({ videoUrl, hasAccess }) => {
   const fetchData = useCallback(() => {
     axios
       .post(
-        `https://learnify-backend-three.vercel.app/api/v1/courses/get-vdocipherOTP`,
+        `https://learnify-server-xi.vercel.app/api/v1/courses/get-vdocipherOTP`,
         {
           videoId: videoUrl,
           email: hasAccess ? user?.email : "",
